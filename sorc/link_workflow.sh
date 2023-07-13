@@ -239,6 +239,10 @@ $LINK ../sorc/ufs_model.fd/tests/ufs_model.x .
 [[ -s gfs_ncep_post ]] && rm -f gfs_ncep_post
 $LINK ../sorc/upp.fd/exec/upp.x gfs_ncep_post
 
+#JianHe: placeholder link
+[[ -s "mkncgbbepx" ]] && rm -f mkncgbbepx
+${LINK} "${script_dir}/prepchem_NC.fd/process-obs/FV3/gbbepx2netcdf/mkncgbbepx.exe" "mkncgbbepx"
+
 if [ -d ${pwd}/gfs_wafs.fd ]; then
     for wafsexe in \
           wafs_awc_wafavn.x  wafs_blending.x  wafs_blending_0p25.x \

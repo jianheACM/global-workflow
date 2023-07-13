@@ -34,13 +34,21 @@ class Tasks:
 
         self.n_tiles = 6  # TODO - this needs to be elsewhere
 
-        envar_dict = {'RUN_ENVIR': self._base.get('RUN_ENVIR', 'emc'),
-                      'HOMEgfs': self._base.get('HOMEgfs'),
-                      'EXPDIR': self._base.get('EXPDIR'),
-                      'CDUMP': self.cdump,
+        #envar_dict = {'RUN_ENVIR': self._base.get('RUN_ENVIR', 'emc'),
+        #              'HOMEgfs': self._base.get('HOMEgfs'),
+        #              'EXPDIR': self._base.get('EXPDIR'),
+        #              'CDUMP': self.cdump,
+        #              'CDATE': '<cyclestr>@Y@m@d@H</cyclestr>',
+        #              'PDY': '<cyclestr>@Y@m@d</cyclestr>',
+        #              'cyc': '<cyclestr>@H</cyclestr>'}
+        envar_dict = {'RUN_ENVIR': '&RUN_ENVIR;',
+                      'HOMEgfs': '&HOMEgfs;',
+                      'EXPDIR': '&EXPDIR;',
+                      'CDUMP': '&CDUMP;',
                       'CDATE': '<cyclestr>@Y@m@d@H</cyclestr>',
                       'PDY': '<cyclestr>@Y@m@d</cyclestr>',
                       'cyc': '<cyclestr>@H</cyclestr>'}
+
         self.envars = self._set_envars(envar_dict)
 
     @staticmethod
@@ -108,7 +116,7 @@ class Tasks:
             partition = task_config['QUEUE_SERVICE'] if task_name in Tasks.SERVICE_TASKS else task_config[
                 'PARTITION_BATCH']
 
-        task_resource = {'account': account,
+        task_resource = {'account': '&ACCOUNT;',
                          'walltime': walltime,
                          'nodes': nodes,
                          'cores': cores,
@@ -620,7 +628,7 @@ class Tasks:
         postenvars = self.envars.copy()
         postenvar_dict = {'FHRGRP': '#grp#',
                           'FHRLST': '#lst#',
-                          'ROTDIR': self._base.get('ROTDIR')}
+                          'ROTDIR': '&ROTDIR;'}
         for key, value in postenvar_dict.items():
             postenvars.append(rocoto.create_envar(name=key, value=str(value)))
 

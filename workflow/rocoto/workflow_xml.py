@@ -59,17 +59,50 @@ class RocotoXML:
         if self._app_config.mode in ['forecast-only']:
             entity['ICSDIR'] = self._base['ICSDIR']
 
+        entity['RUNDIR'] = self._base['RUNDIR']
         entity['ROTDIR'] = self._base['ROTDIR']
         entity['JOBS_DIR'] = self._base['BASE_JOB']
-
-        entity['MAXTRIES'] = self._base.get('ROCOTO_MAXTRIES', 2)
+        entity['HOMEgfs'] = self._base['HOMEgfs']
+        entity['EXPDIR'] = self._base['EXPDIR']
+        #entity['MAXTRIES'] = self._base.get('ROCOTO_MAXTRIES', 2)
 
         # Put them all in an XML key-value syntax
         strings = []
         for key, value in entity.items():
-            strings.append('\t' + rocoto.create_entity(key, value))
+            strings.append('\t' + rocoto.create_entity(key, value) + '\n')
 
-        return '\n'.join(strings)
+        strings.append('\n')
+        strings.append('\t<!-- Experiment parameters such as name, cycle, resolution -->\n')
+        strings.append('\t<!ENTITY CDUMP "%s">\n' % self._base['CDUMP'])
+        strings.append('\t<!ENTITY CASE  "%s">\n' % self._base['CASE'])
+        strings.append('\t<!ENTITY enn   "005">\n')
+        strings.append('\n')
+        strings.append('\t<!-- Experiment parameters such as starting, ending dates -->\n')
+        strings.append('\t<!ENTITY SDATE "%s">\n' % self._base['SDATE'].strftime('%Y%m%d%H%M'))
+        strings.append('\t<!ENTITY EDATE "%s">\n' % self._base['EDATE'].strftime('%Y%m%d%H%M'))
+        strings.append('\t<!ENTITY INTERVAL "24:00:00">\n')
+        strings.append('\n')
+        strings.append('\t<!-- Run Envrionment -->\n')
+        strings.append('\t<!ENTITY RUN_ENVIR "%s">\n' % self._base['RUN_ENVIR'])
+        strings.append('\n')
+        strings.append('\t<!-- Machine related entities -->\n')
+        strings.append('\t<!ENTITY ACCOUNT    "%s">\n' % self._base['ACCOUNT'])
+        strings.append('\t<!ENTITY QUEUE      "%s">\n' % self._base['QUEUE'])
+        strings.append('\t<!ENTITY QUEUED     "debug">\n')
+        strings.append('\t<!ENTITY QUEUE_SERVICE "%s">\n' % self._base['QUEUE_SERVICE'])
+        strings.append('\t<!ENTITY PARTITION_BATCH "%s">\n' % self._base['PARTITION_BATCH'])
+        strings.append('\t<!ENTITY PARTITION_SERVICE "%s">\n' % self._base['QUEUE_SERVICE'])
+        strings.append('\t<!ENTITY SCHEDULER  "slurm">\n')
+        strings.append('\n')
+        strings.append('\t<!-- Toggle HPSS archiving -->\n')
+        strings.append('\t<!ENTITY ARCHIVE_TO_HPSS "YES">\n')
+        strings.append('\n')
+        strings.append('\t<!-- ROCOTO parameters that control workflow -->\n')
+        strings.append('\t<!ENTITY CYCLETHROTTLE "2">\n')
+        strings.append('\t<!ENTITY TASKTHROTTLE  "25">\n')
+        strings.append('\t<!ENTITY MAXTRIES      "2">\n')
+
+        return ''.join(strings)
 
     def _get_workflow_header(self):
         """
@@ -86,9 +119,9 @@ class RocotoXML:
         strings = ['',
                    ']>',
                    '',
-                   f'<workflow realtime="F" scheduler="{scheduler}" cyclethrottle="{cyclethrottle}" taskthrottle="{taskthrottle}">',
+                   f'<workflow realtime="F" scheduler="&SCHEDULER;" cyclethrottle="&CYCLETHROTTLE;" taskthrottle="&TASKTHROTTLE;">',
                    '',
-                   f'\t<log verbosity="{verbosity}"><cyclestr>{expdir}/logs/@Y@m@d@H.log</cyclestr></log>',
+                   f'\t<log verbosity="{verbosity}"><cyclestr>&EXPDIR;/logs/@Y@m@d@H.log</cyclestr></log>',
                    '',
                    '\t<!-- Define the cycles -->',
                    '']
@@ -119,7 +152,7 @@ class RocotoXML:
             sdate_gfs = self._base['SDATE_GFS'].strftime('%Y%m%d%H%M')
             edate_gfs = self._base['EDATE_GFS'].strftime('%Y%m%d%H%M')
             interval_gfs = self._base['INTERVAL_GFS']
-            strings.append(f'\t<cycledef group="gfs"  >{sdate_gfs} {edate_gfs} {interval_gfs}</cycledef>')
+            strings.append(f'\t<cycledef group="gfs"  >&SDATE; &EDATE; &INTERVAL;</cycledef>')
             strings.append('')
             strings.append('')
 
@@ -130,7 +163,7 @@ class RocotoXML:
         edate = self._base['EDATE'].strftime('%Y%m%d%H%M')
         interval = self._base.get('INTERVAL_GFS', '24:00:00')
         cdump = self._base['CDUMP']
-        strings = f'\t<cycledef group="{cdump}">{sdate} {edate} {interval}</cycledef>\n\n'
+        strings = f'\t<cycledef group="{cdump}">&SDATE; &EDATE; &INTERVAL;</cycledef>\n\n'
 
         return strings
 

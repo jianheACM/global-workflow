@@ -239,7 +239,8 @@ class AppConfig:
             if self.do_hpssarch:
                 configs += ['getic']
 
-        if self.do_aero:
+        #JianHe: placeholder for future app
+        #if self.do_aero:
             configs += ['aerosol_init']
 
         if self.do_ocean or self.do_ice:
@@ -449,7 +450,8 @@ class AppConfig:
                 tasks += ['getic']
             tasks += ['init']
 
-        if self.do_aero:
+        #JianHe: placeholder for future APP
+        #if self.do_aero:
             tasks += ['aerosol_init']
 
         if self.do_wave:

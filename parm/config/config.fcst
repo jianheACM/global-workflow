@@ -61,7 +61,7 @@ fi
 if [ $DO_AERO = "YES" ]; then
   export cplchm=".true."
 fi
-if [ $DO_GChem = "YES" ]; then
+if [[ $DO_GChem = "YES" || $DO_CATChem = "YES" ]]; then
   export cplchp=".true."
 fi
 if [ $DO_ICE = "YES" ]; then
@@ -348,7 +348,7 @@ elif [[ "$CDUMP" == "gfs" ]] ; then # GFS cycle specific parameters
         fi
     fi
 
-    if [ $DO_GChem = "YES" ]; then
+    if [[ $DO_GChem = "YES" || $DO_CATChem = "YES" ]]; then
         # Make sure a restart file is written at the cadence time
         if [[ ! "${restart_interval[*]}" =~ "$STEP_GFS"  ]]; then
             export restart_interval="$STEP_GFS $restart_interval"
@@ -386,7 +386,7 @@ if [ $DO_AERO = "YES" ]; then # temporary settings for aerosol coupling
     export dnats_aero="${aero_diag_tracers:-0}"
 fi
 
-if [ $DO_GChem = "YES" ]; then # temporary settings for aerosol coupling
+if [[ $DO_GChem = "YES" || $DO_CATChem = "YES" ]]; then # temporary settings for aerosol coupling
     export AERO_DIAG_TABLE="${AERO_DIAG_TABLE:-$HOMEgfs/parm/parm_fv3diag/diag_table.gchem}"
     export AERO_FIELD_TABLE="${AERO_FIELD_TABLE:-$HOMEgfs/parm/parm_fv3diag/field_table.gchem}"
     export fscav_aero="'*:0.2','so2:0.1','msa:0.1','dms:0.1','sulf:0.9','bc1:0.3','bc2:0.3','oc1:0.3','oc2:0.3','seas1:0.5','seas2:0.5','seas3:0.5','seas4:0.5','seas5:0.5'"

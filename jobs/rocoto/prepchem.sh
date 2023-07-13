@@ -77,7 +77,12 @@ for n in $(seq 1 6); do
     #mkdir -p $tiledir
     #cd $tiledir
     EMIINPUT=/scratch1/BMC/gsd-fv3-dev/Haiqin.Li/Develop/emi_${CASE}
-    eval $NLN $EMIINPUT/EMI/$SMONTH/emi_data.tile${n}.nc .
+#    if [ ${EMIYEAR} -gt 2018 ];  then
+    eval $NLN $EMIINPUT/EMI_$EMIYEAR/$SMONTH/emi_data.tile${n}.nc .
+#    else
+#    eval $NLN $EMIINPUT/EMI/$SMONTH/emi_data.tile${n}.nc .
+#    fi
+
     eval $NLN $EMIINPUT/EMI2/$SMONTH/emi2_data.tile${n}.nc .
     eval $NLN $EMIINPUT/fengsha/$SMONTH/dust_data.tile${n}.nc .
     

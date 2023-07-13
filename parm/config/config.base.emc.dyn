@@ -159,14 +159,19 @@ export DO_OCN="NO"
 export DO_ICE="NO"
 export DO_AERO="NO"
 export DO_GChem="NO"
+export DO_CATChem="NO"  #jianhe
 #export CCPP_SUITE="FV3_GFS_v16_gsd_chem"
-export CCPP_SUITE="FV3_GFS_v17_p8_gsd_chem"
+#export CCPP_SUITE="FV3_GFS_v17_p8_gsd_chem"
 #export CCPP_SUITE="FV3_GFS_v17_p8"
+#export CCPP_SUITE="FV3_GFS_v16_catchem"
+export CCPP_SUITE="FV3_GFS_v17_p8_catchem"
+
 export WAVE_CDUMP="" # When to include wave suite: gdas, gfs, or both
 export DOBNDPNT_WAVE="NO"
 export cplwav2atm=".false."
 
 export EMITYPE=2 # 1: MODIS, 2: GBBEPx 
+export EMIYEAR=2019 # 2014: CEDS, 2019: CEDS
 
 case "${APP}" in
   ATM)
@@ -333,6 +338,13 @@ if [ $CCPP_SUITE = "FV3_GFS_v16_gsd_chem" ]; then
 elif [ $CCPP_SUITE = "FV3_GFS_v17_p8_gsd_chem" ]; then 
   export imp_physics=8
   export DO_GChem="YES"
+fi
+if [ $CCPP_SUITE = "FV3_GFS_v16_catchem" ]; then
+  export imp_physics=11
+  export DO_CATChem="YES"
+elif [ $CCPP_SUITE = "FV3_GFS_v17_p8_catchem" ]; then
+  export imp_physics=8
+  export DO_CATChem="YES"
 fi
 
 # Shared parameters
