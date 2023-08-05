@@ -7,7 +7,7 @@ cwd=$(pwd)
 #APP="S2SWA"
 APP="ATM"
 #APP="S2SW"
-CCPP_SUITES="FV3_GFS_v16,FV3_GFS_v16_ugwpv1,FV3_GFS_v17_p8,FV3_GFS_v16_coupled_nsstNoahmpUGWPv1,FV3_GFS_v17_coupled_p8,FV3_GFS_v16_catchem,FV3_GFS_v17_p8_catchem"
+CCPP_SUITES="FV3_GFS_v16,FV3_GFS_v16_ugwpv1,FV3_GFS_v17_p8,FV3_GFS_v16_coupled_nsstNoahmpUGWPv1,FV3_GFS_v17_coupled_p8,FV3_GFS_v16_catchem,FV3_GFS_v17_p8_catchem,FV3_GFS_v17_p8_catchem_racm"
 
 while getopts ":da:v" option; do
   case "${option}" in
