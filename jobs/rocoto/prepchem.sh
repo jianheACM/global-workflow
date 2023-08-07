@@ -78,7 +78,10 @@ for n in $(seq 1 6); do
     #cd $tiledir
     EMIINPUT=/scratch1/BMC/gsd-fv3-dev/Haiqin.Li/Develop/emi_${CASE}
 #    if [ ${EMIYEAR} -gt 2018 ];  then
-    eval $NLN $EMIINPUT/EMI_$EMIYEAR/$SMONTH/emi_data.tile${n}.nc .
+#    eval $NLN $EMIINPUT/EMI_$EMIYEAR/$SMONTH/emi_data.tile${n}.nc .
+    #JianHe: anthro emis for RACM
+    EMIINPUT_ant=/scratch1/BMC/rcm2/jhe/prep/CATChem/emissions/RACM/emi_${CASE}
+    eval $NLN $EMIINPUT_ant/EMI_$EMIYEAR/$SMONTH/emi_data.tile${n}.nc .
 #    else
 #    eval $NLN $EMIINPUT/EMI/$SMONTH/emi_data.tile${n}.nc .
 #    fi
