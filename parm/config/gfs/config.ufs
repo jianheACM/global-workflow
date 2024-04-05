@@ -509,7 +509,7 @@ case "${model_list}" in
     default_template="${PARMgfs}/ufs/ufs.configure.s2swa${tmpl_suffix:-}.IN"
     ;;
   atm.ocean.ice.wave.catchem)
-    default_template="${HOMEgfs}/parm/ufs/ufs.configure.s2swcatchem_${tmpl_suffix:-}.IN"
+    default_template="${HOMEgfs}/parm/ufs/ufs.configure.s2swcatchem${tmpl_suffix:-}.IN"
     ;;
   *)
     echo "FATAL ERROR: Unsupported UFSWM configuration for ${model_list}"
