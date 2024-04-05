@@ -1,7 +1,8 @@
 [submodule "sorc/ufs_model.fd"]
-  path = sorc/ufs_model.fd
-  url = https://github.com/ufs-community/ufs-weather-model
-  ignore = dirty
+	path = sorc/ufs_model.fd
+	url = https://github.com/zhanglikate/ufs-weather-model
+        branch = ufs-catchem
+	ignore = dirty
 [submodule "sorc/wxflow"]
   path = sorc/wxflow
   url = https://github.com/NOAA-EMC/wxflow
@@ -28,4 +29,8 @@
   url = https://github.com/NOAA-EMC/GSI-Monitor.git
 [submodule "sorc/upp.fd"]
   path = sorc/upp.fd
-  url = https://github.com/NOAA-EMC/UPP.git
+  url = https://github.com/zhanglikate/UPP.git
+  branch = catchem_Apr
+[submodule "sorc/prepchem_NC.fd"]
+  path = sorc/prepchem_NC.fd
+  url = https://github.com/NOAA-GSL/GSL-prep-chem.git

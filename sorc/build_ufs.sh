@@ -5,7 +5,7 @@ cwd=$(pwd)
 
 # Default settings
 APP="S2SWA"
-CCPP_SUITES="FV3_GFS_v17_p8_ugwpv1,FV3_GFS_v17_coupled_p8_ugwpv1"  # TODO: does the g-w need to build with all these CCPP_SUITES?
+CCPP_SUITES="FV3_GFS_v17_p8_ugwpv1,FV3_GFS_v17_coupled_p8_ugwpv1,FV3_GFS_v17_p8_ugwpv1_catchem,FV3_GFS_v17_coupled_p8_ugwpv1_catchem"  # TODO: does the g-w need to build with all these CCPP_SUITES?
 
 while getopts ":da:j:vw" option; do
   case "${option}" in
@@ -29,6 +29,7 @@ source "./tests/detect_machine.sh"
 source "./tests/module-setup.sh"
 
 MAKE_OPT="-DAPP=${APP} -D32BIT=ON -DCCPP_SUITES=${CCPP_SUITES}"
+#MAKE_OPT="-DAPP=${APP} -D32BIT=ON -DCCPP_SUITES=${CCPP_SUITES} -DDEBUG=ON"
 [[ ${PDLIB:-"OFF"} = "ON" ]] && MAKE_OPT+=" -DPDLIB=ON"
 [[ ${BUILD_TYPE:-"Release"} = "Debug" ]] && MAKE_OPT+=" -DDEBUG=ON"
 COMPILE_NR=0

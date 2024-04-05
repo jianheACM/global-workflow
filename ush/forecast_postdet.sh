@@ -237,7 +237,7 @@ EOF
   ${NLN} "${FIXgfs}/am/global_sfc_emissivity_idx.txt"     "${DATA}/sfc_emissivity_idx.txt"
 
   ## merra2 aerosol climo
-  if [[ ${IAER} -eq "1011" ]]; then
+  if [[ ${IAER} -ge "1011" ]]; then
     for month in $(seq 1 12); do
       MM=$(printf %02d "${month}")
       ${NLN} "${FIXgfs}/aer/merra2.aerclim.2003-2014.m${MM}.nc" "aeroclim.m${MM}.nc"
@@ -275,9 +275,12 @@ EOF
   # inline post fix files
   if [[ ${WRITE_DOPOST} = ".true." ]]; then
     ${NLN} "${PARMgfs}/post/post_tag_gfs${LEVS}"             "${DATA}/itag"
-    ${NLN} "${FLTFILEGFS:-${PARMgfs}/post/postxconfig-NT-GFS-TWO.txt}"           "${DATA}/postxconfig-NT.txt"
-    ${NLN} "${FLTFILEGFSF00:-${PARMgfs}/post/postxconfig-NT-GFS-F00-TWO.txt}"    "${DATA}/postxconfig-NT_FH00.txt"
+    # ${NLN} "${FLTFILEGFS:-${PARMgfs}/post/postxconfig-NT-GFS-TWO.txt}"           "${DATA}/postxconfig-NT.txt"
+    ${NLN} "${FLTFILEGFS:-${PARMgfs}/post/postxconfig-NT-CCPP-CHEM.txt}"         "${DATA}/postxconfig-NT.txt"
+    # ${NLN} "${FLTFILEGFSF00:-${PARMgfs}/post/postxconfig-NT-GFS-F00-TWO.txt}"    "${DATA}/postxconfig-NT_FH00.txt"
+    ${NLN} "${FLTFILEGFSF00:-${PARMgfs}/post/postxconfig-NT-CCPP-CHEM.txt}"      "${DATA}/postxconfig-NT_FH00.txt"
     ${NLN} "${POSTGRB2TBL:-${PARMgfs}/post/params_grib2_tbl_new}"                "${DATA}/params_grib2_tbl_new"
+    ${NCP} ${PARMgfs}/post/optics_luts_*.dat ${DATA}/
   fi
 
   #------------------------------------------------------------------
@@ -907,6 +910,13 @@ CICE_out() {
 
   # Copy ice_in namelist from DATA to COMOUTice after the forecast is run (and successfull)
   ${NCP} "${DATA}/ice_in" "${COM_CONF}/ufs.ice_in"
+}
+
+CATChem_rc() {
+#link input data for CCPP-Chem to RUNDIR
+  for file in $(ls $DATA/../$CDATE/prep/*.nc) ; do
+    $NLN $file $DATA/INPUT/$(echo $(basename $file))
+  done
 }
 
 GOCART_rc() {

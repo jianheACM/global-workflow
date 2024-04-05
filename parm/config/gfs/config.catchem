@@ -1,0 +1,54 @@
+#! /usr/bin/env bash
+
+# UFS-Aerosols settings
+
+# Turn off warnings about unused variables
+# shellcheck disable=SC2034
+
+
+# Path to the input data tree
+case ${machine} in
+  "HERA")
+    AERO_INPUTS_DIR="/scratch1/BMC/gsd-fv3-dev/Haiqin.Li/Develop"
+    ;;
+  "ORION" | "HERCULES")
+    AERO_INPUTS_DIR="/work2/noaa/global/wkolczyn/noscrub/global-workflow/gocart_emissions"
+    ;;
+  "S4")
+    AERO_INPUTS_DIR="/data/prod/glopara/gocart_emissions"
+    ;;
+  "WCOSS2")
+    AERO_INPUTS_DIR="/lfs/h2/emc/global/noscrub/emc.global/data/gocart_emissions"
+    ;;
+  "JET")
+    AERO_INPUTS_DIR="/lfs4/HFIP/hfv3gfs/glopara/data/gocart_emissions"
+    ;;
+  *)
+    echo "FATAL ERROR: Machine ${machine} unsupported for aerosols"
+    exit 2
+    ;;
+esac
+export AERO_INPUTS_DIR
+
+export AERO_DIAG_TABLE="${HOMEgfs}/parm/ufs/fv3/diag_table.catchem"
+export AERO_FIELD_TABLE="${HOMEgfs}/parm/ufs/fv3/field_table.catchem"
+# Biomass burning emission dataset. Choose from: gbbepx, qfed, none
+export EMITYPE=2 # 1: MODIS, 2: GBBEPx 
+export EMIYEAR=2019 # 2014: CEDS, 2019: CEDS
+
+
+# Aerosol convective scavenging factors (list of string array elements)
+# Element syntax: '<tracer_name>:<factor>'. Use <tracer_name> = * to set default factor for all aerosol tracers
+# Scavenging factors are set to 0 (no scavenging) if unset
+#P8: export fscav_aero="'*:0.2','so2:0.1','msa:0.1','dms:0.1','sulf:0.4','bc1:0.3','bc2:0.3','oc1:0.1','oc2:0.1','seas1:0.45','seas2:0.45','seas3:0.45','seas4:0.45','seas5:0.45','dust1:0.3','dust2:0.3','dust3:0.3','dust4:0.3','dust5:0.3'"
+export fscav_aero="'*:0.2','so2:0.','msa:0.1','dms:0.1','sulf:0.5','bc1:0.4','bc2:0.4','oc1:0.2','oc2:0.2','seas1:0.55','seas2:0.55','seas3:0.55','seas4:0.55','seas5:0.55','dust1:0.3','dust2:0.3','dust3:0.3','dust4:0.3','dust5:0.3'"
+export dust_opt_cplchp="${dust_opt_cplchp:-5}"
+export dust_alpha_catc="${dust_alpha_catc:-0.04}"
+export dust_gamma_catc="${dust_gamma_catc:-1.0}"
+export seas_emis_scale="${seas_emis_scale:-"1.,1.,1.,1.,1."}"
+# Large scale wet deposition option
+export wetdep_ls_cplchp="${wetdep_ls_cplchp:-1}"
+
+#
+# Numbe rof diagnostic aerosol tracers (default: 0)
+export dnats_aero=0

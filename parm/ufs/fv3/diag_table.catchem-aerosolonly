@@ -1,0 +1,67 @@
+# chemical tracers advected by FV3
+###
+ "gfs_dyn",    "so2",         "so2",          "fv3_history",    "all",  .false.,  "none",  2
+ "gfs_dyn",    "sulf",        "sulf",         "fv3_history",    "all",  .false.,  "none",  2
+ "gfs_dyn",    "DMS",         "DMS",          "fv3_history",    "all",  .false.,  "none",  2
+ "gfs_dyn",    "msa",         "msa",          "fv3_history",    "all",  .false.,  "none",  2
+ "gfs_dyn",    "pp25",        "pp25",         "fv3_history",    "all",  .false.,  "none",  2
+ "gfs_dyn",    "bc1",         "bc1",          "fv3_history",    "all",  .false.,  "none",  2
+ "gfs_dyn",    "bc2",         "bc2",          "fv3_history",    "all",  .false.,  "none",  2
+ "gfs_dyn",    "oc1",         "oc1",          "fv3_history",    "all",  .false.,  "none",  2
+ "gfs_dyn",    "oc2",         "oc2",          "fv3_history",    "all",  .false.,  "none",  2
+ "gfs_dyn",    "dust1",       "dust1",        "fv3_history",    "all",  .false.,  "none",  2
+ "gfs_dyn",    "dust2",       "dust2",        "fv3_history",    "all",  .false.,  "none",  2
+ "gfs_dyn",    "dust3",       "dust3",        "fv3_history",    "all",  .false.,  "none",  2
+ "gfs_dyn",    "dust4",       "dust4",        "fv3_history",    "all",  .false.,  "none",  2
+ "gfs_dyn",    "dust5",       "dust5",        "fv3_history",    "all",  .false.,  "none",  2
+ "gfs_dyn",    "seas1",       "seas1",        "fv3_history",    "all",  .false.,  "none",  2
+ "gfs_dyn",    "seas2",       "seas2",        "fv3_history",    "all",  .false.,  "none",  2
+ "gfs_dyn",    "seas3",       "seas3",        "fv3_history",    "all",  .false.,  "none",  2
+ "gfs_dyn",    "seas4",       "seas4",        "fv3_history",    "all",  .false.,  "none",  2
+ "gfs_dyn",    "seas5",       "seas5",        "fv3_history",    "all",  .false.,  "none",  2
+ "gfs_dyn",    "pp10",        "pp10",         "fv3_history",    "all",  .false.,  "none",  2
+
+# chemical diag 2D variables
+"gfs_phys",    "maod",        "maod",         "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "maoddt",      "maoddt",         "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "maodbc",      "maodbc",         "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "maodoc",      "maodoc",         "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "maodsu",      "maodsu",         "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "maodss",      "maodss",         "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "bcembb",      "bcembb",       "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "bceman",      "bceman",       "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "ocembb",      "ocembb",       "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "oceman",      "oceman",       "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "so2embb",     "so2embb",       "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "so2eman",     "so2eman",       "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "duem001",     "duem001",      "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "duem002",     "duem002",      "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "duem003",     "duem003",      "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "duem004",     "duem004",      "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "duem005",     "duem005",      "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "ssem001",     "ssem001",      "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "ssem002",     "ssem002",      "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "ssem003",     "ssem003",      "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "ssem004",     "ssem004",      "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "ssem005",     "ssem005",      "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "oc1wtl",      "oc1wtl",       "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "oc2wtl",      "oc2wtl",       "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "bc1wtl",      "bc1wtl",       "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "bc2wtl",      "bc2wtl",       "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "bc1wtc",      "bc1wtc",       "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "bc2wtc",      "bc2wtc",       "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "oc1wtc",      "oc1wtc",       "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "oc2wtc",      "oc2wtc",       "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "dust1wtc",    "dust1wtc",     "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "dust2wtc",    "dust2wtc",     "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "dust3wtc",    "dust3wtc",     "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "dust4wtc",    "dust4wtc",     "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "dust5wtc",    "dust5wtc",     "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "seas1wtc",    "seas1wtc",     "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "seas2wtc",    "seas2wtc",     "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "seas3wtc",    "seas3wtc",     "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "seas4wtc",    "seas4wtc",     "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "seas5wtc",    "seas5wtc",     "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "sulfwtc",     "sulfwtc",      "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "pp25wtc",     "pp25wtc",      "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "pp10wtc",     "pp10wtc",      "fv3_history2d",  "all",  .false.,  "none",  2

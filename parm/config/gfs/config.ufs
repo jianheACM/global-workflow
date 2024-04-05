@@ -17,6 +17,7 @@ if (( $# <= 1 )); then
     echo "--cice6 500|100|025"
     echo "--ww3 gnh_10m;aoc_9km;gsh_15m|gwes_30m|glo_025|glo_200|glo_500|mx025|uglo_100km|uglo_m1g16"
     echo "--gocart"
+    echo "--catchem"
 
     exit 1
 
@@ -27,6 +28,7 @@ skip_mom6=true
 skip_cice6=true
 skip_ww3=true
 skip_gocart=true
+skip_catchem=true
 skip_mediator=true
 
 # Loop through named arguments
@@ -54,6 +56,10 @@ while (( $# > 0 )); do
       ;;
     "--gocart")
       skip_gocart=false
+      shift
+      ;;
+    "--catchem")
+      skip_catchem=false
       ;;
     *)    # unknown option
       echo "FATAL ERROR: Unknown option: ${key}, ABORT!"
@@ -239,6 +245,7 @@ export cpl=".false."
 export cplflx=".false."
 export cplice=".false."
 export cplchm=".false."
+export cplchp=".false."
 export cplwav=".false."
 export cplwav2atm=".false."
 export CCPP_SUITE="FV3_GFS_v17_p8_ugwpv1"
@@ -453,6 +460,21 @@ if [[ "${skip_gocart}" == "false" ]]; then
   model_list="${model_list}.aero"
 fi
 
+# CATChem specific settings
+if [[ "${skip_catchem}" == "false" ]]; then
+  source "${EXPDIR}/config.catchem"
+  export cplchp=".true."
+  export CCPP_SUITE="FV3_GFS_v17_p8_ugwpv1_catchem"
+  export GBDAY=1
+if [[ "${skip_mom6}" == "false" ]] || [[ "${skip_cice6}" == "false" ]] || [[ "${skip_ww3}" == "false" ]]; then
+  export CCPP_SUITE="FV3_GFS_v17_coupled_p8_ugwpv1_catchem"  
+  export GBDAY=35
+fi
+
+  model_list="${model_list}.catchem"
+fi
+
+
 # Set the name of the UFS (previously nems) configure template to use
 # Default ufs.configure templates for supported model configurations
 if [[ "${USE_ESMF_THREADING:-}" == "YES" ]]; then
@@ -465,6 +487,9 @@ case "${model_list}" in
   atm.aero)
     default_template="${PARMgfs}/ufs/ufs.configure.atmaero${tmpl_suffix:-}.IN"
     ;;
+  atm.catchem)
+    default_template="${HOMEgfs}/parm/ufs/ufs.configure.atmcatchem${tmpl_suffix:-}.IN"
+    ;;
   atm.wave)
     default_template="${PARMgfs}/ufs/ufs.configure.leapfrog_atm_wav${tmpl_suffix:-}.IN"
     ;;
@@ -474,11 +499,17 @@ case "${model_list}" in
   atm.ocean.ice.aero)
     default_template="${PARMgfs}/ufs/ufs.configure.s2sa${tmpl_suffix:-}.IN"
     ;;
+  atm.ocean.ice.catchem)
+    default_template="${HOMEgfs}/parm/ufs/ufs.configure.s2scatchem_${tmpl_suffix:-}.IN"
+    ;;
   atm.ocean.ice.wave)
     default_template="${PARMgfs}/ufs/ufs.configure.s2sw${tmpl_suffix:-}.IN"
     ;;
   atm.ocean.ice.wave.aero)
     default_template="${PARMgfs}/ufs/ufs.configure.s2swa${tmpl_suffix:-}.IN"
+    ;;
+  atm.ocean.ice.wave.catchem)
+    default_template="${HOMEgfs}/parm/ufs/ufs.configure.s2swcatchem_${tmpl_suffix:-}.IN"
     ;;
   *)
     echo "FATAL ERROR: Unsupported UFSWM configuration for ${model_list}"

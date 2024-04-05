@@ -131,6 +131,8 @@ export DATAROOT="${STMP}/RUNDIRS/${PSLOT}"  # TODO: set via prod_envir in Ops
 export RUNDIR="${DATAROOT}"  # TODO: Should be removed; use DATAROOT instead
 export ARCDIR="${NOSCRUB}/archive/${PSLOT}"
 export ATARDIR="@ATARDIR@"
+export ICSDIR="/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot/CAT_C96_CCPP"
+export ICSORG="/scratch1/BMC/gsd-fv3/exp/UFS-CAMsuite_dev1/FV3GFSrun/c96l64ics_v15"
 
 # Commonly defined parameters in JJOBS
 export envir=${envir:-"prod"}
@@ -181,6 +183,7 @@ export DO_WAVE="NO"
 export DO_OCN="NO"
 export DO_ICE="NO"
 export DO_AERO="NO"
+export DO_CATChem="YES"
 export WAVE_CDUMP="" # When to include wave suite: gdas, gfs, or both
 export DOBNDPNT_WAVE="NO"
 export FRAC_GRID=".true."
@@ -290,7 +293,7 @@ if (( FHMAX_HF_GFS < 120 )); then
 fi
 
 # GFS restart interval in hours
-export restart_interval_gfs=12
+export restart_interval_gfs=24
 # NOTE: Do not set this to zero.  Instead set it to $FHMAX_GFS
 # TODO: Remove this variable from config.base and reference from config.fcst
 # TODO: rework logic in config.wave and push it to parsing_nameslist_WW3.sh where it is actually used

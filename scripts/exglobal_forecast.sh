@@ -91,6 +91,7 @@ cpl=${cpl:-.false.}
 cplflx=${cplflx:-.false.} # default off,import from outside source
 cplwav=${cplwav:-.false.} # ? how to control 1-way/2-way?
 cplchm=${cplchm:-.false.} # Chemistry model
+cplchp=${cplchp:-.false.} # Chemistry model
 cplice=${cplice:-.false.} # ICE model
 
 OCNTIM=${OCNTIM:-1800}
@@ -134,6 +135,7 @@ FV3_nml
 [[ ${cplwav} = .true. ]] && WW3_nml
 [[ ${cplice} = .true. ]] && CICE_nml
 [[ ${cplchm} = .true. ]] && GOCART_rc
+[[ ${cplchp} = .true. ]] && CATChem_rc
 FV3_model_configure
 echo "MAIN: Name lists and model configuration written"
 
