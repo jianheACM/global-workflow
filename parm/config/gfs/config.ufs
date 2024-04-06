@@ -500,7 +500,7 @@ case "${model_list}" in
     default_template="${PARMgfs}/ufs/ufs.configure.s2sa${tmpl_suffix:-}.IN"
     ;;
   atm.ocean.ice.catchem)
-    default_template="${HOMEgfs}/parm/ufs/ufs.configure.s2scatchem_${tmpl_suffix:-}.IN"
+    default_template="${HOMEgfs}/parm/ufs/ufs.configure.s2scatchem${tmpl_suffix:-}.IN"
     ;;
   atm.ocean.ice.wave)
     default_template="${PARMgfs}/ufs/ufs.configure.s2sw${tmpl_suffix:-}.IN"
