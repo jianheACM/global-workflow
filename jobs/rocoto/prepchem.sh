@@ -208,7 +208,7 @@ EOF
 
         mkdir -p $NCGB/${SYEAR}${nmonth}${nday}
         set -ue
-        module load intel/19.0.5.281 netcdf szip hdf5
+	module load gnu intel/2023.2.0 netcdf/4.7.0 szip hdf5
         set -x
         $NLN $EXECgfs/mkncgbbepx .
  ./mkncgbbepx <<EOF
