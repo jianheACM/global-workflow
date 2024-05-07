@@ -1,0 +1,649 @@
+<?xml version="1.0"?>
+<!DOCTYPE workflow
+[
+	<!--
+	PROGRAM
+		Main workflow manager for Global Forecast System
+
+	NOTES:
+		This workflow was automatically generated at 2024-04-05 21:15:01.115950
+	-->
+	<!ENTITY PSLOT "CAT_C384_CCPP">
+	<!ENTITY ROTDIR "/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot/CAT_C384_CCPP">
+	<!ENTITY JOBS_DIR "/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s/jobs/rocoto">
+	<!ENTITY ROTDIR "/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot/CAT_C384_CCPP">
+	<!ENTITY JOBS_DIR "/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s/jobs/rocoto">
+        <!ENTITY HOMEgfs  "/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s">
+	<!ENTITY EXPDIR "/scratch2/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/expdir/CAT_C384_CCPP">
+
+	<!-- Experiment parameters such as name, cycle, resolution -->
+	<!ENTITY CDUMP    "gfs">
+	<!ENTITY CASE     "C384">
+	<!ENTITY enn      "005">
+
+	<!-- Experiment parameters such as starting, ending dates -->
+	<!ENTITY SDATE    "201608010000">
+	<!ENTITY EDATE    "201608010000">
+	<!ENTITY INTERVAL "24:00:00">
+
+	<!-- Run Envrionment -->
+	<!ENTITY RUN_ENVIR "emc">
+
+	<!-- Machine related entities -->
+	<!ENTITY ACCOUNT    "gsd-fv3-test">
+	<!ENTITY QUEUE      "batch">
+	<!ENTITY QUEUED     "debug">
+	<!ENTITY QUEUE_SERVICE "service">
+	<!ENTITY PARTITION_BATCH "hera">
+	<!ENTITY PARTITION_SERVICE "service">
+	<!ENTITY SCHEDULER  "slurm">
+
+	<!-- Toggle HPSS archiving -->
+	<!ENTITY ARCHIVE_TO_HPSS "YES">
+
+	<!-- ROCOTO parameters that control workflow -->
+	<!ENTITY CYCLETHROTTLE "2">
+	<!ENTITY TASKTHROTTLE  "25">
+	<!ENTITY MAXTRIES      "2">
+
+	<!-- BEGIN: Resource requirements for the workflow -->
+
+
+	<!ENTITY QUEUE_INIT_GFS     "&QUEUED;">
+	<!ENTITY PARTITION_INIT_GFS "&PARTITION_BATCH;">
+	<!ENTITY WALLTIME_INIT_GFS  "00:30:00">
+	<!ENTITY RESOURCES_INIT_GFS "<nodes>1:ppn=1:tpp=1</nodes>">
+	<!ENTITY MEMORY_INIT_GFS    "2048M">
+	<!ENTITY NATIVE_INIT_GFS    "--export=NONE">
+
+	<!ENTITY QUEUE_COUPLED_IC_GFS     "&QUEUE;">
+	<!ENTITY PARTITION_COUPLED_IC_GFS "&PARTITION_BATCH;">
+	<!ENTITY WALLTIME_COUPLED_IC_GFS  "00:15:00">
+	<!ENTITY RESOURCES_COUPLED_IC_GFS "<nodes>1:ppn=1:tpp=1</nodes>">
+	<!ENTITY NATIVE_COUPLED_IC_GFS    "--export=NONE">
+
+	<!ENTITY QUEUE_AEROSOL_INIT_GFS     "&QUEUED;">
+	<!ENTITY PARTITION_AEROSOL_INIT_GFS "&PARTITION_BATCH;">
+	<!ENTITY WALLTIME_AEROSOL_INIT_GFS  "00:05:00">
+	<!ENTITY RESOURCES_AEROSOL_INIT_GFS "<nodes>1:ppn=40:tpp=1</nodes>">
+	<!ENTITY MEMORY_AEROSOL_INIT_GFS    "6G">
+	<!ENTITY NATIVE_AEROSOL_INIT_GFS    "--export=NONE">
+
+	<!ENTITY QUEUE_WAVEINIT_GFS     "&QUEUE;">
+	<!ENTITY PARTITION_WAVEINIT_GFS "&PARTITION_BATCH;">
+	<!ENTITY WALLTIME_WAVEINIT_GFS  "00:10:00">
+	<!ENTITY RESOURCES_WAVEINIT_GFS "<nodes>1:ppn=40:tpp=1</nodes>">
+	<!ENTITY NATIVE_WAVEINIT_GFS    "--export=NONE">
+
+
+        <!ENTITY QUEUE_PREP_CHEM_SRC     "&QUEUED;">
+        <!ENTITY PARTITION_PREP_CHEM_SRC "&PARTITION_BATCH;">
+        <!ENTITY WALLTIME_PREP_CHEM_SRC  "00:30:00">
+        <!ENTITY RESOURCES_PREP_CHEM_SRC "<nodes>1:ppn=2</nodes>">
+        <!ENTITY NATIVE_PREP_CHEM_SRC    "--export=NONE">
+
+	<!ENTITY QUEUE_FCST_GFS     "&QUEUED;">
+	<!ENTITY PARTITION_FCST_GFS "&PARTITION_BATCH;">
+	<!ENTITY WALLTIME_FCST_GFS  "00:30:00">
+	<!ENTITY RESOURCES_FCST_GFS "<nodes>5:ppn=40:tpp=1</nodes>">
+	<!ENTITY NATIVE_FCST_GFS    "--export=NONE">
+
+	<!ENTITY QUEUE_POST_GFS     "&QUEUE;">
+	<!ENTITY PARTITION_POST_GFS "&PARTITION_BATCH;">
+	<!ENTITY WALLTIME_POST_GFS  "00:30:00">
+	<!ENTITY RESOURCES_POST_GFS "<nodes>10:ppn=12:tpp=1</nodes>">
+	<!ENTITY NATIVE_POST_GFS    "--export=NONE">
+
+
+
+	<!-- END: Resource requirements for the workflow -->
+
+]>
+
+<workflow realtime="F" scheduler="&SCHEDULER;" cyclethrottle="&CYCLETHROTTLE;" taskthrottle="&TASKTHROTTLE;">
+
+	<log verbosity="10"><cyclestr>&EXPDIR;/logs/@Y@m@d@H.log</cyclestr></log>
+
+	<!-- Define the cycles -->
+        <cycledef group="gfs">&SDATE; &EDATE; &INTERVAL;</cycledef>
+
+<task name="gfsstage_ic" cycledefs="gfs" maxtries="&MAXTRIES;">
+
+	<command>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s/jobs/rocoto/stage_ic_s2s.sh</command>
+
+	<jobname><cyclestr>CAT_C384_CCPP_gfsstage_ic_@H</cyclestr></jobname>
+	<account>&ACCOUNT;</account>
+	<queue>&QUEUED;</queue>
+	<partition>hera</partition>
+	<walltime>00:15:00</walltime>
+	<nodes>1:ppn=1:tpp=1</nodes>
+	<native>&NATIVE_INIT_GFS;</native>
+
+	<join><cyclestr>&ROTDIR;/logs/@Y@m@d@H/gfsstage_ic.log</cyclestr></join>
+
+	<envar><name>RUN_ENVIR</name><value>emc</value></envar>
+	<envar><name>HOMEgfs</name><value>&HOMEgfs;</value></envar>
+	<envar><name>EXPDIR</name><value>&EXPDIR;</value></envar>
+	<envar><name>NET</name><value>&CDUMP;</value></envar>
+	<envar><name>CDUMP</name><value>&CDUMP;</value></envar>
+	<envar><name>RUN</name><value>&CDUMP;</value></envar>
+	<envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+	<envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+	<envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
+	<envar><name>COMROOT</name><value>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot</value></envar>
+	<envar><name>DATAROOT</name><value>/scratch1/NCEPDEV/stmp2/Kate.Zhang/RUNDIRS/CAT_C384_CCPP</value></envar>
+<!--
+	<dependency>
+		<and>
+			<datadep><cyclestr>/scratch1/NCEPDEV/global/glopara/data/ICSDIR/prototype_ICs/GEFS-NoahMP-aerosols-p8c_refactored/@Y@m@d@H/atmos/gfs_ctrl.nc</cyclestr></datadep>
+			<datadep><cyclestr>/scratch1/NCEPDEV/global/glopara/data/ICSDIR/prototype_ICs/GEFS-NoahMP-aerosols-p8c_refactored/@Y@m@d@H/atmos/gfs_data.tile1.nc</cyclestr></datadep>
+			<datadep><cyclestr>/scratch1/NCEPDEV/global/glopara/data/ICSDIR/prototype_ICs/GEFS-NoahMP-aerosols-p8c_refactored/@Y@m@d@H/atmos/gfs_data.tile2.nc</cyclestr></datadep>
+			<datadep><cyclestr>/scratch1/NCEPDEV/global/glopara/data/ICSDIR/prototype_ICs/GEFS-NoahMP-aerosols-p8c_refactored/@Y@m@d@H/atmos/gfs_data.tile3.nc</cyclestr></datadep>
+			<datadep><cyclestr>/scratch1/NCEPDEV/global/glopara/data/ICSDIR/prototype_ICs/GEFS-NoahMP-aerosols-p8c_refactored/@Y@m@d@H/atmos/gfs_data.tile4.nc</cyclestr></datadep>
+			<datadep><cyclestr>/scratch1/NCEPDEV/global/glopara/data/ICSDIR/prototype_ICs/GEFS-NoahMP-aerosols-p8c_refactored/@Y@m@d@H/atmos/gfs_data.tile5.nc</cyclestr></datadep>
+			<datadep><cyclestr>/scratch1/NCEPDEV/global/glopara/data/ICSDIR/prototype_ICs/GEFS-NoahMP-aerosols-p8c_refactored/@Y@m@d@H/atmos/gfs_data.tile6.nc</cyclestr></datadep>
+			<datadep><cyclestr>/scratch1/NCEPDEV/global/glopara/data/ICSDIR/prototype_ICs/GEFS-NoahMP-aerosols-p8c_refactored/@Y@m@d@H/atmos/sfc_data.tile1.nc</cyclestr></datadep>
+			<datadep><cyclestr>/scratch1/NCEPDEV/global/glopara/data/ICSDIR/prototype_ICs/GEFS-NoahMP-aerosols-p8c_refactored/@Y@m@d@H/atmos/sfc_data.tile2.nc</cyclestr></datadep>
+			<datadep><cyclestr>/scratch1/NCEPDEV/global/glopara/data/ICSDIR/prototype_ICs/GEFS-NoahMP-aerosols-p8c_refactored/@Y@m@d@H/atmos/sfc_data.tile3.nc</cyclestr></datadep>
+			<datadep><cyclestr>/scratch1/NCEPDEV/global/glopara/data/ICSDIR/prototype_ICs/GEFS-NoahMP-aerosols-p8c_refactored/@Y@m@d@H/atmos/sfc_data.tile4.nc</cyclestr></datadep>
+			<datadep><cyclestr>/scratch1/NCEPDEV/global/glopara/data/ICSDIR/prototype_ICs/GEFS-NoahMP-aerosols-p8c_refactored/@Y@m@d@H/atmos/sfc_data.tile5.nc</cyclestr></datadep>
+			<datadep><cyclestr>/scratch1/NCEPDEV/global/glopara/data/ICSDIR/prototype_ICs/GEFS-NoahMP-aerosols-p8c_refactored/@Y@m@d@H/atmos/sfc_data.tile6.nc</cyclestr></datadep>
+			<datadep><cyclestr>/scratch1/NCEPDEV/global/glopara/data/ICSDIR/prototype_ICs/CPC3Dvar_refactored/@Y@m@d@H/ocean/@Y@m@d.@H0000.MOM.res.nc</cyclestr></datadep>
+			<datadep><cyclestr>/scratch1/NCEPDEV/global/glopara/data/ICSDIR/prototype_ICs/CPC3Dvar_refactored/@Y@m@d@H/ocean/@Y@m@d.@H0000.MOM.res_1.nc</cyclestr></datadep>
+			<datadep><cyclestr>/scratch1/NCEPDEV/global/glopara/data/ICSDIR/prototype_ICs/CPC3Dvar_refactored/@Y@m@d@H/ocean/@Y@m@d.@H0000.MOM.res_2.nc</cyclestr></datadep>
+			<datadep><cyclestr>/scratch1/NCEPDEV/global/glopara/data/ICSDIR/prototype_ICs/CPC3Dvar_refactored/@Y@m@d@H/ocean/@Y@m@d.@H0000.MOM.res_3.nc</cyclestr></datadep>
+			<datadep><cyclestr>/scratch1/NCEPDEV/global/glopara/data/ICSDIR/prototype_ICs/CPC_refactored/@Y@m@d@H/ice/@Y@m@d.@H0000.cice_model.res.nc</cyclestr></datadep>
+			<datadep><cyclestr>/scratch1/NCEPDEV/global/glopara/data/ICSDIR/prototype_ICs/workflow_C384_refactored/@Y@m@d@H/wave/@Y@m@d.@H0000.restart.uglo_100km</cyclestr></datadep>
+		</and>
+	</dependency>
+-->
+</task>
+
+<task name="gfswaveinit" cycledefs="gfs" maxtries="&MAXTRIES;">
+
+	<command>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s/jobs/rocoto/waveinit.sh</command>
+
+	<jobname><cyclestr>CAT_C384_CCPP_gfswaveinit_@H</cyclestr></jobname>
+        <account>&ACCOUNT;</account>
+        <queue>&QUEUED;</queue>
+	<partition>hera</partition>
+	<walltime>00:10:00</walltime>
+	<nodes>1:ppn=40:tpp=1</nodes>
+	<memory>2GB</memory>
+	<native>&NATIVE_INIT_GFS;</native>
+
+	<join><cyclestr>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot/CAT_C384_CCPP/logs/@Y@m@d@H/gfswaveinit.log</cyclestr></join>
+
+	<envar><name>RUN_ENVIR</name><value>emc</value></envar>
+	<envar><name>HOMEgfs</name><value>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s</value></envar>
+	<envar><name>EXPDIR</name><value>/scratch2/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/expdir/CAT_C384_CCPP</value></envar>
+	<envar><name>NET</name><value>gfs</value></envar>
+	<envar><name>CDUMP</name><value>gfs</value></envar>
+	<envar><name>RUN</name><value>gfs</value></envar>
+	<envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+	<envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+	<envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
+	<envar><name>COMROOT</name><value>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot</value></envar>
+	<envar><name>DATAROOT</name><value>/scratch1/NCEPDEV/stmp2/Kate.Zhang/RUNDIRS/CAT_C384_CCPP</value></envar>
+
+</task>
+
+<task name="prepchem" cycledefs="gfs" maxtries="&MAXTRIES;">
+
+        <command>&JOBS_DIR;/prepchem.sh</command>
+
+        <jobname><cyclestr>&PSLOT;_prepchem_@H</cyclestr></jobname>
+        <account>&ACCOUNT;</account>
+        <queue>&QUEUED;</queue>
+        <partition>&PARTITION_PREP_CHEM_SRC;</partition>
+        &RESOURCES_PREP_CHEM_SRC;
+        <walltime>&WALLTIME_PREP_CHEM_SRC;</walltime>
+        <native>&NATIVE_PREP_CHEM_SRC;</native>
+        <join><cyclestr>&ROTDIR;/logs/@Y@m@d@H/prepchem.log</cyclestr></join>
+
+        <envar><name>RUN_ENVIR</name><value>&RUN_ENVIR;</value></envar>
+        <envar><name>HOMEgfs</name><value>&HOMEgfs;</value></envar>
+        <envar><name>EXPDIR</name><value>&EXPDIR;</value></envar>
+        <envar><name>NET</name><value>&CDUMP;</value></envar>
+        <envar><name>CDUMP</name><value>&CDUMP;</value></envar>
+        <envar><name>RUN</name><value>&CDUMP;</value></envar>
+        <envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+        <envar><name>CDUMP</name><value>&CDUMP;</value></envar>
+        <envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+        <envar><name>SYEAR</name><value><cyclestr>@Y</cyclestr></value></envar>
+        <envar><name>SMONTH</name><value><cyclestr>@m</cyclestr></value></envar>
+        <envar><name>SDAY</name><value><cyclestr>@d</cyclestr></value></envar>
+        <envar><name>SHOUR</name><value><cyclestr>@H</cyclestr></value></envar>
+        <envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
+
+             <dependency>
+                    <or>
+                          <taskdep task="gfswaveinit"/>
+                          <taskdep task="gfsstage_ic"/>
+                    </or>
+             </dependency>
+
+</task>
+
+<task name="gfsfcst" cycledefs="gfs" maxtries="&MAXTRIES;">
+
+	<command>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s/jobs/rocoto/fcst.sh</command>
+
+	<jobname><cyclestr>CAT_C384_CCPP_gfsfcst_@H</cyclestr></jobname>
+        <account>&ACCOUNT;</account>
+        <queue>&QUEUE;</queue>
+        <partition>&PARTITION_FCST_GFS;</partition>
+	<walltime>07:50:00</walltime>
+<!-- 	<nodes>41:ppn=40:tpp=1</nodes> -->
+	<nodes>88:ppn=40:tpp=1</nodes>
+	<native>&NATIVE_FCST_GFS;</native>
+
+	<join><cyclestr>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot/CAT_C384_CCPP/logs/@Y@m@d@H/gfsfcst.log</cyclestr></join>
+
+        <envar><name>RUN_ENVIR</name><value>&RUN_ENVIR;</value></envar>
+        <envar><name>HOMEgfs</name><value>&HOMEgfs;</value></envar>
+        <envar><name>EXPDIR</name><value>&EXPDIR;</value></envar>
+        <envar><name>NET</name><value>&CDUMP;</value></envar>
+        <envar><name>CDUMP</name><value>&CDUMP;</value></envar>
+        <envar><name>RUN</name><value>&CDUMP;</value></envar>
+        <envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+        <envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+        <envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
+	<envar><name>COMROOT</name><value>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot</value></envar>
+	<envar><name>DATAROOT</name><value>/scratch1/NCEPDEV/stmp2/Kate.Zhang/RUNDIRS/CAT_C384_CCPP</value></envar>
+
+	<dependency>
+		<and>
+			<taskdep task="gfsstage_ic"/>
+			<taskdep task="gfswaveinit"/>
+			<taskdep task="prepchem"/>
+		</and>
+	</dependency>
+
+</task>
+<!--
+<metatask name="gfsatmos_prod">
+	<var name="grp">_f000-f006 _f009-f015 _f018-f024 _f027-f033 _f036-f042 _f045-f051 _f054-f060 _f063-f069 _f072-f078 _f081-f087 _f090-f096 _f099-f105 _f108-f114 _f117-f120</var>
+	<var name="dep">f006 f015 f024 f033 f042 f051 f060 f069 f078 f087 f096 f105 f114 f120</var>
+	<var name="lst">f000_f003_f006 f009_f012_f015 f018_f021_f024 f027_f030_f033 f036_f039_f042 f045_f048_f051 f054_f057_f060 f063_f066_f069 f072_f075_f078 f081_f084_f087 f090_f093_f096 f099_f102_f105 f108_f111_f114 f117_f120</var> 
+
+	<var name="grp">_f000-f000 _f006-f006 _f012-f012 _f018-f018 _f024-f024 </var>
+        <var name="dep">f000 f006 f012 f018 f024 </var>
+        <var name="lst">f000 f006 f012 f018 f024 </var>
+	<task name="gfsatmos_prod#grp#" cycledefs="gfs" maxtries="&MAXTRIES;">
+
+		<command>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s/jobs/rocoto/atmos_products.sh</command>
+
+		<jobname><cyclestr>CAT_C384_CCPP_gfsatmos_prod#grp#_@H</cyclestr></jobname>
+		<account>&ACCOUNT;</account>
+		<queue>&QUEUED;</queue>
+		<partition>hera</partition>
+		<walltime>00:15:00</walltime>
+		<nodes>1:ppn=24:tpp=1</nodes>
+		<native>&NATIVE_FCST_GFS;</native>
+
+		<join><cyclestr>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot/CAT_C384_CCPP/logs/@Y@m@d@H/gfsatmos_prod#grp#.log</cyclestr></join>
+
+		<envar><name>RUN_ENVIR</name><value>emc</value></envar>
+		<envar><name>HOMEgfs</name><value>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s</value></envar>
+		<envar><name>EXPDIR</name><value>/scratch2/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/expdir/CAT_C384_CCPP</value></envar>
+		<envar><name>NET</name><value>gfs</value></envar>
+		<envar><name>CDUMP</name><value>gfs</value></envar>
+		<envar><name>RUN</name><value>gfs</value></envar>
+		<envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+		<envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+		<envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
+		<envar><name>COMROOT</name><value>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot</value></envar>
+		<envar><name>DATAROOT</name><value>/scratch1/NCEPDEV/stmp2/Kate.Zhang/RUNDIRS/CAT_C384_CCPP</value></envar>
+		<envar><name>FHRLST</name><value>#lst#</value></envar>
+		<envar><name>COMPONENT</name><value>atmos</value></envar>
+
+		<dependency>
+			<datadep age="120"><cyclestr>&ROTDIR;/gfs.@Y@m@d/@H//model_data/atmos/master/gfs.t@Hz.master.grb2#dep#</cyclestr></datadep>
+		</dependency>
+
+	</task>
+
+</metatask>
+
+<task name="gfstracker" cycledefs="gfs" maxtries="&MAXTRIES;">
+
+	<command>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s/jobs/rocoto/tracker.sh</command>
+
+	<jobname><cyclestr>CAT_C384_CCPP_gfstracker_@H</cyclestr></jobname>
+	<account>fv3-cpu</account>
+	<queue>batch</queue>
+	<partition>hera</partition>
+	<walltime>00:10:00</walltime>
+	<nodes>1:ppn=1:tpp=1</nodes>
+	<memory>4G</memory>
+	<native>&NATIVE_FCST_GFS;</native>
+
+	<join><cyclestr>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot/CAT_C384_CCPP/logs/@Y@m@d@H/gfstracker.log</cyclestr></join>
+
+	<envar><name>RUN_ENVIR</name><value>emc</value></envar>
+	<envar><name>HOMEgfs</name><value>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s</value></envar>
+	<envar><name>EXPDIR</name><value>/scratch2/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/expdir/CAT_C384_CCPP</value></envar>
+	<envar><name>NET</name><value>gfs</value></envar>
+	<envar><name>CDUMP</name><value>gfs</value></envar>
+	<envar><name>RUN</name><value>gfs</value></envar>
+	<envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+	<envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+	<envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
+	<envar><name>COMROOT</name><value>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot</value></envar>
+	<envar><name>DATAROOT</name><value>/scratch1/NCEPDEV/stmp2/Kate.Zhang/RUNDIRS/CAT_C384_CCPP</value></envar>
+
+	<dependency>
+		<metataskdep metatask="gfsatmos_prod"/>
+	</dependency>
+
+</task>
+
+<task name="gfsgenesis" cycledefs="gfs" maxtries="&MAXTRIES;">
+
+	<command>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s/jobs/rocoto/genesis.sh</command>
+
+	<jobname><cyclestr>CAT_C384_CCPP_gfsgenesis_@H</cyclestr></jobname>
+	<account>fv3-cpu</account>
+	<queue>batch</queue>
+	<partition>hera</partition>
+	<walltime>00:25:00</walltime>
+	<nodes>1:ppn=1:tpp=1</nodes>
+	<memory>10G</memory>
+	<native>&NATIVE_FCST_GFS;</native>
+
+	<join><cyclestr>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot/CAT_C384_CCPP/logs/@Y@m@d@H/gfsgenesis.log</cyclestr></join>
+
+	<envar><name>RUN_ENVIR</name><value>emc</value></envar>
+	<envar><name>HOMEgfs</name><value>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s</value></envar>
+	<envar><name>EXPDIR</name><value>/scratch2/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/expdir/CAT_C384_CCPP</value></envar>
+	<envar><name>NET</name><value>gfs</value></envar>
+	<envar><name>CDUMP</name><value>gfs</value></envar>
+	<envar><name>RUN</name><value>gfs</value></envar>
+	<envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+	<envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+	<envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
+	<envar><name>COMROOT</name><value>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot</value></envar>
+	<envar><name>DATAROOT</name><value>/scratch1/NCEPDEV/stmp2/Kate.Zhang/RUNDIRS/CAT_C384_CCPP</value></envar>
+
+	<dependency>
+		<metataskdep metatask="gfsatmos_prod"/>
+	</dependency>
+
+</task>
+
+<metatask name="gfsmetp">
+
+	<var name="metpcase">g2g1 g2o1 pcp1</var>
+
+	<task name="gfsmetp#metpcase#" cycledefs="gfs" maxtries="&MAXTRIES;">
+
+		<command>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s/jobs/rocoto/metp.sh</command>
+
+		<jobname><cyclestr>CAT_C384_CCPP_gfsmetp#metpcase#_@H</cyclestr></jobname>
+		<account>fv3-cpu</account>
+		<queue>batch</queue>
+		<partition>hera</partition>
+		<walltime>06:00:00</walltime>
+		<nodes>1:ppn=4:tpp=1</nodes>
+		<native>&NATIVE_FCST_GFS;</native>
+
+		<join><cyclestr>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot/CAT_C384_CCPP/logs/@Y@m@d@H/gfsmetp#metpcase#.log</cyclestr></join>
+
+		<envar><name>RUN_ENVIR</name><value>emc</value></envar>
+		<envar><name>HOMEgfs</name><value>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s</value></envar>
+		<envar><name>EXPDIR</name><value>/scratch2/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/expdir/CAT_C384_CCPP</value></envar>
+		<envar><name>NET</name><value>gfs</value></envar>
+		<envar><name>CDUMP</name><value>gfs</value></envar>
+		<envar><name>RUN</name><value>gfs</value></envar>
+		<envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+		<envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+		<envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
+		<envar><name>COMROOT</name><value>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot</value></envar>
+		<envar><name>DATAROOT</name><value>/scratch1/NCEPDEV/stmp2/Kate.Zhang/RUNDIRS/CAT_C384_CCPP</value></envar>
+		<envar><name>SDATE_GFS</name><value>2016070100</value></envar>
+		<envar><name>METPCASE</name><value>#metpcase#</value></envar>
+
+		<dependency>
+			<and>
+				<taskdep task="gfsarch"/>
+			</and>
+		</dependency>
+
+	</task>
+
+</metatask>
+
+<metatask name="gfsocean_prod">
+
+	<var name="grp">_f006-f018 _f024-f036 _f042-f054 _f060-f072 _f078-f090 _f096-f108 _f114-f120</var>
+	<var name="dep">f018 f036 f054 f072 f090 f108 f120</var>
+	<var name="lst">f006_f012_f018 f024_f030_f036 f042_f048_f054 f060_f066_f072 f078_f084_f090 f096_f102_f108 f114_f120</var>
+
+	<task name="gfsocean_prod#grp#" cycledefs="gfs" maxtries="&MAXTRIES;">
+
+		<command>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s/jobs/rocoto/oceanice_products.sh</command>
+
+		<jobname><cyclestr>CAT_C384_CCPP_gfsocean_prod#grp#_@H</cyclestr></jobname>
+		<account>fv3-cpu</account>
+		<queue>batch</queue>
+		<partition>hera</partition>
+		<walltime>00:15:00</walltime>
+		<nodes>1:ppn=1:tpp=1</nodes>
+		<memory>96GB</memory>
+		<native>&NATIVE_FCST_GFS;</native>
+
+		<join><cyclestr>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot/CAT_C384_CCPP/logs/@Y@m@d@H/gfsocean_prod#grp#.log</cyclestr></join>
+
+		<envar><name>RUN_ENVIR</name><value>emc</value></envar>
+		<envar><name>HOMEgfs</name><value>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s</value></envar>
+		<envar><name>EXPDIR</name><value>/scratch2/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/expdir/CAT_C384_CCPP</value></envar>
+		<envar><name>NET</name><value>gfs</value></envar>
+		<envar><name>CDUMP</name><value>gfs</value></envar>
+		<envar><name>RUN</name><value>gfs</value></envar>
+		<envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+		<envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+		<envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
+		<envar><name>COMROOT</name><value>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot</value></envar>
+		<envar><name>DATAROOT</name><value>/scratch1/NCEPDEV/stmp2/Kate.Zhang/RUNDIRS/CAT_C384_CCPP</value></envar>
+		<envar><name>FHRLST</name><value>#lst#</value></envar>
+		<envar><name>COMPONENT</name><value>ocean</value></envar>
+
+		<dependency>
+			<datadep age="120"><cyclestr>&ROTDIR;/gfs.@Y@m@d/@H//model_data/ocean/history/gfs.ocean.t@Hz.6hr_avg.#dep#.nc</cyclestr></datadep>
+		</dependency>
+
+	</task>
+
+</metatask>
+
+<metatask name="gfsice_prod">
+
+	<var name="grp">_f006-f018 _f024-f036 _f042-f054 _f060-f072 _f078-f090 _f096-f108 _f114-f120</var>
+	<var name="dep">f018 f036 f054 f072 f090 f108 f120</var>
+	<var name="lst">f006_f012_f018 f024_f030_f036 f042_f048_f054 f060_f066_f072 f078_f084_f090 f096_f102_f108 f114_f120</var>
+
+	<task name="gfsice_prod#grp#" cycledefs="gfs" maxtries="&MAXTRIES;">
+
+		<command>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s/jobs/rocoto/oceanice_products.sh</command>
+
+		<jobname><cyclestr>CAT_C384_CCPP_gfsice_prod#grp#_@H</cyclestr></jobname>
+		<account>fv3-cpu</account>
+		<queue>batch</queue>
+		<partition>hera</partition>
+		<walltime>00:15:00</walltime>
+		<nodes>1:ppn=1:tpp=1</nodes>
+		<memory>96GB</memory>
+		<native>&NATIVE_FCST_GFS;</native>
+
+		<join><cyclestr>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot/CAT_C384_CCPP/logs/@Y@m@d@H/gfsice_prod#grp#.log</cyclestr></join>
+
+		<envar><name>RUN_ENVIR</name><value>emc</value></envar>
+		<envar><name>HOMEgfs</name><value>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s</value></envar>
+		<envar><name>EXPDIR</name><value>/scratch2/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/expdir/CAT_C384_CCPP</value></envar>
+		<envar><name>NET</name><value>gfs</value></envar>
+		<envar><name>CDUMP</name><value>gfs</value></envar>
+		<envar><name>RUN</name><value>gfs</value></envar>
+		<envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+		<envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+		<envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
+		<envar><name>COMROOT</name><value>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot</value></envar>
+		<envar><name>DATAROOT</name><value>/scratch1/NCEPDEV/stmp2/Kate.Zhang/RUNDIRS/CAT_C384_CCPP</value></envar>
+		<envar><name>FHRLST</name><value>#lst#</value></envar>
+		<envar><name>COMPONENT</name><value>ice</value></envar>
+
+		<dependency>
+			<datadep age="120"><cyclestr>&ROTDIR;/gfs.@Y@m@d/@H//model_data/ice/history/gfs.ice.t@Hz.6hr_avg.#dep#.nc</cyclestr></datadep>
+		</dependency>
+
+	</task>
+
+</metatask>
+
+<task name="gfswavepostsbs" cycledefs="gfs" maxtries="&MAXTRIES;">
+
+	<command>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s/jobs/rocoto/wavepostsbs.sh</command>
+
+	<jobname><cyclestr>CAT_C384_CCPP_gfswavepostsbs_@H</cyclestr></jobname>
+	<account>fv3-cpu</account>
+	<queue>batch</queue>
+	<partition>hera</partition>
+	<walltime>03:00:00</walltime>
+	<nodes>1:ppn=40:tpp=1</nodes>
+	<memory>10GB</memory>
+	<native>&NATIVE_FCST_GFS;</native>
+
+	<join><cyclestr>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot/CAT_C384_CCPP/logs/@Y@m@d@H/gfswavepostsbs.log</cyclestr></join>
+
+	<envar><name>RUN_ENVIR</name><value>emc</value></envar>
+	<envar><name>HOMEgfs</name><value>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s</value></envar>
+	<envar><name>EXPDIR</name><value>/scratch2/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/expdir/CAT_C384_CCPP</value></envar>
+	<envar><name>NET</name><value>gfs</value></envar>
+	<envar><name>CDUMP</name><value>gfs</value></envar>
+	<envar><name>RUN</name><value>gfs</value></envar>
+	<envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+	<envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+	<envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
+	<envar><name>COMROOT</name><value>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot</value></envar>
+	<envar><name>DATAROOT</name><value>/scratch1/NCEPDEV/stmp2/Kate.Zhang/RUNDIRS/CAT_C384_CCPP</value></envar>
+
+	<dependency>
+		<and>
+			<datadep><cyclestr>&ROTDIR;/gfs.@Y@m@d/@H//model_data/wave/history/gfswave.out_grd.uglo_100km.@Y@m@d.@H0000</cyclestr></datadep>
+		</and>
+	</dependency>
+
+</task>
+
+<task name="gfswavepostpnt" cycledefs="gfs" maxtries="&MAXTRIES;">
+
+	<command>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s/jobs/rocoto/wavepostpnt.sh</command>
+
+	<jobname><cyclestr>CAT_C384_CCPP_gfswavepostpnt_@H</cyclestr></jobname>
+	<account>fv3-cpu</account>
+	<queue>batch</queue>
+	<partition>hera</partition>
+	<walltime>04:00:00</walltime>
+	<nodes>5:ppn=40:tpp=1</nodes>
+	<native>&NATIVE_FCST_GFS;</native>
+
+	<join><cyclestr>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot/CAT_C384_CCPP/logs/@Y@m@d@H/gfswavepostpnt.log</cyclestr></join>
+
+	<envar><name>RUN_ENVIR</name><value>emc</value></envar>
+	<envar><name>HOMEgfs</name><value>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s</value></envar>
+	<envar><name>EXPDIR</name><value>/scratch2/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/expdir/CAT_C384_CCPP</value></envar>
+	<envar><name>NET</name><value>gfs</value></envar>
+	<envar><name>CDUMP</name><value>gfs</value></envar>
+	<envar><name>RUN</name><value>gfs</value></envar>
+	<envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+	<envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+	<envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
+	<envar><name>COMROOT</name><value>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot</value></envar>
+	<envar><name>DATAROOT</name><value>/scratch1/NCEPDEV/stmp2/Kate.Zhang/RUNDIRS/CAT_C384_CCPP</value></envar>
+
+	<dependency>
+		<and>
+			<taskdep task="gfsfcst"/>
+		</and>
+	</dependency>
+
+</task>
+
+<task name="gfsarch" cycledefs="gfs" maxtries="&MAXTRIES;">
+
+	<command>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s/jobs/rocoto/arch.sh</command>
+
+	<jobname><cyclestr>CAT_C384_CCPP_gfsarch_@H</cyclestr></jobname>
+	<account>fv3-cpu</account>
+	<queue>batch</queue>
+	<partition>service</partition>
+	<walltime>06:00:00</walltime>
+	<nodes>1:ppn=1:tpp=1</nodes>
+	<memory>4096M</memory>
+	<native>&NATIVE_FCST_GFS;</native>
+
+	<join><cyclestr>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot/CAT_C384_CCPP/logs/@Y@m@d@H/gfsarch.log</cyclestr></join>
+
+	<envar><name>RUN_ENVIR</name><value>emc</value></envar>
+	<envar><name>HOMEgfs</name><value>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s</value></envar>
+	<envar><name>EXPDIR</name><value>/scratch2/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/expdir/CAT_C384_CCPP</value></envar>
+	<envar><name>NET</name><value>gfs</value></envar>
+	<envar><name>CDUMP</name><value>gfs</value></envar>
+	<envar><name>RUN</name><value>gfs</value></envar>
+	<envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+	<envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+	<envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
+	<envar><name>COMROOT</name><value>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot</value></envar>
+	<envar><name>DATAROOT</name><value>/scratch1/NCEPDEV/stmp2/Kate.Zhang/RUNDIRS/CAT_C384_CCPP</value></envar>
+
+	<dependency>
+		<and>
+			<taskdep task="gfstracker"/>
+			<taskdep task="gfsgenesis"/>
+			<metataskdep metatask="gfsatmos_prod"/>
+			<taskdep task="gfswavepostsbs"/>
+			<taskdep task="gfswavepostpnt"/>
+			<metataskdep metatask="gfsocean_prod"/>
+			<metataskdep metatask="gfsice_prod"/>
+		</and>
+	</dependency>
+
+</task>
+
+<task name="gfscleanup" cycledefs="gfs" maxtries="&MAXTRIES;">
+
+	<command>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s/jobs/rocoto/cleanup.sh</command>
+
+	<jobname><cyclestr>CAT_C384_CCPP_gfscleanup_@H</cyclestr></jobname>
+	<account>fv3-cpu</account>
+	<queue>batch</queue>
+	<partition>hera</partition>
+	<walltime>00:15:00</walltime>
+	<nodes>1:ppn=1:tpp=1</nodes>
+	<memory>4096M</memory>
+	<native>&NATIVE_FCST_GFS;</native>
+
+	<join><cyclestr>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot/CAT_C384_CCPP/logs/@Y@m@d@H/gfscleanup.log</cyclestr></join>
+
+	<envar><name>RUN_ENVIR</name><value>emc</value></envar>
+	<envar><name>HOMEgfs</name><value>/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s</value></envar>
+	<envar><name>EXPDIR</name><value>/scratch2/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/expdir/CAT_C384_CCPP</value></envar>
+	<envar><name>NET</name><value>gfs</value></envar>
+	<envar><name>CDUMP</name><value>gfs</value></envar>
+	<envar><name>RUN</name><value>gfs</value></envar>
+	<envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+	<envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+	<envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
+	<envar><name>COMROOT</name><value>/scratch1/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot</value></envar>
+	<envar><name>DATAROOT</name><value>/scratch1/NCEPDEV/stmp2/Kate.Zhang/RUNDIRS/CAT_C384_CCPP</value></envar>
+
+	<dependency>
+		<and>
+			<taskdep task="gfsarch"/>
+		</and>
+	</dependency>
+
+</task>
+-->
+
+</workflow>
