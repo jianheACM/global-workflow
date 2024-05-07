@@ -149,7 +149,7 @@ for file in postxconfig-NT-GEFS-F00.txt postxconfig-NT-GEFS.txt postxconfig-NT-G
     postxconfig-NT-GFS.txt postxconfig-NT-GFS-FLUX.txt postxconfig-NT-GFS-GOES.txt \
     postxconfig-NT-GFS-F00-TWO.txt postxconfig-NT-GFS-TWO.txt \
     params_grib2_tbl_new post_tag_gfs128 post_tag_gfs65 post_tag_gfs128_catchem \
-    post_tag_gfs65 nam_micro_lookup.dat
+    post_tag_gfs65_catchem nam_micro_lookup.dat
 do
   ${LINK_OR_COPY} "${HOMEgfs}/sorc/upp.fd/parm/${file}" .
 done
