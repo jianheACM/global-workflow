@@ -210,7 +210,13 @@ case "${fv3_res}" in
           export layout_y=8
           export layout_x_gfs=8
           export layout_y_gfs=8
-          export nthreads_fv3=2
+#S2S:
+          #export layout_x=15
+          #export layout_y=12
+          #export layout_x_gfs=15
+          #export layout_y_gfs=12
+
+	  export nthreads_fv3=2
           export nthreads_fv3_gfs=2
           export nthreads_ufs=2
           export nthreads_ufs_gfs=2
@@ -219,8 +225,10 @@ case "${fv3_res}" in
           export knob_ugwp_tauamp=0.8e-3      # setting for UGWPv1 non-stationary GWD
           export WRITE_GROUP=4
           export WRTTASK_PER_GROUP_PER_THREAD_PER_TILE=10
+          #S2S: export WRTTASK_PER_GROUP_PER_THREAD_PER_TILE=20
           export WRITE_GROUP_GFS=4
           export WRTTASK_PER_GROUP_PER_THREAD_PER_TILE_GFS=10
+          #S2S: export WRTTASK_PER_GROUP_PER_THREAD_PER_TILE_GFS=20
         fi
         ;;
     "C768")
