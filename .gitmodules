@@ -1,7 +1,7 @@
 [submodule "sorc/ufs_model.fd"]
 	path = sorc/ufs_model.fd
-	url = https://github.com/zhanglikate/ufs-weather-model
-        branch = ufs-catchem
+	url = git@github.com:jianheACM/ufs-weather-model.git
+        branch = dev-am4
 	ignore = dirty
 [submodule "sorc/wxflow"]
   path = sorc/wxflow
