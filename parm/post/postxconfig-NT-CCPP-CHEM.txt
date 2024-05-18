@@ -1,1 +1,1 @@
-/home/Kate.Zhang/fv1/UFS-dev/global-workflow-s2s/sorc/upp.fd/parm/postxconfig-NT-CCPP-CHEM.txt
+/home/Kate.Zhang/fv1/UFS-dev/global-workflow/sorc/upp.fd/parm/postxconfig-NT-CCPP-CHEM.txt
