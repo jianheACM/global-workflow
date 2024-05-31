@@ -614,6 +614,14 @@ CATChem_rc() {
   for file in $(ls $DATA/../prep/*.nc) ; do
     $NLN $file $DATA/INPUT/$(echo $(basename $file))
   done
+
+  if [[ "${DO_AM4CHEM:-NO}" == "YES" ]] ; then
+    #JianHe: nc+other ascii files
+    for file in $(ls $DATA/../prep/*) ; do
+      $NLN $file $DATA/INPUT/$(echo $(basename $file))
+    done
+  fi
+
 }
 
 GOCART_rc() {

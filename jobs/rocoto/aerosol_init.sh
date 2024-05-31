@@ -10,7 +10,7 @@ status=$?
 
 ###############################################################
 # Source relevant configs
-configs="base aerosol_init"
+configs="base aerosol_init catchem"
 for config in $configs; do
     source $EXPDIR/config.${config}
     status=$?
@@ -27,7 +27,7 @@ $HOMEgfs/scripts/exgfs_aero_init_aerosol.py
 
 status=$?
 if [[ $status -ne 0 ]]; then
-    echo "FATAL ERROR: exgfs_chem_init_aerosol.py failed with error code $status"
+    echo "FATAL ERROR: exgfs_aero_init_aerosol.py failed with error code $status"
     exit $status
 fi
 

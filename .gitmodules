@@ -35,3 +35,6 @@
 [submodule "sorc/prepchem_NC.fd"]
   path = sorc/prepchem_NC.fd
   url = https://github.com/NOAA-GSL/GSL-prep-chem.git
+[submodule "sorc/jcb"]
+  path = sorc/jcb
+  url = https://github.com/noaa-emc/jcb

@@ -79,7 +79,7 @@ cat > input.nml <<EOF
 
 &diag_manager_nml
   prepend_date = .false.
-  max_output_fields = 300
+  max_output_fields = 600
   ${diag_manager_nml:-}
 /
 
@@ -176,6 +176,7 @@ cat > input.nml <<EOF
   gfs_dwinds = ${gfs_dwinds}
   checker_tr = .false.
   nt_checker = 0
+  read_chemrst = ${read_chemrst:-".false."}
   ${external_ic_nml-}
 /
 
@@ -417,43 +418,6 @@ if [ $cplchm = .true. ] || [ $cplchp = .true. ]; then
 EOF
 fi
 
-if [ $cplchp = .true. ]; then
-  cat >> input.nml << EOF
-  aer_bc_opt=1
-  aer_ic_opt=1
-  aer_ra_feedback=0
-  aer_ra_frq=60
-  aerchem_onoff=1
-  bio_emiss_opt=0
-  biomass_burn_cplchp=1
-  chem_conv_tr=0
-  chem_in_opt=1
-  chem_opt=300
-  chemdt=3
-  cldchem_onoff=0
-  dmsemis_opt=1
-  dust_opt_cplchp= ${dust_opt_cplchp:-"5"}
-  dust_alpha_catc = ${dust_alpha_catc:-"3."}
-  dust_gamma_catc = ${dust_gamma_catc:-"1."}
-  dust_calcdrag=1
-  emiss_inpt_opt=1
-  emiss_opt=$GBDAY
-  gas_bc_opt=1
-  gas_ic_opt=1
-  gaschem_onoff=1
-  kemit=1
-  plumerisefire_frq_cplchp=60
-  PLUMERISE_flag=$EMITYPE
-  seas_opt_cplchp=2
-  seas_emis_scheme=2
-  seas_emis_scale=${seas_emis_scale:-"1.,1.,1.,1.,1."}
-  vertmix_onoff=1
-  wetdep_ls_cplchp = ${wetdep_ls_cplchp:-"1"}
-  restart_inname    = "${COM_ATMOS_INPUT}"
-  restart_outname   = "${COM_ATMOS_RESTART}"
-EOF
-fi
-
 cat >> input.nml <<EOF
   do_sppt      = ${do_sppt:-".false."}
   do_shum      = ${do_shum:-".false."}
@@ -561,6 +525,59 @@ if [[ ${knob_ugwp_version} -eq 1 ]]; then
 EOF
 fi
 
+if [ $cplchp = .true. ]; then
+  cat >> input.nml << EOF
+&catchem_nml
+  chem_opt = 300
+  chemdt = $DELTIM
+  gaschem_onoff = 1
+  gaschem_opt = 0
+  phot_opt = 0
+  photdt = $DELTIM
+  gas_drydep_opt = 0
+  gas_wetdep_opt = 0
+  cldchem_onoff = 0
+  chem_in_opt = ${chem_in_opt:-"1"}
+  gas_bc_opt = 1
+  gas_ic_opt = 1
+  aer_bc_opt = 1
+  aer_ic_opt = 1
+  aerchem_onoff = 1
+  aerchem_opt = 1
+  aer_ra_feedback = 0
+  aer_ra_frq = 60
+  chem_conv_tr = 0
+  vertmix_onoff = 1
+  lnox_opt = 0
+  lght_no_prd_factor = 1.0
+  min_land_frac_lght = 0.1
+  normalize_lght_no_prd_area = .true.
+  bio_emiss_opt = 0
+  biomass_burn_cplchp = 1
+  dmsemis_opt = 1
+  dust_opt_cplchp = ${dust_opt_cplchp:-"5"}
+  dust_alpha_catc = ${dust_alpha_catc:-"3."}
+  dust_gamma_catc = ${dust_gamma_catc:-"1."}
+  dust_calcdrag = 1
+  emiss_inpt_opt = 1
+  emiss_opt = $GBDAY
+  kemit = 1
+  plumerisefire_frq_cplchp = 60
+  PLUMERISE_flag = $EMITYPE
+  seas_opt_cplchp = 2
+  seas_emis_scheme = 2
+  seas_emis_scale = ${seas_emis_scale:-"1.,1.,1.,1.,1."}
+  wetdep_ls_cplchp = ${wetdep_ls_cplchp:-"1"}
+  soa_opt = 0
+  isoprene_SOA_yield = 0.10
+  terpene_SOA_yield = 0.10
+  use_interactive_BVOC_emis = .false.
+  restart_inname    = "${COM_ATMOS_INPUT}"
+  restart_outname   = "${COM_ATMOS_RESTART}"
+/
+EOF
+fi
+
 echo "" >> input.nml
 
 cat >> input.nml <<EOF
@@ -615,6 +632,51 @@ cat >> input.nml <<EOF
 
   ${gfdl_cloud_microphysics_nml:-}
 /
+
+&gfdl_am4chem_nml
+  relaxed_dt = 864000.,
+  ub_pres = 1.,
+  relaxed_dt_lbc = 86400.,
+  lb_pres = 800.e2,
+  file_conc = 'INPUT/tracerIC.19800101.v2.nc',
+  file_ub = 'INPUT/ub_vals.mozart.nc',
+  file_dry = 'INPUT/depvel_gc_am3_tran.nc',
+  inv_list = '',
+  cloud_chem_type = 'f1p',
+  strat_chem_age_factor = 1.,
+  strat_chem_dclydt_factor = 1.,
+  do_tropchem = .true.,
+  o3_column_top = 0.002,
+  repartition_water_tracers = .true.,
+  allow_negative_cosz = .true.,
+  allow_psc_settling_type1 = .true.,
+  force_cly_conservation = .true.,
+  set_min_h2o_strat = .false.,
+  ch4_filename = 'ch4_gblannualdata',
+  ch4_scale_factor = 1.e-9,
+  time_varying_cfc_lbc = .true.,
+  do_fastjx_photo = .true.
+  frac_aerosol_incloud   = 0.7,
+  frac_dust_incloud = 0.0,
+  min_lwc_for_cloud_chem = 1.e-10,
+  aerosol_thermo_method = 'isorropia',
+  max_rh_aerosol = 95.,
+  verbose = 1,
+  retain_cm3_bugs =.false.,
+  check_convergence = .true.
+  sim_data_filename = 'sim.AM4_v20180614.dat'
+  het_chem_type = 'j1m'
+  gN2O5 = 0.02
+  gHO2 = 0.2
+  gNO3 = 0.02
+  gNO2 = 1e-5
+  gNH3 = 0.,
+  time_varying_solarflux = .true.
+  gSO2_dynamic = 'zheng2015'
+
+${gfdl_am4chem_nml:-}
+/
+
 
 &interpolator_nml
   interp_method = 'conserve_great_circle'

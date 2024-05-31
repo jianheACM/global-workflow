@@ -93,7 +93,15 @@ for n in $(seq 1 6); do
     eval $NLN $EMIINPUT/EMI2/$SMONTH/emi2_data.tile${n}.nc .
     #eval $NLN $EMIINPUT/fengsha_2023/$SMONTH/dust_data.tile${n}.nc .
     eval $NLN $EMIINPUT/fengsha_2023/12month/dust_data_g12m.tile${n}.nc .
-    
+
+    if [[ "${DO_AM4CHEM:-NO}" == "YES" ]]; then
+      echo "Link anthro emissions for AM4"
+      rm -f *emi_data.tile${n}nc
+      #Need to prepare emissions before model run!!!
+      EMIINPUT_am4=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/Emissions/emi_${CASE}
+      eval $NLN $EMIINPUT_am4/EMI_$SYEAR/$SMONTH/emi_data.tile${n}.nc .
+    fi 
+
     if [ $EMITYPE -eq 1 ]; then
       mkdir -p $tiledir
       cd $tiledir
@@ -166,6 +174,15 @@ EOF
 
       if [ $GBDAY -eq 1 ]; then
         eval $NLN $NCGB/${emiss_date1}/FIRE_GBBEPx_data.tile${n}.nc .
+
+	if [[ "${DO_AM4CHEM:-NO}" == "YES" ]]; then
+	  echo "Link fire emissions for AM4"
+	  #Currently only works for GBDAY=1
+	  rm -f  *FIRE_GBBEPx_data.tile${n}.nc
+	  am4fire_dir=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/Emissions/emi_C96/FIRE_$SYEAR/
+          eval $NLN $am4fire_dir/${emiss_date1}/FIRE_GBBEPx_data.tile${n}.nc .
+        fi
+
       else
         j_day=$(date -d "$emiss_date1" "+%j")           
         echo "Julian day: $j_day"
@@ -258,6 +275,35 @@ EOF
       cd ..
       rm *-g${n}.ctl *-g${n}.vfm *-g${n}.gra
     fi
+
+    if [[ "${DO_AM4CHEM:-NO}" == "YES" ]]; then
+      echo "Link inputdata required for AM4"
+      if [ ${SYEAR} -eq 2016 ];  then
+        ICINPUT=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/ICs/v20160701/final
+      elif [ ${SYEAR} -eq 2017 ];  then
+        if [ ${SMONTH} -eq 1 ];  then
+          ICINPUT=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/ICs/v20170101/final
+        else
+          ICINPUT=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/ICs/v20170901/final
+        fi
+      else
+        ICINPUT=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/ICs/v20180401/final
+      fi
+
+      eval $NLN $ICINPUT/chemic_data.tile${n}.nc .
+
+      #
+      AGEINPUT=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/Other
+      eval $NLN $AGEINPUT/dfdage3_data.tile${n}.nc .
+
+      # ddep for AM4
+      DDEPINPUT=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/Depvel
+      eval $NLN $DDEPINPUT/$SMONTH/depvel_data.tile${n}.nc .
+
+      JINPUT=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/Jval
+      eval $NLN $JINPUT/* .
+    fi
+
 done
 rc=$?
 if [ $rc -ne 0 ]; then

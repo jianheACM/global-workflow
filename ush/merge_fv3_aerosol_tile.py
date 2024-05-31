@@ -73,6 +73,17 @@ def merge_tile(base_file_name: str, ctrl_file_name: str, core_file_name: str, re
     ak = core_file["ak"][0, :]
     bk = core_file["bk"][0, :]
 
+    # calculate surface pressure from restart file
+    ps_rst = np.zeros((delp.shape[1],delp.shape[2]))
+    for i in range(delp.shape[1]):
+        for j in range(delp.shape[2]):
+            ps_rst[i,j] = ak[0]
+
+    for i in range(delp.shape[1]):
+        for j in range(delp.shape[2]):
+            for k in range(delp.shape[0]):
+                ps_rst[i,j] = ps_rst[i,j] + delp[k,i,j]
+
     # read surface pressure from initial conditions file
     psfc = base_file["ps"][:, :]
     # read sigma-level a, b coefficients from initial conditions control file
@@ -110,7 +121,9 @@ def merge_tile(base_file_name: str, ctrl_file_name: str, core_file_name: str, re
             new_ntracer = new_ntracer + 1
             base_file.createVariable(variable_name, variable.datatype, base_file["sphum"].dimensions)
         base_file[variable_name][0, :, :] = 0.
-        base_file[variable_name][1:, :, :] = scale_factor * variable[0, :, :, :]
+        #base_file[variable_name][1:, :, :] = scale_factor * variable[0, :, :, :]
+        #We do not apply scale_factor for now, do interpolation inline
+        base_file[variable_name][1:, :, :] = variable[0, :, :, :]
         base_file[variable_name].setncatts(variable.__dict__)
         mass_src = variable * delp
         mass_dst = base_file[variable_name][1:, :, :] * dp
@@ -121,6 +134,13 @@ def merge_tile(base_file_name: str, ctrl_file_name: str, core_file_name: str, re
         # print("Done adding " + variable_name)
 
     print("-" * 79 + "\n")
+
+    #add ps from restart file to initial condition
+    variable_name = "ps_rst"
+    if variable_name not in base_file.variables.keys():
+        new_ntracer = new_ntracer + 1
+        base_file.createVariable(variable_name, variable.datatype, base_file["ps"].dimensions)
+    base_file[variable_name][:, :] = ps_rst[:,:]
 
     base_file.close()
 
