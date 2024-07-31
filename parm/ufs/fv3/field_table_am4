@@ -3,52 +3,52 @@
            "longname",  "so2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "msa"
            "longname",  "msa mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "o3"
            "longname",  "o3 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "n2o"
            "longname",  "n2o mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "no"
            "longname",  "no mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "no2"
            "longname",  "no2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "no3"
            "longname",  "no3 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "hno3"
            "longname",  "hno3 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "ho2no2"
            "longname",  "ho2no2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "n2o5"
            "longname",  "n2o5 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "ch4"
            "longname",  "ch4 mixing ratio"
            "units",     "ppm"
@@ -58,17 +58,17 @@
            "longname",  "ch3ooh mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "ch2o"
            "longname",  "ch2o mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "co"
            "longname",  "co mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "co2"
            "longname",  "co2 mixing ratio"
            "units",     "ppm"
@@ -78,252 +78,252 @@
            "longname",  "h2o2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "c3h6"
            "longname",  "c3h6 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "isop"
            "longname",  "isop mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "ch3cho"
            "longname",  "ch3cho mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "pan"
            "longname",  "pan mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "c2h6"
            "longname",  "c2h6 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "c2h4"
            "longname",  "c2h4 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "c4h10"
            "longname",  "c4h10 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "mpan"
            "longname",  "mpan mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "mvk"
            "longname",  "mvk mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "macr"
            "longname",  "macr mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "c10h16"
            "longname",  "c10h16 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "c3h8"
            "longname",  "c3h8 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "ch3coch3"
            "longname",  "ch3coch3 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "ch3oh"
            "longname",  "ch3oh mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "c2h5oh"
            "longname",  "c2h5oh mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "glyald"
            "longname",  "glyald mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "hyac"
            "longname",  "hyac mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "isopooh"
            "longname",  "isopooh mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "h2"
            "longname",  "h2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "so4"
            "longname",  "so4 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "dms"
            "longname",  "DMS mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "nh3"
            "longname",  "nh3 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "nh4no3"
            "longname",  "nh4no3 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "nh4"
            "longname",  "nh4 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "hcl"
            "longname",  "hcl mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "hocl"
            "longname",  "hocl mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "clono2"
            "longname",  "clono2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "cl"
            "longname",  "cl mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "clo"
            "longname",  "clo mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "cl2o2"
            "longname",  "cl2o2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "cl2"
            "longname",  "cl2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "hobr"
            "longname",  "hobr mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "hbr"
            "longname",  "hbr mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "brono2"
            "longname",  "brono2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "br"
            "longname",  "br mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "bro"
            "longname",  "bro mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "brcl"
            "longname",  "brcl mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "isopnb"
            "longname",  "isopnb mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "macrn"
            "longname",  "macrn mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "mvkn"
            "longname",  "mvkn mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "r4n2"
            "longname",  "r4n2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "r4n1"
            "longname",  "r4n1 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "iepox"
            "longname",  "iepox mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "glyx"
            "longname",  "glyx mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "mgly"
            "longname",  "mgly mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "atooh"
            "longname",  "atooh mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "o3s"
            "longname",  "o3s mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "o3s_e90"
            "longname",  "o3s_e90 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "e90"
            "longname",  "e90 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "age"
            "longname",  "age of air"
            "units",     "years"
@@ -340,346 +340,346 @@
            "units",     "years"
         "tracer_usage", "chemistry"
         "adjust_mass",  "false"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "nh50"
            "longname",  "nh50 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "soa"
            "longname",  "soa mixing ratio"
            "units",     "ug/kg"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-25" /
  "TRACER", "atmos_mod", "sulf"
            "longname",  "sulfate mixing ratio"
            "units",     "ug/kg"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-25" /
  "TRACER", "atmos_mod", "pp25"
            "longname",  "primary PM25 mixing ratio"
            "units",     "ug/kg"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-25" /
  "TRACER", "atmos_mod", "bc1"
            "longname",  "hydrophobic black carbon mixing ratio"
            "units",     "ug/kg"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-25" /
  "TRACER", "atmos_mod", "bc2"
            "longname",  "hydrophillic black carbon mixing ratio"
            "units",     "ug/kg"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-25" /
  "TRACER", "atmos_mod", "oc1"
            "longname",  "hydrophobic organic carbon mixing ratio"
            "units",     "ug/kg"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-25" /
  "TRACER", "atmos_mod", "oc2"
            "longname",  "hydrophillic organic carbon mixing ratio"
            "units",     "ug/kg"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-25" /
  "TRACER", "atmos_mod", "dust1"
            "longname",  "fine dust1 mixing ratio"
            "units",     "ug/kg"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-25" /
  "TRACER", "atmos_mod", "dust2"
            "longname",  "fine dust2 mixing ratio"
            "units",     "ug/kg"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-25" /
  "TRACER", "atmos_mod", "dust3"
            "longname",  "coarse dust3 mixing ratio"
            "units",     "ug/kg"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-25" /
  "TRACER", "atmos_mod", "dust4"
            "longname",  "coarse dust4 mixing ratio"
            "units",     "ug/kg"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-25" /
  "TRACER", "atmos_mod", "dust5"
            "longname",  "coarse dust5 mixing ratio"
            "units",     "ug/kg"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-25" /
  "TRACER", "atmos_mod", "seas1"
            "longname",  "seasalt1 mixing ratio"
            "units",     "ug/kg"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-25" /
  "TRACER", "atmos_mod", "seas2"
            "longname",  "seasalt2 mixing ratio"
            "units",     "ug/kg"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-25" /
  "TRACER", "atmos_mod", "seas3"
            "longname",  "seasalt3 mixing ratio"
            "units",     "ug/kg"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-25" /
  "TRACER", "atmos_mod", "seas4"
            "longname",  "seasalt4 mixing ratio"
            "units",     "ug/kg"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-25" /
  "TRACER", "atmos_mod", "seas5"
            "longname",  "seasalt5 mixing ratio"
            "units",     "ug/kg"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-25" /
  "TRACER", "atmos_mod", "pp10"
            "longname",  "primary PM10 mixing ratio"
            "units",     "ug/kg"
         "tracer_usage", "chemistry"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-25" /
 # diagnostic chem tracers
  "TRACER", "atmos_mod", "o"
            "longname",  "o mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "o1d"
            "longname",  "o1d mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "n"
            "longname",  "n mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "ch3o2"
            "longname",  "ch3o2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "oh"
            "longname",  "oh mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "ho2"
            "longname",  "ho2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "po2"
            "longname",  "po2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "pooh"
            "longname",  "pooh mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "ch3co3"
            "longname",  "ch3co3 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "ch3coooh"
            "longname",  "ch3coooh mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "isopo2"
            "longname",  "isopo2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "macro2"
            "longname",  "macro2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "macrooh"
            "longname",  "macrooh mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "c2h5o2"
            "longname",  "c2h5o2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "c2h5ooh"
            "longname",  "c2h5ooh mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "c3h7o2"
            "longname",  "c3h7o2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "c3h7ooh"
            "longname",  "c3h7ooh mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "eo2"
            "longname",  "eo2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "eo"
            "longname",  "eo mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "h"
            "longname",  "h mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "extinction"
            "longname",  "Extinction for band 4 centred at 1 micron"
            "units",     "1/m"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "noy"
            "longname",  "noy mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "cly"
            "longname",  "cly mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "bry"
            "longname",  "bry mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "lch4"
            "longname",  "CH4 loss via OH"
            "units",     "ppm/s"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "roh"
            "longname",  "roh mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "rcho"
            "longname",  "rcho mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "isopnbo2"
            "longname",  "isopnbo2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "mek"
            "longname",  "mek mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "iepoxoo"
            "longname",  "iepoxoo mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "mvko2"
            "longname",  "mvko2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "mvkooh"
            "longname",  "mvkooh mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "macrno2"
            "longname",  "macrno2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "mao3"
            "longname",  "mao3 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "maop"
            "longname",  "maop mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "maopo2"
            "longname",  "maopo2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "ato2"
            "longname",  "ato2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "ino2"
            "longname",  "ino2 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "inpn"
            "longname",  "inpn mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "isnooa"
            "longname",  "isnooa mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /
  "TRACER", "atmos_mod", "isn1"
            "longname",  "isn1 mixing ratio"
            "units",     "ppm"
         "tracer_usage", "chemistry", "type=diagnostic"
         "tracer_type",  "diagnostic"
-        "profile_type", "fixed", "surface_value=1.e-30" /
+        "profile_type", "fixed", "surface_value=1.e-20" /

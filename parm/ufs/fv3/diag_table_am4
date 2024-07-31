@@ -131,7 +131,7 @@
  "gfs_dyn",    "isn1",        "isn1",         "fv3_history",    "all",  .false.,  "none",  2
 
 # chemical diag 3D variables  
-"gfs_phys",    "jo2",         "jo2",          "fv3_history",    "all",  .false.,  "none",  2
+"gfs_phys",    "jn2o",        "jn2o",         "fv3_history",    "all",  .false.,  "none",  2
 "gfs_phys",    "jo1d",        "jo1d",         "fv3_history",    "all",  .false.,  "none",  2
 "gfs_phys",    "jno2",        "jno2",         "fv3_history",    "all",  .false.,  "none",  2
 "gfs_phys",    "ox_prod",     "ox_prod",      "fv3_history",    "all",  .false.,  "none",  2
@@ -140,6 +140,8 @@
 "gfs_phys",    "ch4_loss",    "ch4_loss",     "fv3_history",    "all",  .false.,  "none",  2
 "gfs_phys",    "oh_prod",     "oh_prod",      "fv3_history",    "all",  .false.,  "none",  2
 "gfs_phys",    "oh_loss",     "oh_loss",      "fv3_history",    "all",  .false.,  "none",  2
+"gfs_phys",    "h2_prod",     "h2_prod",      "fv3_history",    "all",  .false.,  "none",  2
+"gfs_phys",    "h2_loss",     "h2_loss",      "fv3_history",    "all",  .false.,  "none",  2
 
 # chemical diag 2D variables
 "gfs_phys",    "ebio_isop",   "ebio_isop",    "fv3_history2d",  "all",  .false.,  "none",  2
@@ -150,10 +152,14 @@
 "gfs_phys",    "etot_ch4",    "etot_ch4",     "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "etot_nh3",    "etot_nh3",     "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "etot_so2",    "etot_so2",     "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "etot_terp",   "etot_terp",    "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "etot_h2",     "etot_h2",      "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "ebu_co",      "ebu_co",       "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "ebu_ch4",     "ebu_ch4",      "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "ebu_nh3",     "ebu_nh3",      "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "ebu_so2",     "ebu_so2",      "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "ebu_terp",    "ebu_terp",     "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "ebu_h2",      "ebu_h2",       "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "o3_ddep",     "o3_ddep",      "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "nh3_ddep",    "nh3_ddep",     "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "so4_ddep",    "so4_ddep",     "fv3_history2d",  "all",  .false.,  "none",  2

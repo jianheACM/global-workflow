@@ -4,10 +4,10 @@ BASE_CPLIC: '/scratch1/NCEPDEV/global/glopara/data/ICSDIR/prototype_ICs'
 PACKAGEROOT: '/scratch1/NCEPDEV/global/glopara/nwpara'
 COMINsyn: '/scratch1/NCEPDEV/global/glopara/com/gfs/prod/syndat'
 HOMEDIR: '/scratch1/NCEPDEV/global/${USER}'
-STMP: '/scratch1/NCEPDEV/stmp2/${USER}'
+STMP: '/scratch1/BMC/rcm2/jhe/model_output/ufs-chem/'
 PTMP: '/scratch1/NCEPDEV/stmp4/${USER}'
 NOSCRUB: $HOMEDIR
-ACCOUNT: fv3-cpu
+ACCOUNT: rcm2
 SCHEDULER: slurm
 QUEUE: batch
 QUEUE_SERVICE: batch

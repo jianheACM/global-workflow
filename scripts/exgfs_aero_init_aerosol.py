@@ -81,7 +81,7 @@ def main() -> None:
 
     merge_script = merge_script_pattern.format(ush_gfs=ush_gfs)
 
-    if (do_am4chem):
+    if (do_am4chem == "YES"):
         tracer_list_file = am4tracer_list_file_pattern.format(parm_gfs=parm_gfs)
     else:
         tracer_list_file = tracer_list_file_pattern.format(parm_gfs=parm_gfs)

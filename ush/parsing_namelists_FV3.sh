@@ -549,7 +549,7 @@ if [ $cplchp = .true. ]; then
   chem_conv_tr = 0
   vertmix_onoff = 1
   lnox_opt = 0
-  lght_no_prd_factor = 1.0
+  lght_no_prd_factor = 0.7
   min_land_frac_lght = 0.1
   normalize_lght_no_prd_area = .true.
   bio_emiss_opt = 0
@@ -572,6 +572,7 @@ if [ $cplchp = .true. ]; then
   isoprene_SOA_yield = 0.10
   terpene_SOA_yield = 0.10
   use_interactive_BVOC_emis = .false.
+  read_emis3d = ${read_emis3d:-".false."}
   restart_inname    = "${COM_ATMOS_INPUT}"
   restart_outname   = "${COM_ATMOS_RESTART}"
 /

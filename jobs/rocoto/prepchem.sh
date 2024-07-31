@@ -100,6 +100,12 @@ for n in $(seq 1 6); do
       #Need to prepare emissions before model run!!!
       EMIINPUT_am4=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/Emissions/emi_${CASE}
       eval $NLN $EMIINPUT_am4/EMI_$SYEAR/$SMONTH/emi_data.tile${n}.nc .
+
+      echo "Line 3D emission files for AM4"
+      eval $NLN $EMIINPUT_am4/EMI3D_$SYEAR/$SMONTH/EMI3D_data.tile${n}.nc .
+      eval $NLN $EMIINPUT_am4/EMIAIRC_$SYEAR/$SMONTH/EMIAIRC_data.tile${n}.nc .
+      eval $NLN $EMIINPUT_am4/EMIVOL_$SYEAR/$SMONTH/EMIVOL_data.tile${n}.nc .
+
     fi 
 
     if [ $EMITYPE -eq 1 ]; then
