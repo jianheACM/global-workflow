@@ -1,7 +1,7 @@
 [submodule "sorc/ufs_model.fd"]
 	path = sorc/ufs_model.fd
 	url = git@github.com:jianheACM/ufs-weather-model.git
-        branch = ufs-catchem
+        branch = dev-am4
 	ignore = dirty
 [submodule "sorc/wxflow"]
   path = sorc/wxflow
@@ -11,8 +11,8 @@
   url = https://github.com/NOAA-EMC/gfs-utils
 [submodule "sorc/ufs_utils.fd"]
   path = sorc/ufs_utils.fd
-  url = https://github.com/zhanglikate/UFS_UTILS.git
-  branch = catchem_Apr
+  url = git@github.com:jianheACM/UFS_UTILS.git
+  branch = dev-am4
 [submodule "sorc/verif-global.fd"]
   path = sorc/verif-global.fd
   url = https://github.com/NOAA-EMC/EMC_verif-global.git
@@ -30,8 +30,8 @@
   url = https://github.com/NOAA-EMC/GSI-Monitor.git
 [submodule "sorc/upp.fd"]
   path = sorc/upp.fd
-  url = https://github.com/zhanglikate/UPP.git
-  branch = catchem_Apr
+  url = git@github.com:jianheACM/UPP.git
+  branch = dev-am4
 [submodule "sorc/prepchem_NC.fd"]
   path = sorc/prepchem_NC.fd
   url = https://github.com/NOAA-GSL/GSL-prep-chem.git

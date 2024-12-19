@@ -58,7 +58,7 @@ export OUTDIR=${OUTDIR:-$ROTDIR}
 export COMPONENT="atmos"
 export gfs_ver=${gfs_ver:-"v16"}
 export OPS_RES=${OPS_RES:-"C768"}
-export RUNICSH=${RUNICSH:-${GDASINIT_DIR}/run_v16.chgres.sh}
+export RUNICSH=${RUNICSH:-${GDAS_INIT_DIR}/run_v16.chgres.sh}
 
 # Check if init is needed and run if so
 if [[ $gfs_ver = "v16" && $EXP_WARM_START = ".true." && $CASE = $OPS_RES ]]; then

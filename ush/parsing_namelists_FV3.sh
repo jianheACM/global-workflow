@@ -573,6 +573,7 @@ if [ $cplchp = .true. ]; then
   terpene_SOA_yield = 0.10
   use_interactive_BVOC_emis = .false.
   read_emis3d = ${read_emis3d:-".false."}
+  read_emiairc = ${read_emiairc:-".false."}
   restart_inname    = "${COM_ATMOS_INPUT}"
   restart_outname   = "${COM_ATMOS_RESTART}"
 /
@@ -637,7 +638,7 @@ cat >> input.nml <<EOF
 &gfdl_am4chem_nml
   relaxed_dt = 864000.,
   ub_pres = 1.,
-  relaxed_dt_lbc = 86400.,
+  relaxed_dt_lbc = 864000.,
   lb_pres = 800.e2,
   file_conc = 'INPUT/tracerIC.19800101.v2.nc',
   file_ub = 'INPUT/ub_vals.mozart.nc',

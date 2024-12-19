@@ -59,7 +59,9 @@ for MEMDIR in "${MEMDIR_ARRAY[@]}"; do
     # Stage the FV3 cold-start initial conditions to ROTDIR
     YMD=${PDY} HH=${cyc} declare_from_tmpl COM_ATMOS_INPUT
     [[ ! -d "${COM_ATMOS_INPUT}" ]] && mkdir -p "${COM_ATMOS_INPUT}"
-    src="$ICSORG/${CDUMP}.${PDY}/${cyc}/atmos/INPUT/gfs_ctrl.nc"
+    #src="$ICSORG/${CDUMP}.${PDY}/${cyc}/atmos/INPUT/gfs_ctrl.nc"
+    #JianHe:
+    src="$ICSORG/${CDUMP}.${PDY}/${cyc}/model_data/atmos/input/gfs_ctrl.nc"
     #src="${BASE_CPLIC}/${CPL_ATMIC:-}/${PDY}${cyc}/${MEMDIR}/atmos/gfs_ctrl.nc"
     tgt="${COM_ATMOS_INPUT}/gfs_ctrl.nc"
     ${NCP} "${src}" "${tgt}"
@@ -68,7 +70,9 @@ for MEMDIR in "${MEMDIR_ARRAY[@]}"; do
     err=$((err + rc))
     for ftype in gfs_data sfc_data; do
       for ((tt = 1; tt <= ntiles; tt++)); do
-        src="$ICSORG/${CDUMP}.${PDY}/${cyc}/atmos/INPUT/${ftype}.tile${tt}.nc"
+        #src="$ICSORG/${CDUMP}.${PDY}/${cyc}/atmos/INPUT/${ftype}.tile${tt}.nc"
+	#JianHe:
+	src="$ICSORG/${CDUMP}.${PDY}/${cyc}/model_data/atmos/input/${ftype}.tile${tt}.nc"
         #src="${BASE_CPLIC}/${CPL_ATMIC:-}/${PDY}${cyc}/${MEMDIR}/atmos/${ftype}.tile${tt}.nc"
         tgt="${COM_ATMOS_INPUT}/${ftype}.tile${tt}.nc"
         ${NCP} "${src}" "${tgt}"
