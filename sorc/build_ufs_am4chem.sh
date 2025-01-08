@@ -31,7 +31,7 @@ source "./tests/detect_machine.sh"
 source "./tests/module-setup.sh"
 
 MAKE_OPT="-DAPP=${APP} -DCCPP_SUITES=${CCPP_SUITES} -DAM4_CHEM=ON"
-##MAKE_OPT="-DAPP=${APP} -DCCPP_SUITES=${CCPP_SUITES} -DAM4_CHEM=ON -DDEBUG=ON"
+##MAKE_OPT="-DAPP=${APP} -D32BIT=ON -DCCPP_SUITES=${CCPP_SUITES} -DAM4_CHEM=ON -DDEBUG=ON"
 #MAKE_OPT="-DAPP=${APP} -D32BIT=ON -DCCPP_SUITES=${CCPP_SUITES} -DDEBUG=ON"
 [[ ${PDLIB:-"OFF"} = "ON" ]] && MAKE_OPT+=" -DPDLIB=ON"
 if [[ ${BUILD_TYPE:-"Release"} = "DEBUG" ]] ; then

@@ -153,13 +153,13 @@
 "gfs_phys",    "etot_nh3",    "etot_nh3",     "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "etot_so2",    "etot_so2",     "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "etot_terp",   "etot_terp",    "fv3_history2d",  "all",  .false.,  "none",  2
-"gfs_phys",    "etot_h2",     "etot_h2",      "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "etot_bc",     "etot_bc",      "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "ebu_co",      "ebu_co",       "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "ebu_ch4",     "ebu_ch4",      "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "ebu_nh3",     "ebu_nh3",      "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "ebu_so2",     "ebu_so2",      "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "ebu_terp",    "ebu_terp",     "fv3_history2d",  "all",  .false.,  "none",  2
-"gfs_phys",    "ebu_h2",      "ebu_h2",       "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "ebu_bc",      "ebu_bc",       "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "o3_ddep",     "o3_ddep",      "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "nh3_ddep",    "nh3_ddep",     "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "so4_ddep",    "so4_ddep",     "fv3_history2d",  "all",  .false.,  "none",  2
