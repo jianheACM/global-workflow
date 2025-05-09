@@ -140,8 +140,8 @@
 "gfs_phys",    "ch4_loss",    "ch4_loss",     "fv3_history",    "all",  .false.,  "none",  2
 "gfs_phys",    "oh_prod",     "oh_prod",      "fv3_history",    "all",  .false.,  "none",  2
 "gfs_phys",    "oh_loss",     "oh_loss",      "fv3_history",    "all",  .false.,  "none",  2
-"gfs_phys",    "h2_prod",     "h2_prod",      "fv3_history",    "all",  .false.,  "none",  2
-"gfs_phys",    "h2_loss",     "h2_loss",      "fv3_history",    "all",  .false.,  "none",  2
+#"gfs_phys",    "h2_prod",     "h2_prod",      "fv3_history",    "all",  .false.,  "none",  2
+#"gfs_phys",    "h2_loss",     "h2_loss",      "fv3_history",    "all",  .false.,  "none",  2
 
 # chemical diag 2D variables
 "gfs_phys",    "ebio_isop",   "ebio_isop",    "fv3_history2d",  "all",  .false.,  "none",  2
@@ -166,3 +166,5 @@
 "gfs_phys",    "so2_wdep",    "so2_wdep",     "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "nh3_wdep",    "nh3_wdep",     "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "so4_wdep",    "so4_wdep",     "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "ptrop",       "ptrop",        "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "tropoz",      "tropoz",       "fv3_history2d",  "all",  .false.,  "none",  2
