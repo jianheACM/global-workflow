@@ -14,6 +14,7 @@ gdasocean_analysis:
         - '{{ COMIN_ICE_ANALYSIS | relpath(ROTDIR) }}/{{ anl_time | to_YMD }}.{{ anl_time | strftime("%H") }}0000.cice_model_anl.res.nc'
         {% for domain in ["ocn", "ice"] %}
         - '{{ COMIN_OCEAN_ANALYSIS | relpath(ROTDIR) }}/{{ head }}{{domain}}.incr.nc'
+        - '{{ COMIN_OCEAN_ANALYSIS | relpath(ROTDIR) }}/{{ head }}ice.incr.postproc.nc'
         - '{{ COMIN_OCEAN_ANALYSIS | relpath(ROTDIR) }}/{{ head }}{{domain}}.ana.nc'
         {% endfor %}
 
@@ -37,4 +38,4 @@ gdasocean_analysis:
     optional:
         # obs space diags
         - '{{ COMIN_OCEAN_ANALYSIS | relpath(ROTDIR) }}/diags/{{ head }}ocn.*.stats.csv'
-        - '{{ COMIN_OCEAN_ANALYSIS | relpath(ROTDIR) }}/diags/*.nc4'
+        - '{{ COMIN_OCEAN_ANALYSIS | relpath(ROTDIR) }}/diags/*.nc'
