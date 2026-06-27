@@ -44,6 +44,7 @@ FV3_model_configure() {
     local WRTTASK_PER_GROUP=${WRTTASK_PER_GROUP:-24}
     local ITASKS=1
     local OUTPUT_HISTORY=${OUTPUT_HISTORY:-".true."}
+    local DO_HISTORY_FILE_ON_NATIVE_GRID=${DO_HISTORY_FILE_ON_NATIVE_GRID:-"NO"}
     if [[ "${DO_JEDIATMVAR:-}" == "YES" || "${DO_HISTORY_FILE_ON_NATIVE_GRID:-"NO"}" == "YES" ]]; then
         local HISTORY_FILE_ON_NATIVE_GRID=".true."
     else
@@ -77,6 +78,9 @@ FV3_model_configure() {
         local NEST_IMO=${npx_nest}
         local NEST_JMO=${npy_nest}
         template="${PARMglobal}/ufs/input_global_nest.nml.IN"
+    elif [[ "${DO_STRETCH:-NO}" == "YES" ]]; then
+        local HISTORY_FILE_ON_NATIVE_GRID=.true.
+        template="${PARMglobal}/ufs/model_configure.IN"
     else
         template="${PARMglobal}/ufs/model_configure.IN"
     fi

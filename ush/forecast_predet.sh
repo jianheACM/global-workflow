@@ -353,7 +353,7 @@ FV3_predet() {
         if [[ "${TYPE}" == "nh" ]]; then # non-monotonic and non-hydrostatic
             hord_mt=${hord_mt_nh_nonmono:-"5"}
             hord_xx=${hord_xx_nh_nonmono:-"5"}
-            hord_dp=${hord_dp_nh_nonmono:-"-5"}
+            hord_dp=${hord_dp_nh_nonmono:-"8"}
         else # non-monotonic and hydrostatic
             hord_mt=${hord_mt_hydro_nonmono:-"10"}
             hord_xx=${hord_xx_hydro_nonmono:-"10"}
@@ -425,19 +425,35 @@ FV3_predet() {
     FNSNOC=${FNSNOC:-"${FIXglobal}/am/global_snoclim.1.875.grb"}
     FNZORC=${FNZORC:-"igbp"}
     FNAISC=${FNAISC:-"${FIXglobal}/am/IMS-NIC.blended.ice.monthly.clim.grb"}
-    FNALBC2=${FNALBC2:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.facsf.tileX.nc"}
-    FNTG3C=${FNTG3C:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.substrate_temperature.tileX.nc"}
-    FNVEGC=${FNVEGC:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.vegetation_greenness.tileX.nc"}
-    FNMSKH=${FNMSKH:-"${FIXglobal}/am/global_slmask.t1534.3072.1536.grb"}
-    FNVMNC=${FNVMNC:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.vegetation_greenness.tileX.nc"}
-    FNVMXC=${FNVMXC:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.vegetation_greenness.tileX.nc"}
-    FNSLPC=${FNSLPC:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.slope_type.tileX.nc"}
-    FNALBC=${FNALBC:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.snowfree_albedo.tileX.nc"}
-    FNVETC=${FNVETC:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.vegetation_type.tileX.nc"}
-    FNSOTC=${FNSOTC:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.soil_type.tileX.nc"}
-    FNSOCC=${FNSOCC:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.soil_color.tileX.nc"}
-    FNABSC=${FNABSC:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.maximum_snow_albedo.tileX.nc"}
-    FNSMCC=${FNSMCC:-"${FIXglobal}/am/global_soilmgldas.statsgo.t${JCAP}.${LONB}.${LATB}.grb"}
+    if [[ "${DO_STRETCH:-NO}" == "YES" ]]; then
+        FNALBC2=${FNALBC2:-"${FIXorog}/${CASE}/sfc/${CASE}.facsf.tileX.nc"}
+        FNTG3C=${FNTG3C:-"${FIXorog}/${CASE}/sfc/${CASE}.substrate_temperature.tileX.nc"}
+        FNVEGC=${FNVEGC:-"${FIXorog}/${CASE}/sfc/${CASE}.vegetation_greenness.tileX.nc"}
+        FNMSKH=${FNMSKH:-"${FIXglobal}/am/global_slmask.t1534.3072.1536.grb"}
+        FNVMNC=${FNVMNC:-"${FIXorog}/${CASE}/sfc/${CASE}.vegetation_greenness.tileX.nc"}
+        FNVMXC=${FNVMXC:-"${FIXorog}/${CASE}/sfc/${CASE}.vegetation_greenness.tileX.nc"}
+        FNSLPC=${FNSLPC:-"${FIXorog}/${CASE}/sfc/${CASE}.slope_type.tileX.nc"}
+        FNALBC=${FNALBC:-"${FIXorog}/${CASE}/sfc/${CASE}.snowfree_albedo.tileX.nc"}
+        FNVETC=${FNVETC:-"${FIXorog}/${CASE}/sfc/${CASE}.vegetation_type.tileX.nc"}
+        FNSOTC=${FNSOTC:-"${FIXorog}/${CASE}/sfc/${CASE}.soil_type.tileX.nc"}
+        FNSOCC=${FNSOCC:-"${FIXorog}/${CASE}/sfc/${CASE}.soil_color.tileX.nc"}
+        FNABSC=${FNABSC:-"${FIXorog}/${CASE}/sfc/${CASE}.maximum_snow_albedo.tileX.nc"}
+        FNSMCC=${FNSMCC:-"${FIXglobal}/am/global_soilmgldas.statsgo.t${JCAP}.${LONB}.${LATB}.grb"}
+    else
+        FNALBC2=${FNALBC2:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.facsf.tileX.nc"}
+        FNTG3C=${FNTG3C:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.substrate_temperature.tileX.nc"}
+        FNVEGC=${FNVEGC:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.vegetation_greenness.tileX.nc"}
+        FNMSKH=${FNMSKH:-"${FIXglobal}/am/global_slmask.t1534.3072.1536.grb"}
+        FNVMNC=${FNVMNC:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.vegetation_greenness.tileX.nc"}
+        FNVMXC=${FNVMXC:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.vegetation_greenness.tileX.nc"}
+        FNSLPC=${FNSLPC:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.slope_type.tileX.nc"}
+        FNALBC=${FNALBC:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.snowfree_albedo.tileX.nc"}
+        FNVETC=${FNVETC:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.vegetation_type.tileX.nc"}
+        FNSOTC=${FNSOTC:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.soil_type.tileX.nc"}
+        FNSOCC=${FNSOCC:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.soil_color.tileX.nc"}
+        FNABSC=${FNABSC:-"${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.maximum_snow_albedo.tileX.nc"}
+        FNSMCC=${FNSMCC:-"${FIXglobal}/am/global_soilmgldas.statsgo.t${JCAP}.${LONB}.${LATB}.grb"}
+    fi
 
     # If the appropriate resolution fix file is not present, use the highest resolution available (T1534)
     if [[ ! -f "${FNSMCC}" ]]; then
@@ -457,7 +473,11 @@ FV3_predet() {
     # Files for orography, GWD tiles
     local tt
     for ((tt = 1; tt <= ntiles; tt++)); do
-        cpreq "${FIXorog}/${CASE}/${CASE}.mx${OCNRES}_oro_data.tile${tt}.nc" "${DATA}/INPUT/oro_data.tile${tt}.nc"
+	if [[ "${DO_STRETCH:-NO}" == "YES" ]]; then
+            cpreq "${FIXorog}/${CASE}/${CASE}_oro_data.tile${tt}.nc" "${DATA}/INPUT/oro_data.tile${tt}.nc"
+        else
+            cpreq "${FIXorog}/${CASE}/${CASE}.mx${OCNRES}_oro_data.tile${tt}.nc" "${DATA}/INPUT/oro_data.tile${tt}.nc"
+	fi
         cpreq "${FIXorog}/${CASE}/${CASE}_grid.tile${tt}.nc" "${DATA}/INPUT/${CASE}_grid.tile${tt}.nc"
         cpreq "${FIXugwd}/${CASE}/${CASE}_oro_data_ls.tile${tt}.nc" "${DATA}/INPUT/oro_data_ls.tile${tt}.nc"
         cpreq "${FIXugwd}/${CASE}/${CASE}_oro_data_ss.tile${tt}.nc" "${DATA}/INPUT/oro_data_ss.tile${tt}.nc"

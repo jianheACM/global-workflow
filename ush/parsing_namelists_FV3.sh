@@ -141,7 +141,7 @@ FV3_namelists() {
     local HORD_MT=${hord_mt}
     local HORD_VT=${hord_xx}
     local HORD_TM=${hord_xx}
-    local HORD_DP=${hord_dp}
+    local HORD_DP=${hord_dp:-"8"}
     local HORD_TR=${hord_tr:-"8"}
     local ADJUST_DRY_MASS=${adjust_dry_mass:-".true."}
     local DRY_MASS=${dry_mass:-98320.0}
@@ -156,6 +156,10 @@ FV3_namelists() {
     local ATM_IGNORE_RST_CKSUM=.false.
     local INCREMENT_FILE_ON_NATIVE_GRID=${increment_file_on_native_grid:-.false.}
 
+    local DO_SCHMIDT=${do_schmidt:-".false."}
+    local TARGET_LAT=${target_lat:-"38.5"}
+    local TARGET_LON=${target_lON:-"-97.5"}
+    local STRETCH_FAC=${stretch_fac:-"2."}
     local FILTERED_TERRAIN=${filtered_terrain}
     local NPZP=${LEVS} #levp
     local GFS_DWINDS=${gfs_dwinds}
