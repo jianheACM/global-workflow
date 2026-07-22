@@ -70,7 +70,7 @@ ${LINK_OR_COPY} "${HOMEgfs}/versions/run.${machine}.ver" "${HOMEgfs}/versions/ru
 #------------------------------
 case "${machine}" in
   "wcoss2")   FIX_DIR="/lfs/h2/emc/global/noscrub/emc.global/FIX/fix" ;;
-  "hera")     FIX_DIR="/scratch1/NCEPDEV/global/glopara/fix" ;;
+  "hera")     FIX_DIR="/scratch3/NCEPDEV/global/role.glopara/fix" ;;
   "orion")    FIX_DIR="/work/noaa/global/glopara/fix" ;;
   "hercules") FIX_DIR="/work/noaa/global/glopara/fix" ;;
   "jet")      FIX_DIR="/lfs4/HFIP/hfv3gfs/glopara/git/fv3gfs/fix" ;;

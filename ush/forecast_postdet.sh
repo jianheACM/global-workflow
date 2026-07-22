@@ -255,12 +255,19 @@ FV3_out() {
   # TODO: verify the above statement since RM found that it did!
   # TODO: For other components, this is only for gfs/gefs - check to see if this should also have this 
   if [[ "${COPY_FINAL_RESTARTS}" == "YES" ]]; then 
-    echo "Copying FV3 restarts for 'RUN=${RUN}' at the end of the forecast segment: ${forecast_end_cycle}"
-    for fv3_restart_file in "${fv3_restart_files[@]}"; do
-      restart_file="${forecast_end_cycle:0:8}.${forecast_end_cycle:8:2}0000.${fv3_restart_file}"
-      ${NCP} "${DATArestart}/FV3_RESTART/${restart_file}" \
-             "${COM_ATMOS_RESTART}/${restart_file}"
-    done
+    local restart_date #clyu
+    restart_date=$(date --utc -d "${current_cycle:0:8} ${current_cycle:8:2} + ${restart_interval} hours" +%Y%m%d%H) #clyu
+    while (( restart_date <= forecast_end_cycle )); do #clyu
+       echo "Copying FV3 restarts for 'RUN=${RUN}' at ${restart_date}" #clyu
+       #echo "Copying FV3 restarts for 'RUN=${RUN}' at the end of the forecast segment: ${forecast_end_cycle}" #clyu
+       for fv3_restart_file in "${fv3_restart_files[@]}"; do
+          restart_file="${restart_date:0:8}.${restart_date:8:2}0000.${fv3_restart_file}" #clyu
+          #restart_file="${forecast_end_cycle:0:8}.${forecast_end_cycle:8:2}0000.${fv3_restart_file}"
+          ${NCP} "${DATArestart}/FV3_RESTART/${restart_file}" \
+                 "${COM_ATMOS_RESTART}/${restart_file}"
+       done
+       restart_date=$(date --utc -d "${restart_date:0:8} ${restart_date:8:2} + ${restart_interval} hours" +%Y%m%d%H) #clyu
+    done #clyu
   fi 
   echo "SUB ${FUNCNAME[0]}: Output data for FV3 copied"
 }

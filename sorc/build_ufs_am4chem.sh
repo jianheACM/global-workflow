@@ -5,7 +5,8 @@ cwd=$(pwd)
 
 # Default settings
 APP="S2SWA"
-CCPP_SUITES="FV3_GFS_v17_p8_ugwpv1_catchem,FV3_GFS_v17_p8_ugwpv1_catchem_gfdlam4,FV3_GFS_v17_p8_ugwpv1_catchem_am4test,FV3_GFS_v17_p8_ugwpv1_catchem_nodep,FV3_GFS_v17_coupled_p8_ugwpv1_catchem"  # TODO: does the g-w need to build with all these CCPP_SUITES?
+#CCPP_SUITES="FV3_GFS_v17_p8_ugwpv1_catchem,FV3_GFS_v17_p8_ugwpv1_catchem_gfdlam4,FV3_GFS_v17_p8_ugwpv1_catchem_am4test,FV3_GFS_v17_p8_ugwpv1_catchem_nodep,FV3_GFS_v17_coupled_p8_ugwpv1_catchem"  # TODO: does the g-w need to build with all these CCPP_SUITES?
+CCPP_SUITES="FV3_GFS_v17_p8_ugwpv1_catchem,FV3_GFS_v17_p8_ugwpv1_catchem_gfdlam4,FV3_GFS_v17_coupled_p8_ugwpv1_catchem"
 PDLIB="ON"
 
 while getopts ":da:fj:vw" option; do

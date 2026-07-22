@@ -144,6 +144,7 @@
 "gfs_phys",    "h2_loss",     "h2_loss",      "fv3_history",    "all",  .false.,  "none",  2
 
 # chemical diag 2D variables
+"gfs_phys",    "ptrop",       "ptrop",        "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "ebio_isop",   "ebio_isop",    "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "ebio_terp",   "ebio_terp",    "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "lnox",        "lnox",         "fv3_history2d",  "all",  .false.,  "none",  2

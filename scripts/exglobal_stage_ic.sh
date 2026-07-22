@@ -61,7 +61,8 @@ for MEMDIR in "${MEMDIR_ARRAY[@]}"; do
     [[ ! -d "${COM_ATMOS_INPUT}" ]] && mkdir -p "${COM_ATMOS_INPUT}"
     #src="$ICSORG/${CDUMP}.${PDY}/${cyc}/atmos/INPUT/gfs_ctrl.nc"
     #JianHe:
-    src="$ICSORG/${CDUMP}.${PDY}/${cyc}/model_data/atmos/input/gfs_ctrl.nc"
+    #src="$ICSORG/${CDUMP}.${PDY}/${cyc}/model_data/atmos/input/gfs_ctrl.nc"
+    src="$ICSORG/${PDY}00/${CDUMP}/${CASE}/INPUT/gfs_ctrl.nc"
     #src="${BASE_CPLIC}/${CPL_ATMIC:-}/${PDY}${cyc}/${MEMDIR}/atmos/gfs_ctrl.nc"
     tgt="${COM_ATMOS_INPUT}/gfs_ctrl.nc"
     ${NCP} "${src}" "${tgt}"
@@ -72,7 +73,8 @@ for MEMDIR in "${MEMDIR_ARRAY[@]}"; do
       for ((tt = 1; tt <= ntiles; tt++)); do
         #src="$ICSORG/${CDUMP}.${PDY}/${cyc}/atmos/INPUT/${ftype}.tile${tt}.nc"
 	#JianHe:
-	src="$ICSORG/${CDUMP}.${PDY}/${cyc}/model_data/atmos/input/${ftype}.tile${tt}.nc"
+	#src="$ICSORG/${CDUMP}.${PDY}/${cyc}/model_data/atmos/input/${ftype}.tile${tt}.nc"
+	 src="$ICSORG/${PDY}00/${CDUMP}/${CASE}/INPUT/${ftype}.tile${tt}.nc"
         #src="${BASE_CPLIC}/${CPL_ATMIC:-}/${PDY}${cyc}/${MEMDIR}/atmos/${ftype}.tile${tt}.nc"
         tgt="${COM_ATMOS_INPUT}/${ftype}.tile${tt}.nc"
         ${NCP} "${src}" "${tgt}"

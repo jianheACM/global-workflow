@@ -36,7 +36,7 @@ class Host:
         container = os.getenv('SINGULARITY_NAME', None)
         pw_csp = os.getenv('PW_CSP', None)
 
-        if os.path.exists('/scratch1/NCEPDEV'):
+        if os.path.exists('/scratch3/NCEPDEV'):
             machine = 'HERA'
         elif os.path.exists('/work/noaa'):
             if os.path.exists('/apps/other'):

@@ -33,7 +33,7 @@ status=$?
 
 ###############################################################
 export DATA="$RUNDIR/${RUN}fcst.${PDY:-}${cyc}"
-export FIXgfs_2022="/scratch1/BMC/gsd-fv3-dev/lzhang/fix_orog_20220805"
+export FIXgfs_2022="/scratch3/BMC/gsd-fv3-dev/lzhang/fix_orog_20220805"
 
 [[ ! -d $DATA ]] && mkdir -p $DATA
 cd $DATA || exit 10
@@ -83,7 +83,7 @@ for n in $(seq 1 6); do
     tiledir=tile${n}
     #mkdir -p $tiledir
     #cd $tiledir
-    EMIINPUT=/scratch1/BMC/gsd-fv3-dev/Haiqin.Li/Develop/emi_${CASE}
+    EMIINPUT=/scratch3/BMC/gsd-fv3-dev/Haiqin.Li/Develop/emi_${CASE}
 #    if [ ${EMIYEAR} -gt 2018 ];  then
     eval $NLN $EMIINPUT/EMI_$EMIYEAR/$SMONTH/emi_data.tile${n}.nc .
 #    else
@@ -99,8 +99,9 @@ for n in $(seq 1 6); do
       echo "Link anthro emissions for AM4"
       rm -f *emi_data.tile${n}nc
       #Need to prepare emissions before model run!!!
-      #EMIINPUT_am4=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/Emissions/emi_${CASE}  (old)
-      EMIINPUT_am4=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/CEDS_Emis/AM4/emi_${CASE}
+      #EMIINPUT_am4=/scratch4/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/Emissions/emi_${CASE}  (old)
+      #EMIINPUT_am4=/scratch4/BMC/rcm1/clyu/AiRMAPS_2026_forecast/CEDS_Emis/AM4_new/emi_${CASE}
+      EMIINPUT_am4=/scratch4/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/CEDS_Emis/AM4_new/emi_${CASE}
       eval $NLN $EMIINPUT_am4/EMI_$SYEAR/$SMONTH/emi_data.tile${n}.nc .
 
       echo "Link 3D emission files for AM4"
@@ -123,17 +124,18 @@ for n in $(seq 1 6); do
     fi
     if [ $EMITYPE -eq 2 ]; then
 
-      #NCGB=/scratch1/BMC/gsd-fv3-dev/Haiqin.Li/Develop/emi_${CASE}/GBBEPx
+      #NCGB=/scratch3/BMC/gsd-fv3-dev/Haiqin.Li/Develop/emi_${CASE}/GBBEPx
       #JianHe:
       if [[ "${DO_AM4CHEM:-NO}" == "YES" ]]; then
           echo "Link fire emissions for AM4"
-      	  NCGB=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/CEDS_Emis/AM4/emi_${CASE}/FIRE_$SYEAR
+      	  #NCGB=/scratch4/BMC/rcm1/clyu/AiRMAPS_2026_forecast/Regrid_GBBEPx/outputs/emi_${CASE}/FIRE_$SYEAR
+	  NCGB=/scratch3/BMC/rcm2/clyu/DART-FIRE/Regrid_GBBEPx/outputs/emi_${CASE}/FIRE_$SYEAR
       else
-	  NCGB=/scratch1/BMC/gsd-fv3-dev/Haiqin.Li/Develop/emi_${CASE}/GBBEPx
+	  NCGB=/scratch3/BMC/gsd-fv3-dev/Haiqin.Li/Develop/emi_${CASE}/GBBEPx
       fi
 
-      PUBEMI=/scratch2/BMC/public/data/grids/sdsu/emissions
-      #PUBEMI=/scratch2/NCEPDEV/stmp1/Li.Pan/tmp
+      PUBEMI=/scratch4/BMC/public/data/grids/nesdis/GBBEPx/${CASE} #clyu: accroding to GSL
+      #PUBEMI=/scratch4/NCEPDEV/stmp1/Li.Pan/tmp
     
       emiss_date1="$SYEAR$SMONTH$SDAY" # default value for branch testing      
       echo "emiss_date: $emiss_date1"
@@ -145,14 +147,14 @@ for n in $(seq 1 6); do
         echo "NetCDF GBBEPx File $NCGB/${emiss_date1}/FIRE_GBBEPx_data.tile${n}.nc  exists, just link."
       else
          if [ ${emiss_date1} -le 20240501 ]; then 
-          DIRGB=/scratch2/NCEPDEV/naqfc/Kate.Zhang/GBBPEx_v004/$SYEAR
+          DIRGB=/scratch4/NCEPDEV/naqfc/Kate.Zhang/GBBPEx_v004/$SYEAR
            BC=GBBEPxemis-BC-${CASE}GT${n}_v4r0_${emiss_date1}.bin
            OC=GBBEPxemis-OC-${CASE}GT${n}_v4r0_${emiss_date1}.bin
            PM25=GBBEPxemis-PM25-${CASE}GT${n}_v4r0_${emiss_date1}.bin
            SO2=GBBEPxemis-SO2-${CASE}GT${n}_v4r0_${emiss_date1}.bin
            FRP=GBBEPxFRP-MeanFRP-${CASE}GT${n}_v4r0_${emiss_date1}.bin
          else
-          DIRGB=/scratch1/BMC/gsd-fv3-dev/lzhang/GBBEPx
+          DIRGB=/scratch3/BMC/gsd-fv3-dev/lzhang/GBBEPx
            BC=GBBEPxemis-BC-${CASE}GT${n}_v5r0_${emiss_date1}.bin
            OC=GBBEPxemis-OC-${CASE}GT${n}_v5r0_${emiss_date1}.bin
            SO2=GBBEPxemis-SO2-${CASE}GT${n}_v5r0_${emiss_date1}.bin
@@ -212,14 +214,7 @@ EOF
         echo "NetCDF GBBEPx File $NCGB/${SYEAR}${nmonth}${nday}/FIRE_GBBEPx_data.tile${n}.nc  exists, just link."
       else
          if [ ${emiss_date1} -le 20240501 ]; then
-         DIRGB=/scratch2/NCEPDEV/naqfc/Kate.Zhang/GBBPEx_v004/$SYEAR
-          BC=GBBEPxemis-BC-${CASE}GT${n}_v4r0_${SYEAR}${nmonth}${nday}.bin
-          OC=GBBEPxemis-OC-${CASE}GT${n}_v4r0_${SYEAR}${nmonth}${nday}.bin
-          PM25=GBBEPxemis-PM25-${CASE}GT${n}_v4r0_${SYEAR}${nmonth}${nday}.bin
-          SO2=GBBEPxemis-SO2-${CASE}GT${n}_v4r0_${SYEAR}${nmonth}${nday}.bin
-          FRP=GBBEPxFRP-MeanFRP-${CASE}GT${n}_v4r0_${SYEAR}${nmonth}${nday}.bin
-         else
-	 DIRGB=/scratch1/BMC/gsd-fv3-dev/lzhang/GBBEPx 
+         DIRGB=/scratch3/BMC/gsd-fv3-dev/lzhang/GBBEPx 
            BC=GBBEPxemis-BC-${CASE}GT${n}_v5r0_${emiss_date1}.bin
            OC=GBBEPxemis-OC-${CASE}GT${n}_v5r0_${emiss_date1}.bin
            SO2=GBBEPxemis-SO2-${CASE}GT${n}_v5r0_${emiss_date1}.bin
@@ -289,31 +284,31 @@ EOF
       echo "Link inputdata required for AM4"
       if [ ${SYEAR} -eq 2016 ];  then
 	if [ ${SMONTH} -lt 7 ];  then
-	  ICINPUT=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/ICs/${CASE}/v20160101/final
+	  ICINPUT=/scratch4/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/ICs/v20160101/final
 	else
-          ICINPUT=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/ICs/${CASE}/v20160701/final
+          ICINPUT=/scratch4/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/ICs/v20160701/final
 	fi
       elif [ ${SYEAR} -eq 2017 ];  then
         if [ ${SMONTH} -eq 1 ];  then
-          ICINPUT=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/ICs/${CASE}/v20170101/final
+          ICINPUT=/scratch4/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/ICs/v20170101/final
         else
-          ICINPUT=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/ICs/${CASE}/v20170901/final
+          ICINPUT=/scratch4/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/ICs/v20170901/final
         fi
       else
-        ICINPUT=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/ICs/${CASE}/v20180401/final
+        ICINPUT=/scratch4/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/ICs/v20170401/final #clyu: 2018 NOT EXIST CHANGED TO 2017
       fi
 
       eval $NLN $ICINPUT/chemic_data.tile${n}.nc .
 
       #
-      AGEINPUT=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/Other/${CASE}
+      AGEINPUT=/scratch4/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/Other/${CASE}
       eval $NLN $AGEINPUT/dfdage3_data.tile${n}.nc .
 
       # ddep for AM4
-      DDEPINPUT=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/Depvel/${CASE}
+      DDEPINPUT=/scratch4/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/Depvel/${CASE}
       eval $NLN $DDEPINPUT/$SMONTH/depvel_data.tile${n}.nc .
 
-      JINPUT=/scratch2/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/Jval
+      JINPUT=/scratch4/BMC/rcm1/jhe/fv3/ufs-chem/inputdata/AM4_input/Jval
       eval $NLN $JINPUT/* .
     fi
 
