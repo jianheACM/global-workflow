@@ -80,6 +80,8 @@
 "gfs_dyn",     "omga",         "omga",         "fv3_history",    "all",  .false.,  "none",  2
 "gfs_dyn",     "ps",          "pressfc",      "fv3_history",    "all",  .false.,  "none",  2
 "gfs_dyn",     "hs",          "hgtsfc",       "fv3_history",    "all",  .false.,  "none",  2
+"gfs_phys",    "nifa",        "nifa",         "fv3_history",    "all",  .false.,  "none",  2
+"gfs_phys",    "nwfa",        "nwfa",         "fv3_history",    "all",  .false.,  "none",  2
 "gfs_phys",    "refl_10cm",   "refl_10cm",    "fv3_history",    "all",  .false.,  "none",  2
 
 "gfs_phys",    "cldfra",        "cldfra",        "fv3_history2d",  "all",  .false.,  "none",  2

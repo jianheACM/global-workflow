@@ -1,0 +1,54 @@
+#! /usr/bin/env bash
+
+#================================================================================
+# CATChem settings
+#================================================================================
+
+# Turn off warnings about unused variables
+# shellcheck disable=SC2034
+
+echo "BEGIN: config.catchem"
+
+# Path to aerosol input data (same workflow-relative convention as config.aero)
+export AERO_INPUTS_DIR="${AERO_INPUTS_DIR:-${HOMEglobal}/fix/chem/Emission_data}"
+
+# CATChem diagnostic and field tables
+export AERO_DIAG_TABLE="${PARMglobal}/ufs/fv3/diag_table.catchem"
+export AERO_FIELD_TABLE="${PARMglobal}/ufs/fv3/field_table.catchem"
+
+# Biomass burning: EMITYPE=1 MODIS, EMITYPE=2 GBBEPx
+# Anthropogenic emissions: EMIYEAR=2014 or 2019 (CEDS)
+export EMITYPE="${EMITYPE:-2}"
+export EMIYEAR="${EMIYEAR:-2019}"
+
+# Aerosol convective scavenging factors
+# Element syntax: '<tracer_name>:<factor>'; * sets the default for all tracers
+#P8: export fscav_aero="'*:0.2','so2:0.1','msa:0.1','dms:0.1','sulf:0.4','bc1:0.3','bc2:0.3','oc1:0.1','oc2:0.1','seas1:0.45','seas2:0.45','seas3:0.45','seas4:0.45','seas5:0.45','dust1:0.3','dust2:0.3','dust3:0.3','dust4:0.3','dust5:0.3'"
+#may export fscav_aero="'*:0.2','so2:0.','msa:0.1','dms:0.1','sulf:0.5','bc1:0.4','bc2:0.4','oc1:0.2','oc2:0.2','seas1:0.55','seas2:0.55','seas3:0.55','seas4:0.55','seas5:0.55','dust1:0.3','dust2:0.3','dust3:0.3','dust4:0.3','dust5:0.3'"
+#2024 export fscav_aero="'*:0.2','so2:0.','msa:0.1','dms:0.1','sulf:0.5','bc1:0.4','bc2:0.4','oc1:0.4','oc2:0.4','seas1:0.55','seas2:0.55','seas3:0.55','seas4:0.55','seas5:0.55','dust1:0.3','dust2:0.3','dust3:0.3','dust4:0.3','dust5:0.3'"
+#export fscav_aero="'*:0.2','so2:0.','msa:0.1','dms:0.1','sulf:0.7','bc1:0.4','bc2:0.4','oc1:0.4','oc2:0.4','seas1:0.55','seas2:0.55','seas3:0.55','seas4:0.55','seas5:0.55','dust1:0.3','dust2:0.3','dust3:0.3','dust4:0.3','dust5:0.3'"
+#HR3-paper 
+#export fscav_aero="'*:0.2','so2:0.1','msa:0.1','dms:0.1','sulf:0.8','bc1:0.4','bc2:0.4','oc1:0.4','oc2:0.4','seas1:0.55','seas2:0.55','seas3:0.55','seas4:0.55','seas5:0.55','dust1:0.3','dust2:0.3','dust3:0.3','dust4:0.3','dust5:0.3'"
+
+#v2: export fscav_aero="'*:0.2','sulf:0.8','bc1:0.4','bc2:0.4','oc1:0.4','oc2:0.4','seas1:0.55','seas2:0.55','seas3:0.55','seas4:0.55','seas5:0.55','dust1:1.','dust2:1.','dust3:1.','dust4:1.','dust5:1.'"
+export fscav_aero="'*:0.3','sulf:1.0','bc1:0.4','bc2:0.4','oc1:0.3','oc2:0.3','seas1:0.55','seas2:0.55','seas3:0.55','seas4:0.55','seas5:0.55','dust1:1.','dust2:1.','dust3:1.','dust4:1.','dust5:1.'"
+
+#v1: export fscav_aero="'*:0.2','so2:0.2','msa:0.2','dms:0.2','sulf:0.6','bc1:0.3','bc2:0.3','oc1:0.2','oc2:0.1','seas1:0.8','seas2:0.8','seas3:0.8','seas4:0.8','seas5:0.8','dust1:0.55','dust2:0.55','dust3:0.55','dust4:0.55','dust5:0.55'"
+
+ # Inline Thompson9
+#export fscav_aero="'*:0.3',so4:1.0','bc1:0.2','bc2:0.2','oc1:0.9','oc2:0.9','seas1:0.6','seas2:0.6','seas3:0.6','seas4:0.6','seas5:0.6','dust1:1.0','dust2:1.0','dust3:1.0','dust4:1.0','dust5:1.0'"
+
+# Dust and sea-salt emissions
+export dust_opt_cplchp="${dust_opt_cplchp:-5}"
+export dust_alpha_catc="${dust_alpha_catc:-0.04}"
+export dust_gamma_catc="${dust_gamma_catc:-1.0}"
+export seas_emis_scale="${seas_emis_scale:-1.,1.,1.,1.,1.}"
+
+# Large-scale wet deposition: 0 = inline Thompson, 1 = offline GOCART
+export wetdep_ls_cpl="${wetdep_ls_cpl:-0}"
+
+# Number of diagnostic aerosol tracers
+export dnats_aero=0
+
+echo "END: config.catchem"
+

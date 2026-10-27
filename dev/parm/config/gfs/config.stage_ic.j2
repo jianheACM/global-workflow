@@ -10,10 +10,13 @@ source "${EXPDIR}/config.resources" stage_ic
 if [[ "${DO_FETCH_HPSS^^}" =~ "Y" || "${DO_FETCH_LOCAL^^}" =~ "Y" ]]; then
     export ICSDIR="${DATAROOT}"  # fetch untars data into DATAROOT
 else
-    export ICSDIR="{{ ICSDIR }}" # User provided ICSDIR; blank if not provided
+    #export ICSDIR="" # User provided ICSDIR; blank if not provided
+    export ICSDIR="/scratch3/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot/GCF_C384_CCPP"
 fi
 
-export BASE_IC="{{ BASE_IC }}" # Platform home for staged ICs
+export ICSORG="/scratch3/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot/ICs"
+
+export BASE_IC="/scratch3/NCEPDEV/global/role.glopara/data/ICSDIR" # Platform home for staged ICs
 
 export STAGE_IC_YAML_TMPL="${PARMglobal}/stage/master_${NET}.yaml.j2"
 

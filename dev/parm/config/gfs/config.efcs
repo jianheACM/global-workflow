@@ -23,6 +23,9 @@ fi
 if [[ "${DO_AERO_FCST}" == "YES" ]]; then
     string="${string} --gocart"
 fi
+if [[ "${DO_CATChem}" == "YES" ]]; then
+    string="${string} --catchem"
+fi
 # We are counting on $string being multiple arguments
 # shellcheck disable=SC2086
 source "${EXPDIR}/config.ufs" ${string}

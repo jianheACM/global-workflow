@@ -1,0 +1,69 @@
+#! /usr/bin/env bash
+
+set -x
+
+source "${HOMEglobal}/ush/jjob_header.sh" -e "stage_ic" -c "base stage_ic"
+
+#{% if false %}
+
+source "${HOMEglobal}/ush/jjob_standard_vars.sh"
+
+#{% else %}
+
+#{% include jjob_var_setup.j2 %}
+
+#{% endif %}
+
+source "${USHglobal}/jjob_shell_setup.sh"
+
+# Set strict mode
+source "${USHglobal}/set_strict.sh"
+
+# Setup Python path
+PYTHONPATH="${HOMEglobal}/ush/python${PYTHONPATH:+:${PYTHONPATH}}"
+export PYTHONPATH
+
+# ----------------------------------------------------------------------
+# S2S-specific setup
+#
+# Restart conditions for a GFS cycle come from GDAS
+# ----------------------------------------------------------------------
+# Restart conditions from previous cycle
+# Follow the new global-workflow rRUN logic
+rCDUMP="${RUN}"
+
+if [[ "${RUN}" == "gfs" || \
+      "${RUN}" == "gcafs" || \
+      "${RUN}" == "gcdas" ]]; then
+    rCDUMP="gdas"
+fi
+
+export rCDUMP
+
+# ----------------------------------------------------------------------
+# Execute S2S IC staging
+# ----------------------------------------------------------------------
+"${SCRglobal}/exglobal_stage_ic_s2s.sh" && true
+
+err=$?
+
+###############################################################
+# Check for errors
+###############################################################
+if [[ "${err}" -ne 0 ]]; then
+    err_exit "Unable to stage S2S ICs to ${ROTDIR}; ABORT!"
+fi
+
+##########################################
+# Remove temporary working directory
+##########################################
+cd "${DATAROOT}" || (
+    echo "${DATAROOT} does not exist. ABORT!"
+    exit 1
+)
+
+if [[ "${KEEPDATA}" == "NO" ]]; then
+    rm -rf "${DATA}"
+fi
+
+exit 0

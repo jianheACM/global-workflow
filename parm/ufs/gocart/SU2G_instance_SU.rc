@@ -27,6 +27,14 @@ fscav: 0.0  0.0  0.4  0.4
 # Options: 'gocart' or 'ufs'
 settling_scheme: 'ufs'
 
+# Wet Removal Scheme Option | gocart, ufs
+wet_removal_scheme: ufs
+ 
+# Rainout efficiency per bin for wet_removal_scheme == ufs                                                                                                 
+fwet_ice: 0.001                                                                                                                   
+fwet_snow: 0.001 
+fwet_rain: 0.8
+
 # Dry particle radius [um], used for settling
 particle_radius_microns: 0.0 0.0 0.35 0.0
 

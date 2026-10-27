@@ -90,6 +90,7 @@ cpl=${cpl:-.false.}
 cplflx=${cplflx:-.false.} # default off,import from outside source
 cplwav=${cplwav:-.false.} # ? how to control 1-way/2-way?
 cplchm=${cplchm:-.false.} # Chemistry model
+cplchp=${cplchp:-.false.} # CATChem (UFS-Chem)
 cplice=${cplice:-.false.} # ICE model
 
 OCNTIM=${OCNTIM:-1800}
@@ -157,6 +158,9 @@ if [[ "${cplice}" == ".true." ]]; then
 fi
 if [[ "${cplchm}" == ".true." ]]; then
     GOCART_rc
+fi
+if [[ "${cplchp}" == ".true." ]]; then
+    CATChem_rc
 fi
 UFS_configure
 echo "MAIN: Name lists and model configuration written"

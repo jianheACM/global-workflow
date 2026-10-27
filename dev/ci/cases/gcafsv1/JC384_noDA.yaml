@@ -1,0 +1,23 @@
+experiment:
+  net: gcafs
+  mode: cycled
+  pslot: {{ 'pslot' | getenv }}
+  app: ATMA
+  resdetatmos: 384
+  comroot: {{ 'RUNTESTS' | getenv }}/COMROOT
+  expdir: {{ 'RUNTESTS' | getenv }}/EXPDIR
+  icsdir: {{ BASE_IC }}/C384C192/20240610
+  idate: 2023040118
+  edate: 2023040206
+  nens: 0
+  interval: 12
+  start: cold
+  yaml: {{ HOMEglobal }}/dev/ci/cases/yamls/gcafs_cycled_noDA_defaults_ci.yaml
+
+workflow:
+  engine: rocoto
+  rocoto:
+    maxtries: 2
+    cyclethrottle: 3
+    taskthrottle: 25
+    verbosity: 2

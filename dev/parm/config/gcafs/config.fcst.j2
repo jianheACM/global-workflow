@@ -213,6 +213,12 @@ case ${imp_physics} in
         export random_clds=".false."
         export effr_in=".true."
         export ltaerosol=".false."
+        export mraerosol=".false."
+        export gtaerosol=".false."
+        if [[ "${mraerosol}" == .true. ]] ||  [[ "${gtaerosol}" == .true. ]]; then
+          export dnats=2
+          export FIELD_TABLE="${PARMglobal}/ufs/fv3/field_table_thompson_gtaero_tke${tbp}" 
+        fi
         export lradar=".true."
         export ttendlim="-999"
         export dt_inner=$((DELTIM/2))

@@ -22,6 +22,9 @@ fi
 if [[ "${DO_AERO_FCST}" == "YES" ]]; then
     string="${string} --gocart"
 fi
+if [[ "${DO_CATChem}" == "YES" ]]; then
+    string="${string} --catchem"
+fi
 # We are counting on $string being multiple arguments
 # shellcheck disable=SC2086
 source "${EXPDIR}/config.ufs" ${string}
@@ -157,7 +160,7 @@ tbp=""
 if [[ "${progsigma}" == ".true." ]]; then tbp="_progsigma" ; fi
 
 # Radiation options
-if [[ "${DO_AERO_FCST}" == "YES" && "${RUN}" =~ "gfs" ]]; then
+if [[ "${DO_AERO_FCST}" == "YES" && "${RUN}" =~ "gfs" ]] || [[ "${DO_CATChem}" == "YES" && "${DO_OCN}" == "YES" ]]; then  #lzhang
     export IAER=2011  # spectral band mapping method for aerosol optical properties
 else
     export IAER=1011
@@ -205,6 +208,12 @@ case ${imp_physics} in
         export random_clds=".false."
         export effr_in=".true."
         export ltaerosol=".false."
+        export mraerosol=".false."
+        export gtaerosol=".false."
+        if [[ "${mraerosol}" == .true. ]] ||  [[ "${gtaerosol}" == .true. ]]; then
+          export dnats=2
+          export FIELD_TABLE="${PARMglobal}/ufs/fv3/field_table_thompson_gtaero_tke${tbp}" 
+        fi
         export lradar=".true."
         export ttendlim="-999"
         export dt_inner=$((DELTIM/2))

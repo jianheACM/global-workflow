@@ -31,3 +31,7 @@
   path = sorc/nexus.fd
   url = https://github.com/NOAA-OAR-ARL/NEXUS.git
   branch = feature/gcafs
+[submodule "sorc/prepchem_NC.fd"]
+  path = sorc/prepchem_NC.fd
+  url = https://github.com/zhanglikate/GSL-prep-chem
+  branch = ufschem_v1

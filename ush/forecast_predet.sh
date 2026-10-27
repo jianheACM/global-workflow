@@ -506,7 +506,7 @@ FV3_predet() {
     IAER=${IAER:-1011}
     MERRA2_6ym=${MERRA2_6ym:-".false."}
     ## merra2 aerosol climo
-    if ((IAER == 1011)); then
+    if ((IAER >= 1011)); then
         if [[ "${MERRA2_6ym}" == ".false." ]]; then
             #   local month mm
             for ((month = 1; month <= 12; month++)); do
@@ -569,8 +569,20 @@ FV3_predet() {
         # TODO: These should be replaced with ones from the ufs-weather-model when available there
         case ${NET} in
             gfs)
+             if [[ "${cplchp}" == ".false." ]]; then
                 cpreq "${PARMglobal}/post/gfs/postxconfig-NT-gfs-two.txt" "${DATA}/postxconfig-NT.txt"
                 cpreq "${PARMglobal}/post/gfs/postxconfig-NT-gfs-f00-two.txt" "${DATA}/postxconfig-NT_FH00.txt"
+             else
+                cpreq "${PARMglobal}/post/gcafs/postxconfig-NT-gcafs.txt" "${DATA}/postxconfig-NT.txt"
+                cpreq "${PARMglobal}/post/gcafs/postxconfig-NT-gcafs.txt" "${DATA}/postxconfig-NT_FH00.txt"
+                cpreq "${PARMglobal}/ufs/post_itag_catchem" "${DATA}/itag"
+                cpreq "${PARMglobal}/post/optics_luts_DUST_nasa.dat" "${DATA}/."
+                cpreq "${PARMglobal}/post/optics_luts_NITR_nasa.dat" "${DATA}/."
+                cpreq "${PARMglobal}/post/optics_luts_SALT_nasa.dat" "${DATA}/."
+                cpreq "${PARMglobal}/post/optics_luts_SOOT_nasa.dat" "${DATA}/."
+                cpreq "${PARMglobal}/post/optics_luts_SUSO_nasa.dat" "${DATA}/."
+                cpreq "${PARMglobal}/post/optics_luts_WASO_nasa.dat" "${DATA}/."
+	     fi
                 ;;
             gcafs)
                 cpreq "${PARMglobal}/post/gcafs/postxconfig-NT-gcafs.txt" "${DATA}/postxconfig-NT.txt"

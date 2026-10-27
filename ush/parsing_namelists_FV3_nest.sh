@@ -480,9 +480,10 @@ EOF
   doGP_lwscat        = ${doGP_lwscat:-".false."}
 EOF
 
-    if [[ ${cplchm} = ".true." ]]; then
+    if [[ ${cplchm} = ".true." ]] || [[ ${cplchp} = ".true." ]]; then
         cat >> "${nml_file}" << EOF
   fscav_aero = ${fscav_aero:-'*:0.0'}
+  wetdep_ls_cpl = ${wetdep_ls_cpl:-"1"}
 EOF
     fi
 
@@ -492,6 +493,7 @@ EOF
   do_skeb      = ${do_skeb:-".false."}
   frac_grid    = ${FRAC_GRID:-".true."}
   cplchm       = ${cplchm:-".false."}
+  cplchp       = ${cplchp:-".false."}
   cplflx       = ${cplflx:-".false."}
   cplice       = ${cplice:-".false."}
   cplwav       = ${cplwav:-".false."}

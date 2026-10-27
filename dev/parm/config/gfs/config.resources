@@ -11,7 +11,7 @@ if (( $# != 1 )); then
 
     echo "Must specify an input task argument to set resource variables!"
     echo "argument can be any one of the following:"
-    echo "stage_ic aerosol_init fetch"
+    echo "stage_ic aerosol_init prepchem fetch"
     echo "prep prep_sfc prepatmanlbias"
     echo "atmanlinit atmanlvar atmanlfv3inc atmanlfinal"
     echo "atmensanlinit atmensanlobs atmensanlsol atmensanlletkf atmensanlfv3inc atmensanlfinal ecen_fv3jedi analcalc_fv3jedi"
@@ -135,6 +135,14 @@ case ${step} in
     tasks_per_node=$(( max_tasks_per_node / threads_per_task ))
     NTASKS=${ntasks}
     memory="6GB"
+    ;;
+
+  "prepchem")
+    walltime="00:25:00"
+    ntasks=2
+    threads_per_task=1
+    tasks_per_node=$(( max_tasks_per_node / threads_per_task ))
+    NTASKS=${ntasks}
     ;;
 
   "waveinit")

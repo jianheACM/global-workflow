@@ -173,7 +173,8 @@ FV3_namelists() {
     local default_dt_inner=$((DELTIM / 2))
     local IOVR=${iovr:-"3"}
     local LTAEROSOL=${ltaerosol:-".false."}
-    local MRAEROSOL=.false.
+    local MRAEROSOL=${mraerosol:-".false."}
+    local GTAEROSOL=${gtaerosol:-".false."}
     local LTHAILAWARE=.false.
     local LRADAR=${lradar:-".true."}
     local TTENDLIM=${ttendlim:-"-999"}
@@ -291,6 +292,7 @@ FV3_namelists() {
     local DO_SKEB=${do_skeb:-".false."}
     local FRAC_GRID=${FRAC_GRID:-".true."}
     local CPLCHM=${cplchm:-".false."}
+    local CPLCHP=${cplchp:-".false."}
     local CPLFLX=${cplflx:-".false."}
     local CPLICE=${cplice:-".false."}
     local CPLWAV=${cplwav:-".false."}
@@ -299,13 +301,54 @@ FV3_namelists() {
     local CPLLND=${cpllnd:-".false."}
     local CPLLND2ATM=${cpllnd2atm:-".false."}
     local USE_OCEANUV=${use_oceanuv:-".false."}
-
+    local WETDEP_LS_CPL=${wetdep_ls_cpl:-"1"}
     # CPL CHM options
-    if [[ "${cplchm}" = ".true." ]]; then
+    if [[ "${cplchm}" = ".true." ]] || [[ "${cplchp}" = ".true." ]]; then
         local FSCAV_AERO=${fscav_aero:-'*:0.0'}
     else
         local FSCAV_AERO='"*:0.3","so2:0.0","msa:0.0","dms:0.0","nh3:0.4","nh4:0.6","bc1:0.6","bc2:0.6","oc1:0.4","oc2:0.4","dust1:0.6","dust2:0.6","dust3:0.6","dust4:0.6","dust5:0.6","seas1:0.5","seas2:0.5","seas3:0.5","seas4:0.5","seas5:0.5"'
     fi
+
+    # CATChem (CCPP-Chem) options
+    local HIDE_CATCHEM="!"
+    if [[ "${cplchp:-.false.}" == ".true." ]]; then
+        HIDE_CATCHEM=" "
+        : "${GBDAY:?GBDAY must be set for CATChem}"
+        : "${EMITYPE:?EMITYPE must be set for CATChem}"
+        : "${COMIN_ATMOS_INPUT:?COMIN_ATMOS_INPUT must be set for CATChem}"
+        : "${COMOUT_ATMOS_RESTART:?COMOUT_ATMOS_RESTART must be set for CATChem}"
+    fi
+    local AER_BC_OPT=${aer_bc_opt:-"1"}
+    local AER_IC_OPT=${aer_ic_opt:-"1"}
+    local AER_RA_FEEDBACK=${aer_ra_feedback:-"0"}
+    local AER_RA_FRQ=${aer_ra_frq:-"60"}
+    local AERCHEM_ONOFF=${aerchem_onoff:-"1"}
+    local BIO_EMISS_OPT=${bio_emiss_opt:-"0"}
+    local BIOMASS_BURN_CPLCHP=${biomass_burn_cplchp:-"1"}
+    local CHEM_CONV_TR=${chem_conv_tr:-"0"}
+    local CHEM_IN_OPT=${chem_in_opt:-"1"}
+    local CHEM_OPT=${chem_opt:-"300"}
+    local CHEMDT=${chemdt:-"3"}
+    local CLDCHEM_ONOFF=${cldchem_onoff:-"0"}
+    local DMSEMIS_OPT=${dmsemis_opt:-"1"}
+    local DUST_OPT_CPLCHP=${dust_opt_cplchp:-"5"}
+    local DUST_ALPHA_CATC=${dust_alpha_catc:-"3."}
+    local DUST_GAMMA_CATC=${dust_gamma_catc:-"1."}
+    local DUST_CALCDRAG=${dust_calcdrag:-"1"}
+    local EMISS_INPT_OPT=${emiss_inpt_opt:-"1"}
+    local EMISS_OPT=${GBDAY:-}
+    local GAS_BC_OPT=${gas_bc_opt:-"1"}
+    local GAS_IC_OPT=${gas_ic_opt:-"1"}
+    local GASCHEM_ONOFF=${gaschem_onoff:-"1"}
+    local KEMIT=${kemit:-"1"}
+    local PLUMERISEFIRE_FRQ_CPLCHP=${plumerisefire_frq_cplchp:-"60"}
+    local PLUMERISE_FLAG=${EMITYPE:-}
+    local SEAS_OPT_CPLCHP=${seas_opt_cplchp:-"2"}
+    local SEAS_EMIS_SCHEME=${seas_emis_scheme:-"2"}
+    local SEAS_EMIS_SCALE=${seas_emis_scale:-"1.,1.,1.,1.,1."}
+    local VERTMIX_ONOFF=${vertmix_onoff:-"1"}
+    local RESTART_INNAME="\"${COMIN_ATMOS_INPUT:-}\""
+    local RESTART_OUTNAME="\"${COMOUT_ATMOS_RESTART:-}\""
 
     local IAUFHRS=${IAUFHRS}
     local IAU_DELTHRS=${IAU_DELTHRS}
@@ -507,3 +550,4 @@ FV3_namelists() {
     atparse < "${global_template}" >> "input.nml"
 
 }
+

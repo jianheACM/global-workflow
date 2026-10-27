@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -x
+
+source "${HOMEglobal}/ush/jjob_header.sh" -e "prepchem" -c "base fcst prepchem catchem"
+
+#{% if false %}
+source "${HOMEglobal}/ush/jjob_standard_vars.sh"
+#{% else %}
+#{% include jjob_var_setup.j2 %}
+#{% endif %}
+
+source "${USHglobal}/jjob_shell_setup.sh"
+source "${USHglobal}/set_strict.sh"
+
+PYTHONPATH="${HOMEglobal}/ush/python${PYTHONPATH:+:${PYTHONPATH}}"
+export PYTHONPATH
+
+# Stage emissions in the forecast cycle directory for every PREPCHEM job.
+export PREPCHEM_WORKDIR="${DATAROOT}/${RUN}fcst.${PDY}${cyc}/prep"
+EXSCRIPT="${PREPCHEM_EXSCRIPT:-${SCRglobal}/exglobal_prepchem.sh}"
+if "${EXSCRIPT}"; then
+    :
+else
+    err=$?
+    err_exit "Error executing ${EXSCRIPT} (status ${err}), ABORT!"
+fi
+
+if [[ -e "${pgmout:-}" && -n "${pgmout:-}" ]]; then
+    cat "${pgmout}"
+fi
+
+exit 0
+

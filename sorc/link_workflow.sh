@@ -63,7 +63,7 @@ function guard() {
     local dest=$2
 
     # "." (or "dir/", "dir/.") means ln/cp place the result *inside* that
-    # directory as dest/<basename>; anything else is the literal target name.
+    # directory as dest/\<basename>; anything else is the literal target name.
     # Resolve that path so we remove exactly what the link/copy will create.
     local link_name
     if [[ "${dest}" == "." ]]; then
@@ -84,14 +84,14 @@ function guard() {
 }
 
 # this wrapper for ${LINK} calls the guard to link safely
-# usage: safe_link <src> <dest>
+# usage: safe_link \<src> \<dest>
 function safe_link() {
     guard "$1" "$2"
     ${LINK} "$1" "$2"
 }
 
 # this wrapper for ${LINK_OR_COPY} calls the guard to link/copy safely
-# usage: safe_link <src> <dest>
+# usage: safe_link \<src> \<dest>
 function safe_link_or_copy() {
     guard "$1" "$2"
     ${LINK_OR_COPY} "$1" "$2"
@@ -197,6 +197,15 @@ for dir in gfs gcafs gefs sfs; do
     safe_link_or_copy "${HOMEglobal}/sorc/upp.fd/parm/${dir}" .
 done
 
+# CATChem UPP parameter files
+for file in postxconfig-NT-CCPP-CHEM-F00.txt postxconfig-NT-CCPP-CHEM.txt \
+    postxconfig-NT-CCPP-CHEM-MET-F00.txt postxconfig-NT-CCPP-CHEM-MET.txt \
+    post_tag_gfs128_catchem post_tag_gfs65_catchem; do
+    if [[ -f "${HOMEglobal}/sorc/upp.fd/parm/${file}" ]]; then
+        safe_link_or_copy "${HOMEglobal}/sorc/upp.fd/parm/${file}" .
+    fi
+done
+
 for file in optics_luts_DUST.dat optics_luts_DUST_nasa.dat optics_luts_NITR_nasa.dat \
     optics_luts_SALT.dat optics_luts_SALT_nasa.dat optics_luts_SOOT.dat optics_luts_SOOT_nasa.dat \
     optics_luts_SUSO.dat optics_luts_SUSO_nasa.dat optics_luts_WASO.dat optics_luts_WASO_nasa.dat; do
@@ -231,6 +240,7 @@ declare -a ufs_templates=("model_configure.IN" "input_global_nest.nml.IN"
     "ww3_shel.nml.IN"
     "post_itag_gfs"
     "post_itag_gcafs"
+    "post_itag_catchem"
     "global_control.nml.IN")
 
 for file in "${ufs_templates[@]}"; do
@@ -242,6 +252,8 @@ declare -a ccpp_suites=(
     "suite_FV3_global_nest_v1.xml"
     "suite_FV3_GFS_v17_p8_ugwpv1.xml"
     "suite_FV3_GFS_v17_coupled_p8_ugwpv1.xml"
+    "suite_FV3_GFS_v17_p8_ugwpv1_catchem.xml"
+    "suite_FV3_GFS_v17_coupled_p8_ugwpv1_catchem.xml"
 )
 if [[ -d "${HOMEglobal}/sorc/ufs_model.fd/UFSATM/ccpp/suites" ]]; then
     for suite_file in "${ccpp_suites[@]}"; do
@@ -547,3 +559,4 @@ for prog in enkf_chgres_recenter_nc.fd \
 done
 
 exit 0
+

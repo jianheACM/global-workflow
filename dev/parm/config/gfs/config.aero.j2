@@ -46,7 +46,37 @@ export AERO_CONFIG_DIR="${PARMglobal}/ufs/gocart"
 # * = default for unspecified tracers; specific gases like SO2 have lower factors due to solubility.
 # Scavenging factors are set to 0 (no scavenging) if unset
 #---------------------------------------------------------------------------------------------------
-export fscav_aero="'*:0.3','so2:0.0','msa:0.0','dms:0.0','nh3:0.4','nh4:0.6','bc1:0.6','bc2:0.6','oc1:0.4','oc2:0.4','dust1:0.6','dust2:0.6', 'dust3:0.6','dust4:0.6','dust5:0.6','seas1:0.5','seas2:0.5','seas3:0.5','seas4:0.5','seas5:0.5'"
+#GOCART offline
+#export fscav_aero="'*:0.3','so2:0.0','msa:0.0','dms:0.0','nh3:0.4','nh4:0.6','bc1:0.6','bc2:0.6','oc1:0.4','oc2:0.4','dust1:0.6','dust2:0.6', 'dust3:0.6','dust4:0.6','dust5:0.6','seas1:0.5','seas2:0.5','seas3:0.5','seas4:0.5','seas5:0.5'"
+
+# Large scale wet deposition option, 0: inline Thompson, 1: offline GOCART
+export wetdep_ls_cpl="${wetdep_ls_cpl:-0}"
+#inline Thompson
+# export fscav_aero="'*:0.4','so2:0.25','msa:0.25','dms:0.25','so4:0.85','bc1:0.4','bc2:0.4','oc1:0.9','oc2:0.9','seas1:0.6','seas2:0.6','seas3:0.6','seas4:0.6','seas5:0.6','dust1:1','dust2:1','dust3:1','dust4:1','dust5:1'"
+# export fscav_aero="'*:0.4','so2:0.25','msa:0.25','dms:0.25','so4:0.1','bc1:0.4','bc2:0.4','oc1:0.9','oc2:0.9','seas1:0.6','seas2:0.6','seas3:0.6','seas4:0.6','seas5:0.6','dust1:1','dust2:1','dust3:1','dust4:1','dust5:1'"
+
+if [[ "${wetdep_ls_cpl}" -eq 0 ]]; then
+
+    # Inline Thompson5
+    #export fscav_aero="'*:0.4','so4:1.0','bc1:0.2','bc2:0.2','oc1:0.9','oc2:0.9','seas1:0.6','seas2:0.6','seas3:0.6','seas4:0.6','seas5:0.6','dust1:1.0','dust2:1.0','dust3:1.0','dust4:1.0','dust5:1.0'"
+
+        # Inline Thompson6
+    #export fscav_aero="'*:0.3','so2:0.0','msa:0.0','dms:0.0',so4:1.0','bc1:0.2','bc2:0.2','oc1:0.9','oc2:0.9','seas1:0.5','seas2:0.5','seas3:0.5','seas4:0.5','seas5:0.5','dust1:1.0','dust2:1.0','dust3:1.0','dust4:1.0','dust5:1.0'"
+
+            # Inline Thompson7
+    #export fscav_aero="'*:0.2',so4:1.0','bc1:0.2','bc2:0.2','oc1:0.9','oc2:0.9','seas1:0.6','seas2:0.6','seas3:0.6','seas4:0.6','seas5:0.6','dust1:1.0','dust2:1.0','dust3:1.0','dust4:1.0','dust5:1.0'"
+            # Inline Thompson8
+    #export fscav_aero="'*:0.1',so4:1.0','bc1:0.2','bc2:0.2','oc1:0.9','oc2:0.9','seas1:0.6','seas2:0.6','seas3:0.6','seas4:0.6','seas5:0.6','dust1:1.0','dust2:1.0','dust3:1.0','dust4:1.0','dust5:1.0'"
+
+            # Inline Thompson9
+    export fscav_aero="'*:0.3',so4:1.0','bc1:0.2','bc2:0.2','oc1:0.9','oc2:0.9','seas1:0.6','seas2:0.6','seas3:0.6','seas4:0.6','seas5:0.6','dust1:1.0','dust2:1.0','dust3:1.0','dust4:1.0','dust5:1.0'"
+  else
+
+    # GOCART offline
+    export fscav_aero="'*:0.3','so2:0.0','msa:0.0','dms:0.0','nh3:0.4','nh4:0.6','bc1:0.6','bc2:0.6','oc1:0.4','oc2:0.4','dust1:0.6','dust2:0.6','dust3:0.6','dust4:0.6','dust5:0.6','seas1:0.5','seas2:0.5','seas3:0.5','seas4:0.5','seas5:0.5'"
+
+fi
+
 
 # Number of diagnostic aerosol tracers (default: 0)
 # Specifies how many additional diagnostic (non-prognostic) aerosol tracers to include in the model output.
@@ -81,7 +111,8 @@ export AERO_EMIS_FIRE_HIST=1 # Use historical fire emissions | 1 = true 0 = fals
 
 #---------------------------------------------------------------------------------------------------
 export FIRE_EMIS_NRT_DIR="" #TODO: set to DCOM for WCOSS2 "${DCOMROOT}/YYYYMMDD/firewx" # Directory containing NRT fire emissions
-export FIRE_EMIS_DIR="${HOMEglobal}/fix/chem/Emission_data/fires_data/GBBEPx/v4" # Directory containing historical fire emissions
+#export FIRE_EMIS_DIR="${HOMEglobal}/fix/chem/Emission_data/fires_data/GBBEPx/v4" # Directory containing historical fire emissions
+export FIRE_EMIS_DIR="/scratch4/NCEPDEV/naqfc/Kate.Zhang/GBBPEx_v004/2016/new/" # Directory containing historical fire emissions
 
 
 #===============================================================================
