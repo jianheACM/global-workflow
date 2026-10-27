@@ -19,6 +19,7 @@ esac
 
 echo "Building on $machine ($host) ..."
 
+mkdir -p ../../../../../exec
 cd ./prepchem_NC.fd/process-obs/FV3/gbbepx2netcdf/
 
 # Select machine-specific build script

@@ -17,6 +17,7 @@ systems:
   gfs:
     - "gfs_model"
     - "gfs_ww3prepost"
+    - "prepchem"
   gsi:
     - "gsi_enkf"
     - "gsi_utils"
@@ -36,6 +37,7 @@ systems:
     - "gcafs_model"
     - "nexus"
     - "gsi_utils"
+    - "prepchem"
 build:
   gfs_model:
     command: "./build_ufs.sh -e gfs_model.x"
@@ -107,6 +109,11 @@ build:
     cores: 40
     walltime: "01:45:00"
     memory: "40G"
+
+  prepchem:
+    command: "./build_prepchem_NC.sh"
+    cores: 4
+    walltime: "00:20:00"
 
   nexus:
     command: "./build_nexus.sh"
