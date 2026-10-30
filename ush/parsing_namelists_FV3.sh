@@ -567,7 +567,6 @@ FV3_namelists() {
   gas_drydep_opt = 1
   gas_wetdep_opt = 1
   cldchem_onoff = 0
-  chem_in_opt = 0
   gas_bc_opt = 1
   gas_ic_opt = 1
   aer_bc_opt = 1
@@ -579,7 +578,7 @@ FV3_namelists() {
   chem_conv_tr = 0
   vertmix_onoff = 1
   lnox_opt = 1
-  lght_no_prd_factor = ${lght_no_prd_factor:-0.7}
+  lght_no_prd_factor = ${lght_no_prd_factor:-1.0}
   lght_flash_factor = ${lght_flash_factor:-1.0}
   min_land_frac_lght = ${min_land_frac_lght:-0.1}
   normalize_lght_no_prd_area = .true.
