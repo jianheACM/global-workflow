@@ -37,7 +37,7 @@ while getopts ":da:fj:e:pvwym" option; do
 done
 
 if [[ "${AM4_CHEM}" == "ON" ]]; then
-    CCPP_SUITES="FV3_GFS_v17_p8_ugwpv1_catchem_gfdlam4,FV3_GFS_v17_coupled_p8_ugwpv1_catchem_gfdlam4"
+    CCPP_SUITES="FV3_GFS_v17_p8_ugwpv1_am4,FV3_GFS_v17_coupled_p8_ugwpv1_am4"
 fi
 
 cd "${HOMEglobal_}/sorc/ufs_model.fd"

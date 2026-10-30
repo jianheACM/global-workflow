@@ -670,7 +670,10 @@ if [[ "${skip_catchem}" == "false" ]]; then
     export GBDAY=35
   fi
   if [[ "${DO_AM4CHEM:-NO}" == "YES" ]]; then
-    export CCPP_SUITE="${CCPP_SUITE}_gfdlam4"
+    export CCPP_SUITE="FV3_GFS_v17_p8_ugwpv1_am4"
+    if [[ "${skip_mediator}" == "false" ]]; then
+      export CCPP_SUITE="FV3_GFS_v17_coupled_p8_ugwpv1_am4"	    
+    fi
   fi
   model_list="${model_list}.catchem"
 fi
