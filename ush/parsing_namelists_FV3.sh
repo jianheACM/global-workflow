@@ -86,7 +86,7 @@ FV3_namelists() {
     local DYCORE_ONLY=${dycore_only}
     local CCPP_SUITE=${CCPP_SUITE}
 
-    local MAX_OUTPUT_FIELDS=300
+    local MAX_OUTPUT_FIELDS=600
 
     local DOMAINS_STACK_SIZE=${domains_stack_size:-3000000}
     local PRINT_MEMORY_USAGE=${print_memory_usage:-".false."}
