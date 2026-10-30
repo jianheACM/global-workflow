@@ -175,6 +175,8 @@ export DO_OCN="NO"
 export DO_ICE="NO"
 export DO_AERO="NO"
 export DO_CATChem="YES"
+# Enable through setup YAML base.DO_AM4CHEM or the generated config.base.
+export DO_AM4CHEM="{{ DO_AM4CHEM | default('NO') }}"
 export DO_PREP_OBS_AERO="NO"
 aero_fcst_runs="gdas" # When to run aerosol forecast: gdas, gfs, or both
 aero_anl_runs="gdas gfs" # When to run aerosol analysis: gdas, gfs, or both

@@ -197,6 +197,8 @@ class AppConfig(ABC, metaclass=AppConfigInit):
             run_options[run]['do_aero_anl'] = run_base.get('DO_AERO_ANL', False)
             run_options[run]['use_aero_anl'] = run_base.get('USE_AERO_ANL', False)
             run_options[run]['do_aero_fcst'] = run_base.get('DO_AERO_FCST', False)
+            run_options[run]['do_catchem'] = run_base.get('DO_CATChem', False)
+            run_options[run]['do_am4chem'] = run_base.get('DO_AM4CHEM', False)
 
             if run_base.get('GEFSTYPE', "") == "gefs-real-time":
                 run_options[run]['do_gefs_real_time'] = True
@@ -289,6 +291,8 @@ class AppConfig(ABC, metaclass=AppConfigInit):
                 files += ['config.anal', 'config.eobs']
             elif config in ['eupd']:
                 files += ['config.anal', 'config.eupd']
+            elif config == 'prepchem':
+                files += ['config.fcst', 'config.prepchem']
             elif config in ['efcs']:
                 files += ['config.fcst', 'config.efcs']
             elif config in ['atmanlinit', 'atmanlvar', 'atmanlfv3inc']:

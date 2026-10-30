@@ -45,6 +45,54 @@ link_required() {
     ln -sfn "${src}" "${dest}"
 }
 
+# AM4 needs preprocessed gas+aerosol products, not the aerosol-only converter.
+if [[ "${DO_AM4CHEM:-NO}" == "YES" ]]; then
+    : "${AM4_EMISSIONS_ROOT:?Set AM4_EMISSIONS_ROOT}"
+    : "${AM4_FIRE_ROOT:?Set AM4_FIRE_ROOT}"
+    : "${AM4_AGE_DIR:?Set AM4_AGE_DIR}"
+    : "${AM4_DEPVEL_DIR:?Set AM4_DEPVEL_DIR}"
+    : "${AM4_SUPPORT_DIR:?Set AM4_SUPPORT_DIR}"
+    [[ "${EMITYPE}" == 2 ]] || {
+        echo "ERROR: AM4 requires preprocessed GBBEPx NetCDF (EMITYPE=2)" >&2
+        exit 2
+    }
+    for tile in {1..6}; do
+        link_required "${AM4_EMISSIONS_ROOT}/EMI_${SYEAR}/${SMONTH}/emi_data.tile${tile}.nc" "emi_data.tile${tile}.nc"
+        link_required "${EMIINPUT}/EMI2/${SMONTH}/emi2_data.tile${tile}.nc" "emi2_data.tile${tile}.nc"
+        link_required "${EMIINPUT}/fengsha_2023/12month/dust_data_g12m.tile${tile}.nc" "dust_data_g12m.tile${tile}.nc"
+        link_required "${AM4_AGE_DIR}/dfdage3_data.tile${tile}.nc" "dfdage3_data.tile${tile}.nc"
+        link_required "${AM4_DEPVEL_DIR}/${SMONTH}/depvel_data.tile${tile}.nc" "depvel_data.tile${tile}.nc"
+        if [[ "${read_emiairc:-.false.}" == ".true." ]]; then
+            link_required "${AM4_EMISSIONS_ROOT}/EMIAIRC_${SYEAR}/${SMONTH}/EMIAIRC_data.tile${tile}.nc" "EMIAIRC_data.tile${tile}.nc"
+        fi
+        if [[ "${read_emis3d:-.false.}" == ".true." ]]; then
+            link_required "${AM4_EMISSIONS_ROOT}/EMI3D_${SYEAR}/${SMONTH}/EMI3D_data.tile${tile}.nc" "EMI3D_data.tile${tile}.nc"
+            link_required "${AM4_EMISSIONS_ROOT}/EMIVOL_${SYEAR}/${SMONTH}/EMIVOL_data.tile${tile}.nc" "EMIVOL_data.tile${tile}.nc"
+        fi
+        for (( offset=0; offset<GBDAY; offset++ )); do
+            emiss_day="$(date -d "${PDY} + ${offset} day" +%Y%m%d)"
+            source_file="${AM4_FIRE_ROOT}/FIRE_${emiss_day:0:4}/${emiss_day}/FIRE_GBBEPx_data.tile${tile}.nc"
+            if (( GBDAY == 1 )); then
+                target="FIRE_GBBEPx_data.tile${tile}.nc"
+            else
+                target="d$((offset+1))_FIRE_GBBEPx_data.tile${tile}.nc"
+            fi
+            link_required "${source_file}" "${target}"
+        done
+    done
+    support_count=0
+    for file in "${AM4_SUPPORT_DIR}"/*; do
+        [[ -f "${file}" ]] || continue
+        link_required "${file}" "${file##*/}"
+        support_count=$((support_count+1))
+    done
+    (( support_count > 0 )) || {
+        echo "ERROR: No AM4 support files in ${AM4_SUPPORT_DIR}" >&2
+        exit 1
+    }
+    exit 0
+fi
+
 # Old workflow places these monthly emissions inputs in the PREPCHEM directory.
 for tile in {1..6}; do
     link_required "${EMIINPUT}/EMI_${EMIYEAR}/${SMONTH}/emi_data.tile${tile}.nc" \
