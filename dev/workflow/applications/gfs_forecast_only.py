@@ -79,6 +79,9 @@ class GFSForecastOnlyAppConfig(AppConfig):
 
         configs += ['stage_ic', 'fcst', 'arch_vrfy', 'cleanup']
 
+        if options['do_catchem']:
+            configs += ['prepchem']
+
         if options['do_atm']:
 
             if options['do_upp'] or options['do_goes']:
@@ -171,6 +174,9 @@ class GFSForecastOnlyAppConfig(AppConfig):
             tasks += ['fetch']
 
         tasks += ['stage_ic']
+
+        if options['do_catchem']:
+            tasks += ['prepchem']
 
         if options['do_aero_fcst'] and not options['exp_warm_start']:
             tasks += ['aerosol_init']

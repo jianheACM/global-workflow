@@ -12,7 +12,16 @@ echo "BEGIN: config.prepchem"
 # Set prepchem variables 
 
 # Set job and DATAROOT
-export job=${CDUMP}_prep_${cyc}
+# Keep the prepchem job identity supplied by the job card.
 export EMIDIR="/scratch3/BMC/gsd-fv3-dev/lzhang/emi_"
 export EMIIN="/scratch3/BMC/gsd-fv3-dev/Haiqin.Li/Develop/"
 echo "END: config.prepchem"
+
+# AM4 input products are prepared offline. Override these roots in config.base
+# or the job environment; the defaults retain the old experiment locations.
+export AM4_INPUT_ROOT="${AM4_INPUT_ROOT:-/scratch4/BMC/rcm1/jhe/ufschem/inputdata/AM4_input}"
+export AM4_EMISSIONS_ROOT="${AM4_EMISSIONS_ROOT:-/scratch4/BMC/rcm1/jhe/ufschem/inputdata/Emissions/emi_${CASE}}"
+export AM4_FIRE_ROOT="${AM4_FIRE_ROOT:-/scratch4/BMC/rcm1/jhe/ufschem/inputdata/Emissions/emi_${CASE}}"
+export AM4_AGE_DIR="${AM4_AGE_DIR:-${AM4_INPUT_ROOT}/FAge/${CASE}}"
+export AM4_DEPVEL_DIR="${AM4_DEPVEL_DIR:-${AM4_INPUT_ROOT}/Depvel/${CASE}}"
+export AM4_SUPPORT_DIR="${AM4_SUPPORT_DIR:-${AM4_INPUT_ROOT}/Jval}"

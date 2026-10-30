@@ -263,6 +263,21 @@ class GFSTasks(Tasks):
 
         return task
 
+    def prepchem(self):
+        dependencies = rocoto.add_dependency(
+            {'type': 'task', 'name': f'{self.run}_stage_ic'})
+        task_name = f'{self.run}_prepchem'
+        task_dict = {'task_name': task_name,
+                     'resources': self.get_resource('prepchem'),
+                     'dependency': dependencies,
+                     'envars': self.envars,
+                     'cycledef': self.run,
+                     'command': f'{self.HOMEglobal}/dev/job_cards/rocoto/prepchem.sh',
+                     'job_name': f'{self.pslot}_{task_name}_@H',
+                     'log': f'{self.rotdir}/logs/@Y@m@d@H/{task_name}.log',
+                     'maxtries': '&MAXTRIES;'}
+        return rocoto.create_task(task_dict)
+
     def aerosol_init(self):
 
         input_path = self._template_to_rocoto_cycstring(self._base['COM_ATMOS_INPUT_TMPL'])
@@ -994,6 +1009,10 @@ class GFSTasks(Tasks):
 
         dep_dict = {'type': 'task', 'name': f'{self.run}_stage_ic'}
         dependencies.append(rocoto.add_dependency(dep_dict))
+
+        if self.options.get('do_catchem', False):
+            dep_dict = {'type': 'task', 'name': f'{self.run}_prepchem'}
+            dependencies.append(rocoto.add_dependency(dep_dict))
 
         if self.options['do_wave']:
             wave_job = 'waveprep' if self.options['app'] in ['ATMW'] else 'waveinit'
