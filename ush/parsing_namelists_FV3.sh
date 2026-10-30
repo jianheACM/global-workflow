@@ -549,5 +549,111 @@ FV3_namelists() {
     local global_template="${HOMEglobal}/parm/ufs/global_control.nml.IN"
     atparse < "${global_template}" >> "input.nml"
 
+    if [[ "${DO_AM4CHEM:-NO}" == "YES" ]]; then
+        [[ "${cplchp:-.false.}" == ".true." ]] || return 1
+        # Replace an existing CATChem group rather than emitting a duplicate.
+        awk 'tolower($0) ~ /^[[:space:]]*&catchem_nml/ {skip=1}
+             skip && $0 ~ /^[[:space:]]*\/[[:space:]]*$/ {skip=0; next}
+             !skip {print}' input.nml > input.nml.am4 || return 1
+        mv input.nml.am4 input.nml || return 1
+        cat >> input.nml <<EOF
+&catchem_nml
+  chem_opt = 400
+  chemdt = ${chemdt:-${DELTIM}}
+  gaschem_onoff = 1
+  gaschem_opt = 1
+  phot_opt = 1
+  photdt = ${photdt:-${DELTIM}}
+  gas_drydep_opt = 1
+  gas_wetdep_opt = 1
+  cldchem_onoff = 0
+  chem_in_opt = 0
+  gas_bc_opt = 1
+  gas_ic_opt = 1
+  aer_bc_opt = 1
+  aer_ic_opt = 1
+  aerchem_onoff = 1
+  aerchem_opt = 1
+  aer_ra_feedback = ${aer_ra_feedback:-0}
+  aer_ra_frq = ${aer_ra_frq:-60}
+  chem_conv_tr = 0
+  vertmix_onoff = 1
+  lnox_opt = 1
+  lght_no_prd_factor = ${lght_no_prd_factor:-0.7}
+  lght_flash_factor = ${lght_flash_factor:-1.0}
+  min_land_frac_lght = ${min_land_frac_lght:-0.1}
+  normalize_lght_no_prd_area = .true.
+  bio_emiss_opt = ${bio_emiss_opt:-0}
+  biomass_burn_cplchp = ${biomass_burn_cplchp:-1}
+  dmsemis_opt = 1
+  dust_opt_cplchp = ${dust_opt_cplchp:-5}
+  dust_alpha_catc = ${dust_alpha_catc:-3.0}
+  dust_gamma_catc = ${dust_gamma_catc:-1.0}
+  dust_calcdrag = 1
+  emiss_inpt_opt = 1
+  emiss_opt = ${GBDAY}
+  kemit = 1
+  plumerisefire_frq_cplchp = ${plumerisefire_frq_cplchp:-60}
+  plumerise_flag = ${EMITYPE}
+  seas_opt_cplchp = 2
+  seas_emis_scheme = 2
+  seas_emis_scale = ${seas_emis_scale:-1.,1.,1.,1.,1.}
+  wetdep_ls_cplchp = 3
+  soa_opt = 1
+  isoprene_SOA_yield = ${isoprene_SOA_yield:-0.10}
+  terpene_SOA_yield = ${terpene_SOA_yield:-0.10}
+  use_interactive_BVOC_emis = ${use_interactive_BVOC_emis:-.false.}
+  read_emis3d = ${read_emis3d:-.false.}
+  read_emiairc = ${read_emiairc:-.false.}
+  restart_inname = "${COMIN_ATMOS_INPUT}"
+  restart_outname = "${COMOUT_ATMOS_RESTART}"
+/
+&gfdl_am4chem_nml
+  relaxed_dt = 864000.,
+  ub_pres = 1.,
+  relaxed_dt_lbc = 864000.,
+  lb_pres = 800.e2,
+  file_conc = 'INPUT/tracerIC.19800101.v2.nc',
+  file_ub = 'INPUT/ub_vals.mozart.nc',
+  file_dry = 'INPUT/depvel_gc_am3_tran.nc',
+  inv_list = '',
+  cloud_chem_type = 'f1p',
+  strat_chem_age_factor = 1.,
+  strat_chem_dclydt_factor = 1.,
+  do_tropchem = .true.,
+  o3_column_top = 0.002,
+  repartition_water_tracers = .true.,
+  allow_negative_cosz = .true.,
+  allow_psc_settling_type1 = .true.,
+  force_cly_conservation = .true.,
+  set_min_h2o_strat = .false.,
+  ch4_filename = 'ch4_gblannualdata',
+  ch4_scale_factor = 1.e-9,
+  time_varying_cfc_lbc = .true.,
+  do_fastjx_photo = .true.
+  frac_aerosol_incloud   = 0.7,
+  frac_dust_incloud = 0.0,
+  min_lwc_for_cloud_chem = 1.e-10,
+  aerosol_thermo_method = 'isorropia',
+  max_rh_aerosol = 95.,
+  verbose = 1,
+  retain_cm3_bugs =.false.,
+  check_convergence = .true.
+  sim_data_filename = 'sim.AM4_v20180614.dat'
+  het_chem_type = 'j1m'
+  gN2O5 = 0.02
+  gHO2 = 0.2
+  gNO3 = 0.02
+  gNO2 = 1e-5
+  gNH3 = 0.,
+  time_varying_solarflux = .true.
+  gSO2_dynamic = 'zheng2015'
+
+${gfdl_am4chem_nml:-}
+/
+EOF
+    fi
+
+
 }
 

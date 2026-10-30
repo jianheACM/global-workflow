@@ -967,6 +967,14 @@ CATChem_rc() {
         return 1
     fi
 
+    if [[ "${DO_AM4CHEM:-NO}" == "YES" ]]; then
+        for file in "${prep_dir}"/*; do
+            [[ -f "${file}" ]] || continue
+            [[ "${file}" == *.nc ]] && continue
+            ${NLN} "${file}" "${DATA}/INPUT/${file##*/}" || return 1
+        done
+    fi
+
     echo "SUB ${FUNCNAME[0]}: CATChem emission input files linked"
 }
 

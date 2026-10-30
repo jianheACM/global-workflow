@@ -1,17 +1,17 @@
-USER=Kate.Zhang
+USER=Jian.He
 
 
-BASEDIR=/scratch4/BMC/gsd-fv3-dev/lzhang/GCAFS/global-workflow-catchem
-STMP=/scratch3/NCEPDEV/stmp/$USER/RUNDIRS
-IDATE=2016070100
-EDATE=2016070100
+BASEDIR=/scratch4/BMC/rcm1/jhe/ufschem/global-workflow-am4
+STMP=/scratch3/BMC/rcm2/jhe/ufschem/RUNDIRS
+IDATE=2016080100
+EDATE=2016080100
 APP=S2SW
-PSLOT=UCS_C384_CCPP
+PSLOT=C384_CCPP_CPL
 RES=384
 GFS_CYC=1
 START=cold
-COMROT=/scratch4/NCEPDEV/naqfc/Kate.Zhang/fv3gfs/comrot/gcafsv1/COMROOT
-EXPDIR=/scratch4/BMC/gsd-fv3-dev/NCEPDEV/global/$USER/fv3gfs/expdir
+COMROT=/scratch3/BMC/rcm2/jhe/ufschem/COMROOT
+EXPDIR=/scratch3/BMC/rcm2/jhe/ufschem/EXPDIR
 ICSDIR=$COMROT/$PSLOT
 
 

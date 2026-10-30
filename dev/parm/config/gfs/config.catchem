@@ -23,17 +23,17 @@ export EMIYEAR="${EMIYEAR:-2019}"
 
 # Aerosol convective scavenging factors
 # Element syntax: '<tracer_name>:<factor>'; * sets the default for all tracers
-#P8: export fscav_aero="'*:0.2','so2:0.1','msa:0.1','dms:0.1','sulf:0.4','bc1:0.3','bc2:0.3','oc1:0.1','oc2:0.1','seas1:0.45','seas2:0.45','seas3:0.45','seas4:0.45','seas5:0.45','dust1:0.3','dust2:0.3','dust3:0.3','dust4:0.3','dust5:0.3'"
-#may export fscav_aero="'*:0.2','so2:0.','msa:0.1','dms:0.1','sulf:0.5','bc1:0.4','bc2:0.4','oc1:0.2','oc2:0.2','seas1:0.55','seas2:0.55','seas3:0.55','seas4:0.55','seas5:0.55','dust1:0.3','dust2:0.3','dust3:0.3','dust4:0.3','dust5:0.3'"
-#2024 export fscav_aero="'*:0.2','so2:0.','msa:0.1','dms:0.1','sulf:0.5','bc1:0.4','bc2:0.4','oc1:0.4','oc2:0.4','seas1:0.55','seas2:0.55','seas3:0.55','seas4:0.55','seas5:0.55','dust1:0.3','dust2:0.3','dust3:0.3','dust4:0.3','dust5:0.3'"
-#export fscav_aero="'*:0.2','so2:0.','msa:0.1','dms:0.1','sulf:0.7','bc1:0.4','bc2:0.4','oc1:0.4','oc2:0.4','seas1:0.55','seas2:0.55','seas3:0.55','seas4:0.55','seas5:0.55','dust1:0.3','dust2:0.3','dust3:0.3','dust4:0.3','dust5:0.3'"
+#P8: export fscav_aero="'*:0.2','so2:0.1','msa:0.1','dms:0.1','so4:0.4','bc1:0.3','bc2:0.3','oc1:0.1','oc2:0.1','seas1:0.45','seas2:0.45','seas3:0.45','seas4:0.45','seas5:0.45','dust1:0.3','dust2:0.3','dust3:0.3','dust4:0.3','dust5:0.3'"
+#may export fscav_aero="'*:0.2','so2:0.','msa:0.1','dms:0.1','so4:0.5','bc1:0.4','bc2:0.4','oc1:0.2','oc2:0.2','seas1:0.55','seas2:0.55','seas3:0.55','seas4:0.55','seas5:0.55','dust1:0.3','dust2:0.3','dust3:0.3','dust4:0.3','dust5:0.3'"
+#2024 export fscav_aero="'*:0.2','so2:0.','msa:0.1','dms:0.1','so4:0.5','bc1:0.4','bc2:0.4','oc1:0.4','oc2:0.4','seas1:0.55','seas2:0.55','seas3:0.55','seas4:0.55','seas5:0.55','dust1:0.3','dust2:0.3','dust3:0.3','dust4:0.3','dust5:0.3'"
+#export fscav_aero="'*:0.2','so2:0.','msa:0.1','dms:0.1','so4:0.7','bc1:0.4','bc2:0.4','oc1:0.4','oc2:0.4','seas1:0.55','seas2:0.55','seas3:0.55','seas4:0.55','seas5:0.55','dust1:0.3','dust2:0.3','dust3:0.3','dust4:0.3','dust5:0.3'"
 #HR3-paper 
-#export fscav_aero="'*:0.2','so2:0.1','msa:0.1','dms:0.1','sulf:0.8','bc1:0.4','bc2:0.4','oc1:0.4','oc2:0.4','seas1:0.55','seas2:0.55','seas3:0.55','seas4:0.55','seas5:0.55','dust1:0.3','dust2:0.3','dust3:0.3','dust4:0.3','dust5:0.3'"
+#export fscav_aero="'*:0.2','so2:0.1','msa:0.1','dms:0.1','so4:0.8','bc1:0.4','bc2:0.4','oc1:0.4','oc2:0.4','seas1:0.55','seas2:0.55','seas3:0.55','seas4:0.55','seas5:0.55','dust1:0.3','dust2:0.3','dust3:0.3','dust4:0.3','dust5:0.3'"
 
-#v2: export fscav_aero="'*:0.2','sulf:0.8','bc1:0.4','bc2:0.4','oc1:0.4','oc2:0.4','seas1:0.55','seas2:0.55','seas3:0.55','seas4:0.55','seas5:0.55','dust1:1.','dust2:1.','dust3:1.','dust4:1.','dust5:1.'"
-export fscav_aero="'*:0.3','sulf:1.0','bc1:0.4','bc2:0.4','oc1:0.3','oc2:0.3','seas1:0.55','seas2:0.55','seas3:0.55','seas4:0.55','seas5:0.55','dust1:1.','dust2:1.','dust3:1.','dust4:1.','dust5:1.'"
+#v2: export fscav_aero="'*:0.2','so4:0.8','bc1:0.4','bc2:0.4','oc1:0.4','oc2:0.4','seas1:0.55','seas2:0.55','seas3:0.55','seas4:0.55','seas5:0.55','dust1:1.','dust2:1.','dust3:1.','dust4:1.','dust5:1.'"
+export fscav_aero="'*:0.3','so4:1.0','bc1:0.4','bc2:0.4','oc1:0.3','oc2:0.3','seas1:0.55','seas2:0.55','seas3:0.55','seas4:0.55','seas5:0.55','dust1:1.','dust2:1.','dust3:1.','dust4:1.','dust5:1.'"
 
-#v1: export fscav_aero="'*:0.2','so2:0.2','msa:0.2','dms:0.2','sulf:0.6','bc1:0.3','bc2:0.3','oc1:0.2','oc2:0.1','seas1:0.8','seas2:0.8','seas3:0.8','seas4:0.8','seas5:0.8','dust1:0.55','dust2:0.55','dust3:0.55','dust4:0.55','dust5:0.55'"
+#v1: export fscav_aero="'*:0.2','so2:0.2','msa:0.2','dms:0.2','so4:0.6','bc1:0.3','bc2:0.3','oc1:0.2','oc2:0.1','seas1:0.8','seas2:0.8','seas3:0.8','seas4:0.8','seas5:0.8','dust1:0.55','dust2:0.55','dust3:0.55','dust4:0.55','dust5:0.55'"
 
  # Inline Thompson9
 #export fscav_aero="'*:0.3',so4:1.0','bc1:0.2','bc2:0.2','oc1:0.9','oc2:0.9','seas1:0.6','seas2:0.6','seas3:0.6','seas4:0.6','seas5:0.6','dust1:1.0','dust2:1.0','dust3:1.0','dust4:1.0','dust5:1.0'"
@@ -52,3 +52,14 @@ export dnats_aero=0
 
 echo "END: config.catchem"
 
+
+# AM4 chemistry uses the same host sulfate aerosol (so4, ug/kg).
+export DO_AM4CHEM="${DO_AM4CHEM:-NO}"
+if [[ "${DO_AM4CHEM}" == "YES" ]]; then
+    export AERO_FIELD_TABLE="${PARMglobal}/ufs/fv3/field_table_am4"
+    export AERO_DIAG_TABLE="${PARMglobal}/ufs/fv3/diag_table_am4"
+    export dnats_aero=41
+    export wetdep_ls_cpl=1
+    export wetdep_ls_cplchp=3
+    export chemdt="${chemdt:-${DELTIM:-450}}"
+fi

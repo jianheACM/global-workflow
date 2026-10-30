@@ -88,7 +88,12 @@ def main() -> None:
     # os.chdir(data)
 
     merge_script = merge_script_pattern.format(ush_gfs=ush_gfs)
-    tracer_list_file = tracer_list_file_pattern.format(parm_gfs=parm_gfs)
+    if os.environ.get("DO_AM4CHEM", "NO") == "YES":
+        tracer_list_file = os.path.join(parm_gfs, "ufs/catchem/catchem_am4_tracer.list")
+    elif os.environ.get("DO_CATChem", "NO") == "YES":
+        tracer_list_file = os.path.join(parm_gfs, "ufs/catchem/catchem_aero_tracer.list")
+    else:
+        tracer_list_file = tracer_list_file_pattern.format(parm_gfs=parm_gfs)
 
     time = datetime.strptime(f"{pdy}{cyc}", "%Y%m%d%H")
     atm_source_path = time.strftime(atm_base_pattern.format(**locals()))
