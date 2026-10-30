@@ -35,6 +35,7 @@ def input_args(*argv):
                         type=str, required=False, default='build_opts.yaml')
     parser.add_argument('--systems', help='System(s) to build (options: gfs, gefs, sfs, gcafs, gsi, gdas, or all)', required=False, default='gfs')
     parser.add_argument('--debug', help='Build in debug mode', required=False, action='store_true')
+    parser.add_argument('--am4chem', help='Enable AM4 chemistry for the GFS model', action='store_true')
 
     inputs = parser.parse_args(list(*argv) if len(argv) else None)
 
@@ -65,6 +66,8 @@ def get_task_spec(task_name: str, task_spec: Dict, host_spec: Dict) -> Dict:
     task_dict.cycledef = "build"
     task_dict.maxtries = 1
     task_dict.command = f"cd {HOMEglobal}/sorc/; {task_spec.command} -j {task_spec.cores}"
+    if host_spec.get('am4chem', False) and task_name == 'gfs_model':
+        task_dict.command = f"{task_dict.command} -m"
     if host_spec.debug:
         task_dict.command = f"{task_dict.command} -d"
     task_dict.job_name = task_name
@@ -197,6 +200,7 @@ def main(*argv):
     host_specs = get_host_specs(Host())
     host_specs.account = user_inputs.account
     host_specs.debug = user_inputs.debug
+    host_specs.am4chem = user_inputs.am4chem
 
     # Retrieve build specificatiosn from user provided yaml
     user_yaml_dict = AttrDict(parse_yaml(user_inputs.yaml))
@@ -225,6 +229,9 @@ def main(*argv):
                 builds.update(build_specs.systems[system])
         except KeyError as e:
             raise KeyError(f"{system} is not a valid global-workflow system!") from e
+
+    if user_inputs.am4chem and 'gfs_model' not in builds:
+        raise ValueError('--am4chem requires a selection containing gfs (or all)')
 
     # Build the task specs from the build specs and host specs
     task_specs = AttrDict()

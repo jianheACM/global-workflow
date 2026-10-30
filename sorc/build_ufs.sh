@@ -6,6 +6,7 @@ readonly HOMEglobal_=$(cd "$(dirname "$(readlink -f -n "${BASH_SOURCE[0]}")")" &
 
 # Default settings
 APP="S2SWA"
+AM4_CHEM="OFF"
 CCPP_SUITES="FV3_GFS_v17_p8_ugwpv1,FV3_GFS_v17_coupled_p8_ugwpv1,FV3_global_nest_v1,FV3_GFS_v17_p8_ugwpv1_catchem,FV3_GFS_v17_coupled_p8_ugwpv1_catchem" # TODO: does the g-w need to build with all these CCPP_SUITES?
 PDLIB="ON"
 HYDRO="OFF"
@@ -14,9 +15,10 @@ EXEC_NAME="gfs_model.x"
 # TODO: Remove this option when ufs-weather-model#2716 is fixed
 PARALLEL_RESTART="NO"
 
-while getopts ":da:fj:e:pvwy" option; do
+while getopts ":da:fj:e:pvwym" option; do
     case "${option}" in
         d) BUILD_TYPE="DEBUG" ;;
+        m) AM4_CHEM="ON" ;;
         a) APP="${OPTARG}" ;;
         f) FASTER="ON" ;;
         j) BUILD_JOBS="${OPTARG}" ;;
@@ -34,12 +36,16 @@ while getopts ":da:fj:e:pvwy" option; do
     esac
 done
 
+if [[ "${AM4_CHEM}" == "ON" ]]; then
+    CCPP_SUITES="FV3_GFS_v17_p8_ugwpv1_catchem_gfdlam4,FV3_GFS_v17_coupled_p8_ugwpv1_catchem_gfdlam4"
+fi
+
 cd "${HOMEglobal_}/sorc/ufs_model.fd"
 
 source "${HOMEglobal_}/ush/detect_machine.sh"
 source "${HOMEglobal_}/sorc/ufs_model.fd/tests/module-setup.sh"
 
-MAKE_OPT="-DAPP=${APP} -D32BIT=ON -DCCPP_SUITES=${CCPP_SUITES}"
+MAKE_OPT="-DAPP=${APP} -D32BIT=ON -DCCPP_SUITES=${CCPP_SUITES} -DAM4_CHEM=${AM4_CHEM}"
 if [[ ${PDLIB:-"OFF"} = "ON" ]]; then
     MAKE_OPT+=" -DPDLIB=ON"
 fi
