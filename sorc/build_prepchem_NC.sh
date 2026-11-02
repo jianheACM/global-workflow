@@ -8,7 +8,7 @@ case "$host" in
     hfe*|hecflow*|hera*)
         machine="hera"
         ;;
-    ufe*|uecflow*|ursa*)
+    ufe*|uecflow*|ursa*|u[0-9][0-9]c[0-9]*)
         machine="ursa"
         ;;
     *)
