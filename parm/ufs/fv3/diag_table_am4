@@ -70,7 +70,7 @@
  "gfs_dyn",    "aoanh",       "aoanh",        "fv3_history",    "all",  .false.,  "none",  2
  "gfs_dyn",    "nh50",        "nh50",         "fv3_history",    "all",  .false.,  "none",  2
  "gfs_dyn",    "soa",         "soa",          "fv3_history",    "all",  .false.,  "none",  2
- "gfs_dyn",    "so4",        "so4",         "fv3_history",    "all",  .false.,  "none",  2
+ "gfs_dyn",    "so4",         "so4",          "fv3_history",    "all",  .false.,  "none",  2
  "gfs_dyn",    "pp25",        "pp25",         "fv3_history",    "all",  .false.,  "none",  2
  "gfs_dyn",    "bc1",         "bc1",          "fv3_history",    "all",  .false.,  "none",  2
  "gfs_dyn",    "bc2",         "bc2",          "fv3_history",    "all",  .false.,  "none",  2
@@ -141,7 +141,9 @@
 "gfs_phys",    "oh_loss",     "oh_loss",      "fv3_history",    "all",  .false.,  "none",  2
 "gfs_phys",    "h2_prod",     "h2_prod",      "fv3_history",    "all",  .false.,  "none",  2
 "gfs_phys",    "h2_loss",     "h2_loss",      "fv3_history",    "all",  .false.,  "none",  2
-"gfs_phys",    "flash_freq",    "flash_freq",    "fv3_history2d",  "all",  .false.,  "none",  2
+# Instantaneous dry particle mass concentrations (ug/m3), all model layers
+"gfs_phys",    "pm25_dry",    "pm25_dry",    "fv3_history",    "all",   .false.,  "none",  2
+"gfs_phys",    "pm10_dry",    "pm10_dry",    "fv3_history",    "all",   .false.,  "none",  2
 
 # chemical diag 2D variables
 "gfs_phys",    "ptrop",       "ptrop",        "fv3_history2d",  "all",  .false.,  "none",  2
@@ -167,3 +169,4 @@
 "gfs_phys",    "so2_wdep",    "so2_wdep",     "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "nh3_wdep",    "nh3_wdep",     "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "so4_wdep",    "so4_wdep",     "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "flash_freq",  "flash_freq",   "fv3_history2d",  "all",  .false.,  "none",  2
