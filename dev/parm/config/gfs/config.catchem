@@ -58,7 +58,7 @@ export DO_AM4CHEM="${DO_AM4CHEM:-NO}"
 if [[ "${DO_AM4CHEM}" == "YES" ]]; then
     export AERO_FIELD_TABLE="${PARMglobal}/ufs/fv3/field_table_am4"
     export AERO_DIAG_TABLE="${PARMglobal}/ufs/fv3/diag_table_am4"
-    export dnats_aero=41
+    export dnats_aero=0
     export wetdep_ls_cpl=1
     export wetdep_ls_cplchp=3
     export chemdt="${chemdt:-${DELTIM:-450}}"
