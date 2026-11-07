@@ -12,6 +12,9 @@ if [[ "${DO_FETCH_HPSS^^}" =~ "Y" || "${DO_FETCH_LOCAL^^}" =~ "Y" ]]; then
 else
     #export ICSDIR="" # User provided ICSDIR; blank if not provided
     export ICSDIR="/scratch3/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot/GCF_C384_CCPP"
+    if [[ "${DO_OFFLINE_ANALYSIS:-NO}" == "YES" ]]; then
+        export ICSDIR="{{ ICSDIR | default('') }}"
+    fi
 fi
 
 export ICSORG="/scratch3/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot/ICs"

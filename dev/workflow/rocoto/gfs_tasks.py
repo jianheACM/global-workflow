@@ -16,9 +16,54 @@ class GFSTasks(Tasks):
             raise TypeError(f'{task_name} must be part of the "enkfgdas" cycle and not {run}')
 
     # Specific Tasks begin here
+    def offlineanl(self):
+        """Create the offline analysis task for the GDAS cycle."""
+        resources = self.get_resource('offlineanl')
+
+        deps = []
+        dep_dict = {'type': 'task', 'name': f'{self.run}_fetch'}
+        deps.append(rocoto.add_dependency(dep_dict))
+
+        dep_dict = {
+            'type': 'metatask',
+            'name': 'gdas_fcst',
+            'offset': f"-{timedelta_to_HMS(self._base['interval_gdas'])}",
+        }
+        deps.append(rocoto.add_dependency(dep_dict))
+
+        dependencies = rocoto.create_dependency(
+            dep_condition='and', dep=deps
+        )
+
+        task_name = f'{self.run}_offlineanl'
+        task_dict = {
+            'task_name': task_name,
+            'resources': resources,
+            'dependency': dependencies,
+            'envars': self.envars,
+            'cycledef': self.run,
+            'command': f'{self.HOMEglobal}/dev/job_cards/rocoto/offlineanl.sh',
+            'job_name': f'{self.pslot}_{task_name}_@H',
+            'log': f'{self.rotdir}/logs/@Y@m@d@H/{task_name}.log',
+            'maxtries': '&MAXTRIES;',
+        }
+
+        return rocoto.create_task(task_dict)
+
     def fetch(self):
 
-        cycledef = 'gdas_half' if self.run in ['gdas', 'enkfgdas'] else self.run
+        #cycledef = 'gdas_half' if self.run in ['gdas', 'enkfgdas'] else self.run
+        if (
+            self.options.get('do_offline_analysis', False)
+            and self.run == 'gdas'
+        ):
+            cycledef = 'gdas'
+        else:
+            cycledef = (
+                'gdas_half'
+                if self.run in ['gdas', 'enkfgdas']
+                else self.run
+            )
 
         resources = self.get_resource('fetch')
         task_name = f'{self.run}_fetch'
@@ -64,7 +109,14 @@ class GFSTasks(Tasks):
     def stage_ic(self):
 
         dependencies = None
-        if self.options['do_fetch_hpss'] or self.options['do_fetch_local']:
+        #if self.options['do_fetch_hpss'] or self.options['do_fetch_local']:
+        if (
+            self.options['do_fetch_hpss']
+            or self.options['do_fetch_local']
+        ) and not (
+            self.options.get('do_offline_analysis', False)
+            and self.run == 'gdas'
+        ):
             deps = []
             dep_dict = {
                 'type': 'task', 'name': f'{self.run}_fetch',
@@ -264,14 +316,22 @@ class GFSTasks(Tasks):
         return task
 
     def prepchem(self):
-        dependencies = rocoto.add_dependency(
-            {'type': 'task', 'name': f'{self.run}_stage_ic'})
+        dependencies = None
+        if not self.options.get('do_offline_analysis', False):
+            dependencies = rocoto.add_dependency(
+                {'type': 'task', 'name': f'{self.run}_stage_ic'})
         task_name = f'{self.run}_prepchem'
         task_dict = {'task_name': task_name,
                      'resources': self.get_resource('prepchem'),
                      'dependency': dependencies,
                      'envars': self.envars,
-                     'cycledef': self.run,
+                     #'cycledef': self.run,
+                     'cycledef': (
+                         'gdas_half,gdas'
+                         if self.run == 'gdas'
+                         and self.options.get('do_offline_analysis', False)
+                         else self.run
+                     ),
                      'command': f'{self.HOMEglobal}/dev/job_cards/rocoto/prepchem.sh',
                      'job_name': f'{self.pslot}_{task_name}_@H',
                      'log': f'{self.rotdir}/logs/@Y@m@d@H/{task_name}.log',
@@ -361,7 +421,9 @@ class GFSTasks(Tasks):
     def sfcanl_gcycle(self):
 
         deps = []
-        if self.options['do_jediatmvar']:
+        if self.options.get('do_offline_analysis', False):
+            dep_dict = {'type': 'task', 'name': f'{self.run}_offlineanl'}
+        elif self.options['do_jediatmvar']:
             dep_dict = {'type': 'task', 'name': f'{self.run}_atmanlfinal'}
         else:
             dep_dict = {'type': 'task', 'name': f'{self.run}_anal'}
@@ -1073,7 +1135,15 @@ class GFSTasks(Tasks):
     def _fcst_cycled(self):
 
         deps = []
-        dep_dict = {'type': 'task', 'name': f'{self.run}_sfcanl_gcycle'}
+        #dep_dict = {'type': 'task', 'name': f'{self.run}_sfcanl_gcycle'}
+        analysis_run = self.run
+        if self.options.get('do_offline_analysis', False) and self.run == 'gfs':
+            analysis_run = 'gdas'
+
+        dep_dict = {
+            'type': 'task',
+            'name': f'{analysis_run}_sfcanl_gcycle',
+        }
         deps.append(rocoto.add_dependency(dep_dict))
         if self.options['do_gsisoilda'] and self.run in ['gdas']:
             dep_dict = {'type': 'task', 'name': f'{self.run}_sfcanl_regrid'}
@@ -1115,7 +1185,26 @@ class GFSTasks(Tasks):
         dependencies = []
         dependencies.append(dependencies1)
         dependencies.append(dependencies2)
-        dependencies = rocoto.create_dependency(dep_condition='or', dep=dependencies)
+        #dependencies = rocoto.create_dependency(dep_condition='or', dep=dependencies)
+        if (
+            self.options.get('do_offline_analysis', False)
+            and self.run == 'gfs'
+        ):
+            dependencies = dependencies1
+        else:
+            dependencies = rocoto.create_dependency(
+                dep_condition='or', dep=dependencies
+            )
+
+        if self.options.get('do_catchem', False):
+            chem_dependency = rocoto.add_dependency({
+                'type': 'task',
+                'name': f'{self.run}_prepchem',
+            })
+            dependencies = rocoto.create_dependency(
+                dep_condition='and',
+                dep=[dependencies, chem_dependency],
+            )
 
         cycledef = 'gdas_half,gdas' if self.run in ['gdas'] else self.run
 

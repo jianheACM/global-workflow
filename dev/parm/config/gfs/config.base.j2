@@ -177,6 +177,7 @@ export DO_AERO="NO"
 export DO_CATChem="YES"
 # Enable through setup YAML base.DO_AM4CHEM or the generated config.base.
 export DO_AM4CHEM="{{ DO_AM4CHEM | default('NO') }}"
+export DO_OFFLINE_ANALYSIS="{{ DO_OFFLINE_ANALYSIS | default('NO') }}"
 export DO_PREP_OBS_AERO="NO"
 aero_fcst_runs="gdas" # When to run aerosol forecast: gdas, gfs, or both
 aero_anl_runs="gdas gfs" # When to run aerosol analysis: gdas, gfs, or both
@@ -559,6 +560,14 @@ if [[ "${DO_JEDIATMVAR}" == "YES" ]]; then
     else
 	    export ATMINC_GRID="gaussian"
     fi
+fi
+
+if [[ "${DO_OFFLINE_ANALYSIS}" == "YES" ]]; then
+    export DO_FIT2OBS="NO"
+    export DO_VERFOZN="NO"
+    export DO_VERFRAD="NO"
+    export DO_VMINMON="NO"
+    export DO_ANLSTAT="NO"
 fi
 
 echo "END: config.base"

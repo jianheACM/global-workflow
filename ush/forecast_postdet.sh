@@ -71,10 +71,14 @@ FV3_postdet() {
         else
             # Replace sfc_data with sfcanl_data restart files from current cycle (if found)
             local nn
+            local surface_restart_dir="${COMIN_ATMOS_RESTART}"
+            if [[ "${DO_OFFLINE_ANALYSIS:-NO}" == "YES" && "${RUN}" == "gfs" ]]; then
+                surface_restart_dir="${COMIN_RESTART}/model/atmos/restart"
+            fi
             for ((nn = 1; nn <= ntiles; nn++)); do
-                if [[ -f "${COMIN_ATMOS_RESTART}/${restart_date:0:8}.${restart_date:8:2}0000.sfcanl_data.tile${nn}.nc" ]]; then
+                if [[ -f "${surface_restart_dir}/${restart_date:0:8}.${restart_date:8:2}0000.sfcanl_data.tile${nn}.nc" ]]; then
                     rm -f "${DATA}/INPUT/sfc_data.tile${nn}.nc"
-                    cpreq "${COMIN_ATMOS_RESTART}/${restart_date:0:8}.${restart_date:8:2}0000.sfcanl_data.tile${nn}.nc" \
+                    cpreq "${surface_restart_dir}/${restart_date:0:8}.${restart_date:8:2}0000.sfcanl_data.tile${nn}.nc" \
                         "${DATA}/INPUT/sfc_data.tile${nn}.nc"
                 # GCAFS does not run the sfcanl, only GCDAS
                 elif [[ ${DO_AERO_FCST} == "YES" && -f "${COMIN_TRACER_RESTART}/${restart_date:0:8}.${restart_date:8:2}0000.sfcanl_data.tile${nn}.nc" ]]; then
@@ -82,6 +86,9 @@ FV3_postdet() {
                     cpreq "${COMIN_TRACER_RESTART}/${restart_date:0:8}.${restart_date:8:2}0000.sfcanl_data.tile${nn}.nc" \
                         "${DATA}/INPUT/sfc_data.tile${nn}.nc"
                 else
+                    if [[ "${DO_OFFLINE_ANALYSIS:-NO}" == "YES" && "${RUN}" == "gfs" ]]; then
+                        err_exit "Missing analyzed surface restart: ${surface_restart_dir}/${restart_date:0:8}.${restart_date:8:2}0000.sfcanl_data.tile${nn}.nc"
+                    fi
                     echo "'sfcanl_data.tile1.nc' not found in '${COMIN_ATMOS_RESTART}', using 'sfc_data.tile1.nc'"
                     break
                 fi
@@ -265,6 +272,8 @@ EOF
                 else
                     if [[ "${RUN}" == "gcafs" ]]; then
                         increment_file="${COMIN_ATMOS_ANALYSIS}/gcdas.t${cyc}z.${prefix_atminc}${inc_file}"
+                    elif [[ "${DO_OFFLINE_ANALYSIS:-NO}" == "YES" && "${RUN}" == "gfs" ]]; then
+                        increment_file="${COMIN_ATMOS_ANALYSIS}/gdas.t${cyc}z.${prefix_atminc}${inc_file}"
                     else
                         increment_file="${COMIN_ATMOS_ANALYSIS}/${RUN}.t${cyc}z.${prefix_atminc}${inc_file}"
                     fi

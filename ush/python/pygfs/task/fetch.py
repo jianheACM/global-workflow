@@ -8,7 +8,7 @@ import tarfile
 from wxflow import (Task, htar,
                     logit, parse_j2yaml, chdir)
 # import tarfile
-
+import shutil
 
 logger = getLogger(__name__.split('.')[-1])
 
@@ -82,21 +82,60 @@ class Fetch(Task):
         # DG - these need testing
         with chdir(dest):
             logger.info(f"Changed working directory to {dest}")
-            if on_hpss is True:  # htar all files in fnames
-                htar_obj = htar.Htar()
-                htar_obj.xvf(tarball, f_names)
-            else:  # extract from a specified tarball
-                with tarfile.open(tarball, "r") as tar:
-                    members = [m for m in tar.getmembers() if m.name in f_names]
-                    tar.extractall(members=members)
-            # Verify all data files were extracted
-            missing_files = []
-            for f in f_names:
-                if not os.path.exists(f):
-                    missing_files.append(f)
-            if len(missing_files) > 0:
-                message = "Failed to extract all required files.  Missing files:\n"
-                for f in missing_files:
-                    message += f"{f}\n"
 
-                raise FileNotFoundError(message)
+            # Optional local-first retrieval for offline GDAS analysis.
+            local_root = self.task_config.get("GDAS_LOCAL_ROOT")
+            use_local = (
+                self.task_config.get("DO_OFFLINE_ANALYSIS", False)
+                in (True, "YES")
+                and self.task_config.RUN == "gdas"
+                and bool(local_root)
+            )
+
+            remaining = []
+
+            for filename in f_names:
+                if use_local:
+                    relative_path = os.path.normpath(filename)
+                    local_file = os.path.join(local_root, relative_path)
+
+                    if os.path.isfile(local_file) and os.path.getsize(local_file) > 0:
+                        parent = os.path.dirname(filename)
+                        os.makedirs(parent, exist_ok=True)
+                        logger.info(
+                            f"Copying local analysis: {local_file} -> {filename}"
+                        )
+                        shutil.copy2(local_file, filename)
+                        continue
+
+                    logger.info(
+                        f"Local analysis unavailable: {local_file}; "
+                        "falling back to configured archive"
+                    )
+
+                remaining.append(filename)
+
+            if remaining:
+                if on_hpss is True:
+                    htar_obj = htar.Htar()
+                    htar_obj.xvf(tarball, remaining)
+                else:
+                    with tarfile.open(tarball, "r") as tar:
+                        members = [
+                            m for m in tar.getmembers()
+                            if m.name in remaining
+                        ]
+                        tar.extractall(members=members)
+
+            # Verify every required file, including locally copied files.
+            missing_files = [
+                filename for filename in f_names
+                if not os.path.isfile(filename)
+                or os.path.getsize(filename) == 0
+            ]
+
+            if missing_files:
+                raise FileNotFoundError(
+                    "Failed to retrieve required files:\n"
+                    + "\n".join(missing_files)
+                )
