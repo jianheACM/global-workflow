@@ -1,0 +1,21 @@
+defaults:
+{% filter indent(width=2, first=True) %}
+{% include "defaults.yaml" %}
+{% endfilter %}
+
+base:
+  DO_AM4CHEM: "YES"
+  DO_OFFLINE_ANALYSIS: "YES"
+  DOIAU: "NO"
+  DOHYBVAR: "NO"
+  DOENKFONLY_ATM: "NO"
+  NMEM_ENS: 0
+  NMEM_ENS_GFS: 0
+  FHMAX_GFS: 24
+  FHMAX_HF_GFS: 24
+  DO_TRACKER: "NO"
+  DO_GENESIS: "NO"
+  DO_METP: "NO"
+
+fcst:
+  CHECK_LAND_RESTART_OROG: "YES"

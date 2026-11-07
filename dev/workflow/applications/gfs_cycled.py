@@ -85,6 +85,21 @@ class GFSCycledAppConfig(AppConfig):
             run_options[run]['do_gsisoilda'] = base.get('DO_GSISOILDA', False)
             run_options[run]['do_gsiliau'] = base.get('DO_LAND_IAU', run_options[run]['do_gsisoilda'])
             run_options[run]['do_mergensst'] = base.get('DO_MERGENSST', False)
+            run_options[run]['do_offline_analysis'] = base.get('DO_OFFLINE_ANALYSIS', False)
+            if run_options[run]['do_offline_analysis']:
+                if base['APP'] != 'ATM' or base.get('NMEM_ENS', 0) != 0:
+                    raise ValueError('DO_OFFLINE_ANALYSIS requires deterministic APP=ATM')
+                unsupported = ('DOHYBVAR', 'DOENKFONLY_ATM', 'DOIAU', 'DO_JEDIATMVAR',
+                               'DO_JEDIATMENS', 'DO_AERO_ANL', 'DO_GSISOILDA', 'DO_JEDISNOWDA',
+                               'DO_TRACKER', 'DO_GENESIS', 'DO_GENESIS_FSU', 'DO_METP',
+                               'DO_GEMPAK', 'DO_AWIPS', 'DO_GOES', 'DO_BUFRSND')
+                enabled = [key for key in unsupported if base.get(key, False)]
+                if enabled:
+                    raise ValueError('Unsupported options for DO_OFFLINE_ANALYSIS: '
+                                     + ', '.join(enabled))
+                if base.get('DO_FETCH_HPSS', False) or base.get('DO_FETCH_LOCAL', False):
+                    raise ValueError('Offline cycling requires chemical ICs staged through '
+                                     'ICSDIR; set DO_FETCH_HPSS=NO and DO_FETCH_LOCAL=NO')
 
         return run_options
 
@@ -103,6 +118,15 @@ class GFSCycledAppConfig(AppConfig):
             List of configuration file names needed for the specified run
         """
         options = self.run_options[run]
+
+        if options['do_offline_analysis']:
+            configs = ['stage_ic', 'fetch', 'offlineanl', 'sfcanl_gcycle', 'fcst',
+                       'upp', 'atmos_products', 'arch_vrfy', 'cleanup']
+            if options['do_catchem']:
+                configs += ['prepchem']
+            if options['do_archcom']:
+                configs += ['arch_tars']
+            return configs
 
         configs = ['prep']
 
@@ -254,6 +278,20 @@ class GFSCycledAppConfig(AppConfig):
 
         for run in self.runs:
             options = self.run_options[run]
+
+            if options['do_offline_analysis']:
+                if run == 'gdas':
+                    task_names[run] += ['stage_ic', 'fetch', 'offlineanl', 'sfcanl_gcycle']
+                if options['do_catchem']:
+                    task_names[run] += ['prepchem']
+                task_names[run] += ['fcst']
+                if options['do_upp']:
+                    task_names[run] += ['atmupp']
+                task_names[run] += ['atmos_prod', 'arch_vrfy']
+                if options['do_archcom']:
+                    task_names[run] += ['arch_tars']
+                task_names[run] += ['cleanup']
+                continue
 
             # Common gdas and gfs tasks before fcst
             if run in ['gdas', 'gfs']:

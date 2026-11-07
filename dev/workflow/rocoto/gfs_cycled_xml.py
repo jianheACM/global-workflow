@@ -41,6 +41,13 @@ class GFSCycledRocotoXML(RocotoXML):
         rocoto_config : Dict
             Dictionary containing Rocoto-specific configuration
         """
+        base = app_config.configs[app_config.runs[0]]['base']
+        if base.get('DO_OFFLINE_ANALYSIS', False):
+            # Cleanup waits for forecasts that consume cycling restarts. Allow
+            # enough active six-hour cycles to reach the next daily forecast.
+            rocoto_config = dict(rocoto_config)
+            min_cycles = max(2, int(base['INTERVAL_GFS']) // int(base['assim_freq']) + 1)
+            rocoto_config['cyclethrottle'] = max(rocoto_config['cyclethrottle'], min_cycles)
         super().__init__(app_config, rocoto_config)
 
     def get_cycledefs(self):
