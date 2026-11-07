@@ -629,7 +629,8 @@ FV3_namelists() {
   ch4_filename = 'ch4_gblannualdata',
   ch4_scale_factor = 1.e-9,
   time_varying_cfc_lbc = .true.,
-  do_fastjx_photo = .true.
+  do_fastjx_photo = .true.,
+  clouds_in_fastjx = 'lsc_only',
   frac_aerosol_incloud   = 0.7,
   frac_dust_incloud = 0.0,
   min_lwc_for_cloud_chem = 1.e-10,
