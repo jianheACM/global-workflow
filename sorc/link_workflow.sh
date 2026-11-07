@@ -254,6 +254,8 @@ declare -a ccpp_suites=(
     "suite_FV3_GFS_v17_coupled_p8_ugwpv1.xml"
     "suite_FV3_GFS_v17_p8_ugwpv1_catchem.xml"
     "suite_FV3_GFS_v17_coupled_p8_ugwpv1_catchem.xml"
+    "suite_FV3_GFS_v17_p8_ugwpv1_am4.xml"
+    "suite_FV3_GFS_v17_coupled_p8_ugwpv1_am4.xml"
 )
 if [[ -d "${HOMEglobal}/sorc/ufs_model.fd/UFSATM/ccpp/suites" ]]; then
     for suite_file in "${ccpp_suites[@]}"; do

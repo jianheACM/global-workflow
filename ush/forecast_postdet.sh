@@ -344,6 +344,20 @@ EOF
                 fi
             fi
         done
+    elif [[ "${QUILTING}" == ".true." && "${OUTPUT_GRID}" == "cubed_sphere_grid" ]]; then
+        local FH3 product tile history_link
+        for fhr in ${FV3_OUTPUT_FH}; do
+            FH3=$(printf %03i "${fhr}")
+            for product in atm sfc; do
+                for tile in {1..6}; do
+                    history_link="${DATAoutput}/FV3ATM_OUTPUT/${product}f${FH3}.tile${tile}.nc"
+                    if [[ -e "${history_link}" && ! -L "${history_link}" ]]; then
+                        err_exit "Native history path already exists: ${history_link}"
+                    fi
+                    ${NLN} "${COMOUT_ATMOS_HISTORY}/${RUN}.t${cyc}z.${product}.f${FH3}.tile${tile}.nc" "${history_link}"
+                done
+            done
+        done
     fi
     #============================================================================
     restart_interval=${restart_interval:-${FHMAX}}
