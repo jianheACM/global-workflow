@@ -11,13 +11,18 @@ SDATE_GFS="${SDATE_GFS:-$(date -u -d "${IDATE:0:8} ${IDATE:8:2}:00 UTC + 6 hours
 EDATE="${EDATE:-$SDATE_GFS}"
 INTERVAL="${INTERVAL:-24}"
 
-if [[ $# -lt 1 || $# -gt 2 || ( $# -eq 2 && $2 != --submit ) ]]; then
-    printf 'Usage: %s IC_ROOT [--submit]\n' "${0##*/}" >&2
+# Set ICSDIR here, pass an IC root, or edit the generated config.stage_ic.
+ICSDIR="${ICSDIR:-}"
+if [[ $# -gt 0 && $1 != -* ]]; then
+    ICSDIR="$1"
+    shift
+fi
+if [[ $# -gt 1 || ( $# -eq 1 && $1 != --submit ) ]]; then
+    printf 'Usage: %s [IC_ROOT] [--submit]\n' "${0##*/}" >&2
     exit 2
 fi
 
 workflow_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-ICSDIR="$(cd -- "$1" && pwd)"
 YAML="${YAML:-$workflow_dir/../parm/config/gfs/yaml/am4_c384_native.yaml}"
 [[ "$YAML" = /* ]] || YAML="$PWD/$YAML"
 if [[ ! -f "$YAML" ]]; then
@@ -25,17 +30,27 @@ if [[ ! -f "$YAML" ]]; then
     exit 1
 fi
 
-input_dir="$ICSDIR/gdas.${IDATE:0:8}/${IDATE:8:2}/model/atmos/input"
-ic_files=(gfs_ctrl.nc)
-for tile in {1..6}; do
-    ic_files+=("gfs_data.tile$tile.nc" "sfc_data.tile$tile.nc")
-done
-for file in "${ic_files[@]}"; do
-    if [[ ! -f "$input_dir/$file" ]]; then
-        printf 'Missing IC file: %s\n' "$input_dir/$file" >&2
-        exit 1
+if [[ -n "$ICSDIR" ]]; then
+    ICSDIR="$(cd -- "$ICSDIR" && pwd)"
+    input_dir="$ICSDIR/gdas.${IDATE:0:8}/${IDATE:8:2}/model/atmos/input"
+    ic_files=(gfs_ctrl.nc)
+    for tile in {1..6}; do
+        ic_files+=("gfs_data.tile$tile.nc" "sfc_data.tile$tile.nc")
+    done
+    for file in "${ic_files[@]}"; do
+        if [[ ! -f "$input_dir/$file" ]]; then
+            printf 'Missing IC file: %s\n' "$input_dir/$file" >&2
+            exit 1
+        fi
+    done
+else
+    if [[ ${1:-} == --submit ]]; then
+        printf 'Set ICSDIR or pass an IC root before submitting.\n' >&2
+        exit 2
     fi
-done
+    ICSDIR="/path/to/uniform_ics"
+    printf 'Set ICSDIR in %s/config.stage_ic before running Rocoto.\n' "$EXPDIR/$PSLOT"
+fi
 
 "$workflow_dir/setup_expt.py" gfs cycled \
     --app ATM --run gdas --start cold --nens 0 \
@@ -48,6 +63,6 @@ env -u EXPDIR -u COMROOT -u PSLOT -u ICSDIR "$workflow_dir/setup_workflow.py" "$
 
 xml="$experiment_dir/$PSLOT.xml"
 printf 'Workflow XML: %s\n' "$xml"
-if [[ ${2:-} == --submit ]]; then
+if [[ ${1:-} == --submit ]]; then
     rocotorun -w "$xml" -d "$experiment_dir/$PSLOT.db"
 fi
