@@ -378,12 +378,16 @@ export restart_interval_gfs=12
 
 export QUILTING=".true."
 export OUTPUT_GRID="{{ OUTPUT_GRID | default('gaussian_grid') }}"
+if [[ "${RUN:-}" == "gfs" ]]; then
+    export OUTPUT_GRID="{{ GFS_OUTPUT_GRID | default('${OUTPUT_GRID}') }}"
+fi
 # Native cubed-sphere history supplements Gaussian history and inline post.
 export DO_HISTORY_FILE_ON_NATIVE_GRID="{{ DO_HISTORY_FILE_ON_NATIVE_GRID | default('NO') }}"
 export WRITE_DOPOST=".true." # WRITE_DOPOST=true, use inline POST
 if [[ "${OUTPUT_GRID}" == "cubed_sphere_grid" ]]; then
-    if [[ "${MODE}" != "forecast-only" || "${APP}" != "ATM" || "${DO_NEST}" == "YES" ]]; then
-        echo "FATAL ERROR: Native-only output requires a global ATM forecast-only experiment" >&2
+    if [[ "${APP}" != "ATM" || "${DO_NEST}" == "YES" ]] ||
+       [[ "${MODE}" != "forecast-only" && ( "${DO_OFFLINE_ANALYSIS}" != "YES" || "${RUN:-}" != "gfs" ) ]]; then
+        echo "FATAL ERROR: Native-only output requires global ATM forecast-only or the GFS run of offline cycling" >&2
         exit 2
     fi
     export DO_HISTORY_FILE_ON_NATIVE_GRID="NO"

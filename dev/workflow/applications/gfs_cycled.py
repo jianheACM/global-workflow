@@ -86,6 +86,7 @@ class GFSCycledAppConfig(AppConfig):
             run_options[run]['do_gsiliau'] = base.get('DO_LAND_IAU', run_options[run]['do_gsisoilda'])
             run_options[run]['do_mergensst'] = base.get('DO_MERGENSST', False)
             run_options[run]['do_offline_analysis'] = base.get('DO_OFFLINE_ANALYSIS', False)
+            run_options[run]['native_only'] = base.get('OUTPUT_GRID') == 'cubed_sphere_grid'
             if run_options[run]['do_offline_analysis']:
                 if base['APP'] != 'ATM' or base.get('NMEM_ENS', 0) != 0:
                     raise ValueError('DO_OFFLINE_ANALYSIS requires deterministic APP=ATM')
@@ -120,8 +121,9 @@ class GFSCycledAppConfig(AppConfig):
         options = self.run_options[run]
 
         if options['do_offline_analysis']:
-            configs = ['stage_ic', 'fetch', 'offlineanl', 'sfcanl_gcycle', 'fcst',
-                       'upp', 'atmos_products', 'arch_vrfy', 'cleanup']
+            configs = ['stage_ic', 'fetch', 'offlineanl', 'sfcanl_gcycle', 'fcst', 'cleanup']
+            if not options['native_only']:
+                configs += ['upp', 'atmos_products', 'arch_vrfy']
             if options['do_catchem']:
                 configs += ['prepchem']
             if options['do_archcom']:
@@ -285,9 +287,10 @@ class GFSCycledAppConfig(AppConfig):
                 if options['do_catchem']:
                     task_names[run] += ['prepchem']
                 task_names[run] += ['fcst']
-                if options['do_upp']:
-                    task_names[run] += ['atmupp']
-                task_names[run] += ['atmos_prod', 'arch_vrfy']
+                if not options['native_only']:
+                    if options['do_upp']:
+                        task_names[run] += ['atmupp']
+                    task_names[run] += ['atmos_prod', 'arch_vrfy']
                 if options['do_archcom']:
                     task_names[run] += ['arch_tars']
                 task_names[run] += ['cleanup']

@@ -141,38 +141,33 @@ from a clean checkout of ``dev-stretch`` and apply it with
 Use the submodule revisions recorded by the branch when building the model
 and preparing the grids.
 
-Use the atmosphere-only AM4 executable and create two GFS forecast-only
-experiments. Both presets use C384 with 128 interfaces (127 model layers),
-the same AM4 diagnostics, and the same 24-hour forecast schedule. The
-stretched preset applies Schmidt stretching with a factor of 2.0 centered at
-38.5°N, 97.5°W on the six global tiles. It uses the previously tested
-150-second atmospheric time step and stretched-grid drag and damping settings.
-The uniform preset uses a 300-second time step. Both AM4 presets use a
-16 × 16 FV3 layout per face and two threads. Native-only history uses one
-write group with six writers, one per face.
+Use the atmosphere-only AM4 executable with the two offline cycling presets.
+Each experiment runs six-hour GDAS cycles and daily GFS forecasts. Both grids
+use 128 interfaces (127 model layers), a 16 × 16 FV3 layout per face, and two
+threads. The stretched preset applies Schmidt stretching with a factor of 2.0
+centered at 38.5°N, 97.5°W and uses a 150-second time step. The uniform preset
+uses a 300-second time step.
 
-From ``dev/workflow``, set ``COMROOT``, ``EXPDIR``, ``UNIFORM_ICS`` and
-``STRETCHED_ICS`` to your experiment paths. For a single 00Z comparison:
+From the repository root, pass the matching IC root to each launcher.
 
 .. code-block:: bash
 
-   create_am4_experiment() {
-       local pslot="$1" preset="$2" icsdir="$3"
-       ./setup_expt.py gfs forecast-only --app ATM --run gfs --start cold \
-           --pslot "${pslot}" --resdetatmos 384 --interval 24 \
-           --idate 2023051500 --edate 2023051500 \
-           --icsdir "${icsdir}" --comroot "${COMROOT}" --expdir "${EXPDIR}" \
-           --yaml "../parm/config/gfs/yaml/${preset}.yaml" &&
-       ./setup_workflow.py "${EXPDIR}/${pslot}" rocoto
-   }
+   bash dev/workflow/setup_c384_am4.sh /path/to/uniform_ics
+   bash dev/workflow/setup_c384stre_am4.sh /path/to/stretched_ics
 
-   create_am4_experiment C384L128_AM4_native am4_c384_native "${UNIFORM_ICS}"
-   create_am4_experiment C384streL128_AM4_native am4_c384stre_native "${STRETCHED_ICS}"
+The launchers default to a cold GDAS start at 2023051500 and the first GFS
+forecast at 2023051506. Override ``IDATE``, ``SDATE_GFS``, and ``EDATE`` to
+choose the cycling window. The first GFS forecast needs a preceding six-hour
+GDAS forecast. Set ``EDATE`` beyond the first GFS cycle for additional daily
+forecasts. Append ``--submit`` to initiate Rocoto submission after setup.
 
-Each IC root must provide its own ``gfs.20230515/00/model/atmos/input/``
-directory containing ``gfs_ctrl.nc``, six ``gfs_data.tile*.nc`` files with AM4
-tracers, and six matching ``sfc_data.tile*.nc`` files. Use ICs generated for
-each experiment's grid and vertical coordinate.
+For the default cold start, each IC root must provide its own
+``gdas.20230515/00/model/atmos/input/`` directory containing ``gfs_ctrl.nc``,
+six ``gfs_data.tile*.nc`` files with AM4 tracers, and six matching
+``sfc_data.tile*.nc`` files. Use ICs generated for each experiment's grid and
+vertical coordinate. After the initial cycle, the offline analysis tasks use
+external GDAS atmospheric and surface analyses, retrieved by the existing
+offline fetch workflow, and the previous GDAS forecast.
 
 For the stretched experiment, the default fixed-data root is
 ``fix/orog_stretch``. It must contain ``C384/C384_mosaic.nc``, six
@@ -197,7 +192,7 @@ CONUS preset can be configured as follows.
 
    base:
      DO_STRETCH: "YES"
-     OUTPUT_GRID: "cubed_sphere_grid"
+     GFS_OUTPUT_GRID: "cubed_sphere_grid"
      FV3_GRID_ID: "C384stre"
      FV3_STRETCH_FACTOR: "2.0"
      FV3_TARGET_LAT: "38.5"
@@ -227,7 +222,7 @@ Non-AM4 CATChem uses ``prepchem.EMIIN`` as the parent of
 ``emi_<FV3_GRID_ID>``. Each chemistry scheme still requires its own input
 products and runtime validation on the selected grid.
 
-Both presets select ``base.OUTPUT_GRID: "cubed_sphere_grid"`` with one
+Both presets select ``base.GFS_OUTPUT_GRID: "cubed_sphere_grid"`` with one
 NetCDF file per face. For each forecast hour, use
 ``gfs.t00z.atm.fHHH.tile1.nc`` through ``tile6.nc`` and the matching
 ``gfs.t00z.sfc.fHHH.tile*.nc`` under
@@ -235,7 +230,11 @@ NetCDF file per face. For each forecast hour, use
 and skips inline UPP, downstream atmospheric products, and verification
 archiving. Cleanup waits for the forecast, removes its work directory, and
 retains the COM output. Standard COM archiving is unavailable in this
-forecast-only mode.
+GFS output mode.
+
+GDAS keeps its Gaussian output because the offline analysis reads both
+``atm.f006.nc`` and ``sfc.f006.nc`` from the previous GDAS forecast. The
+stretched experiment still integrates GDAS on the stretched grid.
 
 Experiments using the default ``gaussian_grid`` retain the standard output and
 workflow. In that mode, ``base.DO_HISTORY_FILE_ON_NATIVE_GRID: "YES"`` adds a
