@@ -1,0 +1,42 @@
+#!/bin/ksh -x
+
+########## config.prepchem ##########
+# Chemistry input staging configuration
+
+echo "BEGIN: config.prepchem"
+
+# Get task specific resources
+source "${EXPDIR}/config.resources" prepchem
+
+
+# Retain the existing emissions location by default.
+export EMIDIR="/scratch3/BMC/gsd-fv3-dev/lzhang/emi_"
+export EMIIN="${EMIIN:-{{ EMIIN | default('/scratch3/BMC/gsd-fv3-dev/Haiqin.Li/Develop/') }}}"
+
+if [[ "${DO_AM4CHEM:-NO}" == "YES" ]]; then
+{% for key, value in [
+    ('AM4_INPUT_ROOT', AM4_INPUT_ROOT), ('AM4_EMISSIONS_ROOT', AM4_EMISSIONS_ROOT),
+    ('AM4_FIRE_ROOT', AM4_FIRE_ROOT), ('AM4_AGE_DIR', AM4_AGE_DIR),
+    ('AM4_DEPVEL_DIR', AM4_DEPVEL_DIR), ('AM4_SUPPORT_DIR', AM4_SUPPORT_DIR),
+    ('AM4_EMI2_ROOT', AM4_EMI2_ROOT)] %}
+{% if value is defined %}
+    export {{ key }}="{{ value }}"
+{% endif %}
+{% endfor %}
+    grid_id="${FV3_GRID_ID:-${CASE}}"
+    export AM4_INPUT_ROOT="${AM4_INPUT_ROOT:-/scratch4/BMC/rcm1/jhe/ufschem/inputdata/AM4_input}"
+    export AM4_EMISSIONS_ROOT="${AM4_EMISSIONS_ROOT:-/scratch4/BMC/rcm1/jhe/ufschem/inputdata/Emissions/emi_${grid_id}}"
+    export AM4_FIRE_ROOT="${AM4_FIRE_ROOT:-/scratch4/BMC/rcm1/jhe/ufschem/inputdata/Emissions/emi_${grid_id}}"
+    export AM4_AGE_DIR="${AM4_AGE_DIR:-${AM4_INPUT_ROOT}/FAge/${grid_id}}"
+    export AM4_DEPVEL_DIR="${AM4_DEPVEL_DIR:-${AM4_INPUT_ROOT}/Depvel/${grid_id}}"
+    export AM4_SUPPORT_DIR="${AM4_SUPPORT_DIR:-${AM4_INPUT_ROOT}/Jval}"
+
+    # Uniform experiments historically stage EMI2 and Fengsha from EMIIN.
+    if [[ "${DO_STRETCH:-NO}" == "YES" ]]; then
+        export AM4_EMI2_ROOT="${AM4_EMI2_ROOT:-${AM4_EMISSIONS_ROOT}}"
+    else
+        export AM4_EMI2_ROOT="${AM4_EMI2_ROOT:-${EMIIN%/}/emi_${grid_id}}"
+    fi
+fi
+
+echo "END: config.prepchem"

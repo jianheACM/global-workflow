@@ -1,0 +1,25 @@
+defaults:
+{% filter indent(width=2, first=True) %}
+{% include "defaults.yaml" %}
+{% endfilter %}
+
+base:
+  DO_AM4CHEM: "YES"
+  DO_STRETCH: "YES"
+  FV3_GRID_ID: "C384stre"
+  FV3_STRETCH_FACTOR: "2.0"
+  FV3_TARGET_LAT: "38.5"
+  FV3_TARGET_LON: "-97.5"
+  OUTPUT_GRID: "cubed_sphere_grid"
+  DOIAU: "NO"
+  FHMAX_GFS: 24
+  FHMAX_HF_GFS: 24
+  DO_TRACKER: "NO"
+  DO_GENESIS: "NO"
+  DO_METP: "NO"
+  # STRETCH_FIX_OROG: "/path/to/fix/orog_stretch"
+  # STRETCH_FIX_UGWD: "/path/to/stretched/ugwd"
+
+
+# prepchem:
+#   AM4_EMI2_ROOT: "/path/to/emi_C384stre"

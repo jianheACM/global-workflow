@@ -100,8 +100,8 @@ export MAX_TASKS_CY="${ntiles}"
 
 # Copy fix files required by global_cycle to DATA just once
 for ((nn = 1; nn <= ntiles; nn++)); do
-    cpreq "${FIXglobal}/orog/${CASE}/${CASE}_grid.tile${nn}.nc" "${DATA}/fngrid.00${nn}"
-    cpreq "${FIXglobal}/orog/${CASE}/${CASE}.mx${OCNRES}_oro_data.tile${nn}.nc" "${DATA}/fnorog.00${nn}"
+    cpreq "${FIXorog:-${FIXglobal}/orog}/${CASE}/${CASE}_grid.tile${nn}.nc" "${DATA}/fngrid.00${nn}"
+    cpreq "${FIXorog:-${FIXglobal}/orog}/${CASE}/${FV3_OROG_BASENAME:-${CASE}.mx${OCNRES}_oro_data}.tile${nn}.nc" "${DATA}/fnorog.00${nn}"
 done
 
 # Copy the NSST analysis file for global_cycle

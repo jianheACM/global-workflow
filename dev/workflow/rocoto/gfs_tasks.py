@@ -2635,7 +2635,10 @@ class GFSTasks(Tasks):
         deps_half = []
         # All of the dependencies (half, full, and common)
         deps_all = []
-        if 'enkf' in self.run:
+        if self.options.get('native_only', False):
+            dep_dict = {'type': 'metatask', 'name': f'{self.run}_fcst'}
+            deps_full.append(rocoto.add_dependency(dep_dict))
+        elif 'enkf' in self.run:
             if not self.options['do_enkfonly_atm']:
                 dep_dict = {'type': 'task', 'name': f'{self.run}_earc_vrfy'}
                 deps_full.append(rocoto.add_dependency(dep_dict))

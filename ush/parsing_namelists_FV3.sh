@@ -547,7 +547,25 @@ FV3_namelists() {
     fi
 
     local global_template="${HOMEglobal}/parm/ufs/global_control.nml.IN"
-    atparse < "${global_template}" >> "input.nml"
+    if [[ "${DO_STRETCH:-NO}" == "YES" ]]; then
+        local DO_SCHMIDT=${do_schmidt:?} STRETCH_FAC=${stretch_fac:?}
+        local stretched_template
+        # The linked global template has no Schmidt parameters.
+        stretched_template=$(awk '
+            {print}
+            /^[[:space:]]*&fv_core_nml[[:space:]]*$/ {
+                print "  do_schmidt = @[DO_SCHMIDT]"
+                print "  target_lat = @[TARGET_LAT]"
+                print "  target_lon = @[TARGET_LON]"
+                print "  stretch_fac = @[STRETCH_FAC]"
+                groups++
+            }
+            END {if (groups != 1) exit 1}
+        ' "${global_template}") || return 1
+        atparse <<< "${stretched_template}" >> input.nml || return 1
+    else
+        atparse < "${global_template}" >> input.nml || return 1
+    fi
 
     if [[ "${DO_AM4CHEM:-NO}" == "YES" ]]; then
         [[ "${cplchp:-.false.}" == ".true." ]] || return 1

@@ -128,3 +128,118 @@ For New Users
   - Operational systems include many additional downstream jobs that are not run in development mode.
   - The workflow manager (rocoto or ecFlow) determines job dependencies and ensures each job runs only when its prerequisites are complete.
   - The exact job list for your experiment is defined in the workflow XML (rocoto) or suite definition (ecFlow)
+
+C384 AM4 air-quality experiments
+================================
+
+Use the global-workflow ``dev-stretch`` branch as the base for these
+experiments. The configuration changes were prepared against ``31170d6e``,
+which pins UFS Weather Model ``607bc1fa`` and UFS_UTILS ``217ffb2d``.
+When installing the configuration from the companion Git patch, start
+from a clean checkout of ``dev-stretch`` and apply it with
+``git am /path/to/ufs-chem-c384-native-dev-stretch.patch``.
+Use the submodule revisions recorded by the branch when building the model
+and preparing the grids.
+
+Use the atmosphere-only AM4 executable and create two GFS forecast-only
+experiments. Both presets use C384 with 128 interfaces (127 model layers),
+the same AM4 diagnostics, and the same 24-hour forecast schedule. The
+stretched preset applies Schmidt stretching with a factor of 2.0 centered at
+38.5°N, 97.5°W on the six global tiles. It uses the previously tested
+150-second atmospheric time step and stretched-grid drag and damping settings.
+The uniform preset uses a 300-second time step. Both AM4 presets use a
+16 × 16 FV3 layout per face and two threads. Native-only history uses one
+write group with six writers, one per face.
+
+From ``dev/workflow``, set ``COMROOT``, ``EXPDIR``, ``UNIFORM_ICS`` and
+``STRETCHED_ICS`` to your experiment paths. For a single 00Z comparison:
+
+.. code-block:: bash
+
+   create_am4_experiment() {
+       local pslot="$1" preset="$2" icsdir="$3"
+       ./setup_expt.py gfs forecast-only --app ATM --run gfs --start cold \
+           --pslot "${pslot}" --resdetatmos 384 --interval 24 \
+           --idate 2023051500 --edate 2023051500 \
+           --icsdir "${icsdir}" --comroot "${COMROOT}" --expdir "${EXPDIR}" \
+           --yaml "../parm/config/gfs/yaml/${preset}.yaml" &&
+       ./setup_workflow.py "${EXPDIR}/${pslot}" rocoto
+   }
+
+   create_am4_experiment C384L128_AM4_native am4_c384_native "${UNIFORM_ICS}"
+   create_am4_experiment C384streL128_AM4_native am4_c384stre_native "${STRETCHED_ICS}"
+
+Each IC root must provide its own ``gfs.20230515/00/model/atmos/input/``
+directory containing ``gfs_ctrl.nc``, six ``gfs_data.tile*.nc`` files with AM4
+tracers, and six matching ``sfc_data.tile*.nc`` files. Use ICs generated for
+each experiment's grid and vertical coordinate.
+
+For the stretched experiment, the default fixed-data root is
+``fix/orog_stretch``. It must contain ``C384/C384_mosaic.nc``, six
+``C384_grid.tile*.nc`` and six ``C384_oro_data.tile*.nc`` under ``C384``, and
+the surface climatologies under ``C384/sfc`` with filenames such as
+``C384.snowfree_albedo.tile1.nc``. The GWD root defaults to the same tree and
+must provide ``ugwp_limb_tau.nc`` plus the six each of
+``C384_oro_data_ls.tile*.nc`` and ``C384_oro_data_ss.tile*.nc`` under
+``C384``. Set ``base.STRETCH_FIX_OROG`` or ``base.STRETCH_FIX_UGWD`` to
+select a different root. The uniform preset uses the standard ``fix/orog``
+and ``fix/ugwd`` trees.
+
+The grid settings are independent of chemistry. In the setup YAML, use
+``base.DO_STRETCH`` to enable Schmidt stretching and ``base.FV3_GRID_ID`` to label
+the resulting grid for input staging. ``CASE`` stays ``C384`` for model sizing
+and fixed-file basenames. The default grid ID is ``C384stre`` when stretched and
+``C384`` when uniform. To use a different stretched grid, set its grid ID,
+factor, and center together with its fixed-file roots. For example, the
+CONUS preset can be configured as follows.
+
+.. code-block:: yaml
+
+   base:
+     DO_STRETCH: "YES"
+     OUTPUT_GRID: "cubed_sphere_grid"
+     FV3_GRID_ID: "C384stre"
+     FV3_STRETCH_FACTOR: "2.0"
+     FV3_TARGET_LAT: "38.5"
+     FV3_TARGET_LON: "-97.5"
+     STRETCH_FIX_OROG: "/path/to/fix/orog_stretch"
+     STRETCH_FIX_UGWD: "/path/to/fix/orog_stretch"
+     DO_CATChem: "YES"
+     DO_AM4CHEM: "YES"
+   prepchem:
+     AM4_EMISSIONS_ROOT: "/path/to/emi_C384stre"
+     AM4_EMI2_ROOT: "/path/to/emi_C384stre"
+
+Merge these keys into the matching sections of an experiment preset. For a
+chemistry-free GFS forecast, set both chemistry switches to ``"NO"``. The
+stretch configuration currently supports atmosphere-only C384 and uses the
+C384 stretched time step and drag settings. Match the factor and center to
+those used to generate the fixed fields and ICs.
+
+AM4 uses ``FV3_GRID_ID`` for the emissions and fire root suffix and for the
+``FAge`` and ``Depvel`` subdirectories. Configure AM4-specific paths under
+``prepchem``, including ``AM4_INPUT_ROOT``, ``AM4_FIRE_ROOT``, ``AM4_AGE_DIR``,
+``AM4_DEPVEL_DIR``, and ``AM4_SUPPORT_DIR``. Put stretched ``EMI2`` and
+``fengsha_2023/12month`` under the stretched emissions root, or set
+``prepchem.AM4_EMI2_ROOT`` to their common parent. Provide six matching tiles
+for each grid-dependent product, including aircraft emissions if enabled.
+Non-AM4 CATChem uses ``prepchem.EMIIN`` as the parent of
+``emi_<FV3_GRID_ID>``. Each chemistry scheme still requires its own input
+products and runtime validation on the selected grid.
+
+Both presets select ``base.OUTPUT_GRID: "cubed_sphere_grid"`` with one
+NetCDF file per face. For each forecast hour, use
+``gfs.t00z.atm.fHHH.tile1.nc`` through ``tile6.nc`` and the matching
+``gfs.t00z.sfc.fHHH.tile*.nc`` under
+``gfs.YYYYMMDD/00/model/atmos/history``. This mode writes one history stream
+and skips inline UPP, downstream atmospheric products, and verification
+archiving. Cleanup waits for the forecast, removes its work directory, and
+retains the COM output. Standard COM archiving is unavailable in this
+forecast-only mode.
+
+Experiments using the default ``gaussian_grid`` retain the standard output and
+workflow. In that mode, ``base.DO_HISTORY_FILE_ON_NATIVE_GRID: "YES"`` adds a
+second, native history stream. For a first stretched cycle, check
+``input.nml`` for the Schmidt settings and verify the denser target grid
+from the history coordinates. Use each experiment's own coordinates for
+station or satellite collocation.

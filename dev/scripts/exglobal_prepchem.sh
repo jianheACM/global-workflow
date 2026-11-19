@@ -14,11 +14,15 @@ GBDAY="${GBDAY:-1}"
 
 # Stage emissions where forecast_postdet.sh expects them.
 PREPCHEM_WORKDIR="${PREPCHEM_WORKDIR:-${DATAROOT}/${RUN}fcst.${PDY}${cyc}/prep}"
-EMIINPUT="${EMIIN}/emi_${CASE}"
+EMIINPUT="${EMIIN%/}/emi_${FV3_GRID_ID:-${CASE}}"
 GBBEPX_NC_ROOT="${GBBEPX_NC_ROOT:-${EMIINPUT}/GBBEPx}"
 
 # Review these inherited HPC-specific input directories before running.
-PREPCHEM_OROG_ROOT="${PREPCHEM_OROG_ROOT:-${FIXgfs_2022:-/scratch3/BMC/gsd-fv3-dev/lzhang/fix_orog_20220805}}"
+if [[ "${DO_STRETCH:-NO}" == "YES" ]]; then
+    PREPCHEM_OROG_ROOT="${PREPCHEM_OROG_ROOT:-${FIXorog:?}}"
+else
+    PREPCHEM_OROG_ROOT="${PREPCHEM_OROG_ROOT:-${FIXgfs_2022:-/scratch3/BMC/gsd-fv3-dev/lzhang/fix_orog_20220805}}"
+fi
 GBBEPX_V4_ROOT="${GBBEPX_V4_ROOT:-/scratch4/NCEPDEV/naqfc/Kate.Zhang/GBBPEx_v004}"
 GBBEPX_V5_ROOT="${GBBEPX_V5_ROOT:-/scratch3/BMC/gsd-fv3-dev/lzhang/GBBEPx}"
 
@@ -56,10 +60,11 @@ if [[ "${DO_AM4CHEM:-NO}" == "YES" ]]; then
         echo "ERROR: AM4 requires preprocessed GBBEPx NetCDF (EMITYPE=2)" >&2
         exit 2
     }
+    am4_emi2_root="${AM4_EMI2_ROOT:-${EMIINPUT}}"
     for tile in {1..6}; do
         link_required "${AM4_EMISSIONS_ROOT}/EMI_${SYEAR}/${SMONTH}/emi_data.tile${tile}.nc" "emi_data.tile${tile}.nc"
-        link_required "${EMIINPUT}/EMI2/${SMONTH}/emi2_data.tile${tile}.nc" "emi2_data.tile${tile}.nc"
-        link_required "${EMIINPUT}/fengsha_2023/12month/dust_data_g12m.tile${tile}.nc" "dust_data_g12m.tile${tile}.nc"
+        link_required "${am4_emi2_root}/EMI2/${SMONTH}/emi2_data.tile${tile}.nc" "emi2_data.tile${tile}.nc"
+        link_required "${am4_emi2_root}/fengsha_2023/12month/dust_data_g12m.tile${tile}.nc" "dust_data_g12m.tile${tile}.nc"
         link_required "${AM4_AGE_DIR}/dfdage3_data.tile${tile}.nc" "dfdage3_data.tile${tile}.nc"
         link_required "${AM4_DEPVEL_DIR}/${SMONTH}/depvel_data.tile${tile}.nc" "depvel_data.tile${tile}.nc"
         if [[ "${read_emiairc:-.false.}" == ".true." ]]; then

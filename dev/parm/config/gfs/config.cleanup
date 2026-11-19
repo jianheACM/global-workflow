@@ -7,6 +7,9 @@ echo "BEGIN: config.cleanup"
 source "${EXPDIR}/config.resources" cleanup
 
 export CLEANUP_COM="YES"   # NO=retain ROTDIR.  YES default in cleanup.sh
+if [[ "${OUTPUT_GRID:-}" == "cubed_sphere_grid" ]]; then
+    export CLEANUP_COM="NO"
+fi
 
 #--starting and ending hours of previous cycles to be removed from rotating directory
 # RUN-based cleanup variables

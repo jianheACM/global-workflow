@@ -85,6 +85,12 @@ if [[ "${DO_NEST:-NO}" == "YES" ]] ; then
   export NEST_LON2=-75.000000
   export NEST_LAT2=72.500000
   export twowaynest=${twowaynest:-.true.}
+elif [[ "${DO_STRETCH:-NO}" == "YES" ]]; then
+  export grid_type=-1
+  export do_schmidt=".true."
+  export stretch_fac="${FV3_STRETCH_FACTOR:?}"
+  export TARGET_LAT="${FV3_TARGET_LAT:?}"
+  export TARGET_LON="${FV3_TARGET_LON:?}"
 else
   # No nest.
   export grid_type=-1
@@ -229,6 +235,49 @@ case "${fv3_res}" in
           export NEST_DLON=0.0625
           export NEST_DLAT=0.0625
           export psl_gwd_dx_factor=2.0
+        elif [[ "${DO_AM4CHEM:-NO}" == "YES" ]]; then
+          export layout_x=16
+          export layout_y=16
+          export nthreads_fv3=2
+          export nthreads_ufs=2
+          export WRITE_GROUP=2
+          export WRTTASK_PER_GROUP_PER_THREAD_PER_TILE=24
+          export psl_gwd_dx_factor=6.0
+          export k_split=2
+          export n_split=4
+          export rf_cutoff=300.0
+          if [[ "${DO_STRETCH:-NO}" == "YES" ]]; then
+            export DELTIM=150
+            export cdmbgwd="4.0,0.15,1.0,1.0"
+            export cdmbgwd_gsl="2.5,7.5,1.0,1.0"
+            export knob_ugwp_tauamp=0.5e-3
+            export tau=3.0
+            export fv_sg_adj=450
+          else
+            export DELTIM=300
+            export cdmbgwd="1.1,0.72,1.0,1.0"
+            export cdmbgwd_gsl="5.0,5.0,1.0,1.0"
+            export knob_ugwp_tauamp=0.8e-3
+            export tau=4.0
+            export fv_sg_adj=900
+          fi
+        elif [[ "${DO_STRETCH:-NO}" == "YES" ]]; then
+          export DELTIM=150
+          export layout_x=6
+          export layout_y=8
+          export nthreads_fv3=2
+          export nthreads_ufs=2
+          export WRITE_GROUP=2
+          export WRTTASK_PER_GROUP_PER_THREAD_PER_TILE=10
+          export cdmbgwd="4.0,0.15,1.0,1.0"
+          export cdmbgwd_gsl="2.5,7.5,1.0,1.0"
+          export psl_gwd_dx_factor=6.0
+          export knob_ugwp_tauamp=0.5e-3
+          export k_split=2
+          export n_split=4
+          export tau=3.0
+          export rf_cutoff=300.0
+          export fv_sg_adj=450
         else
           export DELTIM=300
           #export layout_x=6
@@ -351,6 +400,12 @@ case "${fv3_res}" in
         ;;
 esac
 
+# Tiled history uses one serial NetCDF writer per face.
+if [[ "${OUTPUT_GRID:-}" == "cubed_sphere_grid" ]]; then
+  export WRITE_GROUP=1
+  export WRTTASK_PER_GROUP_PER_THREAD_PER_TILE=1
+fi
+
 (( WRTTASK_PER_GROUP_PER_THREAD = WRTTASK_PER_GROUP_PER_THREAD_PER_TILE * 6 ))
 export WRTTASK_PER_GROUP_PER_THREAD
 
@@ -378,7 +433,8 @@ case ${fv3_res} in
     ideflate=1
     quantize_nsd=14
     OUTPUT_FILETYPE_ATM="netcdf_parallel"
-    if [[ "${fv3_res}" == "C384" ]]; then
+    if [[ "${fv3_res}" == "C384" &&
+          "${OUTPUT_GRID:-gaussian_grid}" != "cubed_sphere_grid" ]]; then
       OUTPUT_FILETYPE_SFC="netcdf"  # For C384, the write grid component is better off with serial netcdf
     else
       OUTPUT_FILETYPE_SFC="netcdf_parallel"
@@ -389,6 +445,10 @@ case ${fv3_res} in
     exit 15
     ;;
 esac
+if [[ "${OUTPUT_GRID:-}" == "cubed_sphere_grid" ]]; then
+  OUTPUT_FILETYPE_ATM="netcdf"
+  OUTPUT_FILETYPE_SFC="netcdf"
+fi
 export zstandard_level ideflate quantize_nsd
 export OUTPUT_FILETYPE_ATM OUTPUT_FILETYPE_SFC
 

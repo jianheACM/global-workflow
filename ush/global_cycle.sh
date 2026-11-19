@@ -62,29 +62,29 @@
 #                   FNVETC must be set to igbp file:
 #                   ${FIXglobal}/am/global_vegtype.igbp.t$JCAP_CASE.$LONB_CASE.$LATB_CASE.rg.grb
 #     FNALBC        Input 4-component albedo climatology GRIB file.
-#                   defaults to ${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.snowfree_albedo.tileX.nc
+#                   defaults to ${FIXorog}/${CASE}/sfc/${sfc_prefix}.snowfree_albedo.tileX.nc
 #     FNALBC2       Input 'facsf' and 'facwf' albedo climatology GRIB file.
-#                   Defaults to ${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.facsf.tileX.nc
+#                   Defaults to ${FIXorog}/${CASE}/sfc/${sfc_prefix}.facsf.tileX.nc
 #     FNAISC        Input sea ice climatology GRIB file.
 #                   Defaults to ${FIXglobal}/am/IMS-NIC.blended.ice.monthly.clim.grb
 #     FNTG3C        Input deep soil temperature climatology GRIB file.
-#                   Defaults to ${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.substrate_temperature.tileX.nc
+#                   Defaults to ${FIXorog}/${CASE}/sfc/${sfc_prefix}.substrate_temperature.tileX.nc
 #     FNVEGC        Input vegetation fraction climatology GRIB file.
-#                   Defaults to ${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.vegetation_greenness.tileX.nc
+#                   Defaults to ${FIXorog}/${CASE}/sfc/${sfc_prefix}.vegetation_greenness.tileX.nc
 #     FNVETC        Input vegetation type climatology GRIB file.
-#                   Defaults to ${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.vegetation_type.tileX.nc
+#                   Defaults to ${FIXorog}/${CASE}/sfc/${sfc_prefix}.vegetation_type.tileX.nc
 #     FNSOTC        Input soil type climatology GRIB file.
-#                   Defaults to ${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.soil_type.tileX.nc
+#                   Defaults to ${FIXorog}/${CASE}/sfc/${sfc_prefix}.soil_type.tileX.nc
 #     FNSMCC        Input soil moisture climatology GRIB file.
 #                   Defaults to ${FIXglobal}/am/global_soilmgldas.statsgo.t$JCAP_CASE.$LONB_CASE.$LATB_CASE.grb
 #     FNVMNC        Input min veg frac climatology GRIB file.
-#                   Defaults to ${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.vegetation_greenness.tileX.nc
+#                   Defaults to ${FIXorog}/${CASE}/sfc/${sfc_prefix}.vegetation_greenness.tileX.nc
 #     FNVMXC        Input max veg frac climatology GRIB file.
-#                   Defaults to ${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.vegetation_greenness.tileX.nc
+#                   Defaults to ${FIXorog}/${CASE}/sfc/${sfc_prefix}.vegetation_greenness.tileX.nc
 #     FNSLPC        Input slope type climatology GRIB file.
-#                   Defaults to ${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.slope_type.tileX.nc
+#                   Defaults to ${FIXorog}/${CASE}/sfc/${sfc_prefix}.slope_type.tileX.nc
 #     FNABSC        Input max snow albedo climatology GRIB file.
-#                   Defaults to ${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.maximum_snow_albedo.tileX.nc
+#                   Defaults to ${FIXorog}/${CASE}/sfc/${sfc_prefix}.maximum_snow_albedo.tileX.nc
 #     FNMSKH        Input high resolution land mask GRIB file.  Use to set mask for
 #                   some of the input climatology fields.  This is NOT the model mask.
 #                   Defaults to ${FIXglobal}/am/global_slmask.t1534.3072.1536.grb
@@ -234,6 +234,7 @@ MAX_TASKS_CY=${MAX_TASKS_CY:-99999}
 FRAC_GRID=${FRAC_GRID:-.false.}
 COUPLED=${COUPLED:-.false.}
 
+sfc_prefix=${FV3_SFC_PREFIX:-${CASE}.mx${OCNRES}}
 FNGLAC=${FNGLAC:-${FIXglobal}/am/global_glacier.2x2.grb}
 FNMXIC=${FNMXIC:-${FIXglobal}/am/global_maxice.2x2.grb}
 FNTSFC=${FNTSFC:-${FIXglobal}/am/RTGSST.1982.2012.monthly.clim.grb}
@@ -242,16 +243,16 @@ FNSNOC=${FNSNOC:-${FIXglobal}/am/global_snoclim.1.875.grb}
 FNZORC=${FNZORC:-igbp}
 FNAISC=${FNAISC:-${FIXglobal}/am/IMS-NIC.blended.ice.monthly.clim.grb}
 FNSMCC=${FNSMCC:-${FIXglobal}/am/global_soilmgldas.statsgo.t${JCAP_CASE}.${LONB_CASE}.${LATB_CASE}.grb}
-FNALBC2=${FNALBC2:-${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.facsf.tileX.nc}
-FNTG3C=${FNTG3C:-${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.substrate_temperature.tileX.nc}
-FNVEGC=${FNVEGC:-${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.vegetation_greenness.tileX.nc}
-FNALBC=${FNALBC:-${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.snowfree_albedo.tileX.nc}
-FNVETC=${FNVETC:-${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.vegetation_type.tileX.nc}
-FNSOTC=${FNSOTC:-${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.soil_type.tileX.nc}
-FNABSC=${FNABSC:-${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.maximum_snow_albedo.tileX.nc}
-FNVMNC=${FNVMNC:-${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.vegetation_greenness.tileX.nc}
-FNVMXC=${FNVMXC:-${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.vegetation_greenness.tileX.nc}
-FNSLPC=${FNSLPC:-${FIXorog}/${CASE}/sfc/${CASE}.mx${OCNRES}.slope_type.tileX.nc}
+FNALBC2=${FNALBC2:-${FIXorog}/${CASE}/sfc/${sfc_prefix}.facsf.tileX.nc}
+FNTG3C=${FNTG3C:-${FIXorog}/${CASE}/sfc/${sfc_prefix}.substrate_temperature.tileX.nc}
+FNVEGC=${FNVEGC:-${FIXorog}/${CASE}/sfc/${sfc_prefix}.vegetation_greenness.tileX.nc}
+FNALBC=${FNALBC:-${FIXorog}/${CASE}/sfc/${sfc_prefix}.snowfree_albedo.tileX.nc}
+FNVETC=${FNVETC:-${FIXorog}/${CASE}/sfc/${sfc_prefix}.vegetation_type.tileX.nc}
+FNSOTC=${FNSOTC:-${FIXorog}/${CASE}/sfc/${sfc_prefix}.soil_type.tileX.nc}
+FNABSC=${FNABSC:-${FIXorog}/${CASE}/sfc/${sfc_prefix}.maximum_snow_albedo.tileX.nc}
+FNVMNC=${FNVMNC:-${FIXorog}/${CASE}/sfc/${sfc_prefix}.vegetation_greenness.tileX.nc}
+FNVMXC=${FNVMXC:-${FIXorog}/${CASE}/sfc/${sfc_prefix}.vegetation_greenness.tileX.nc}
+FNSLPC=${FNSLPC:-${FIXorog}/${CASE}/sfc/${sfc_prefix}.slope_type.tileX.nc}
 FNMSKH=${FNMSKH:-${FIXglobal}/am/global_slmask.t1534.3072.1536.grb}
 NST_FILE=${NST_FILE:-"NULL"}
 FNTSFA=${FNTSFA:-${COMIN_OBS}/${PREINP}sstgrb${SUFINP}}

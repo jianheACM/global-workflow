@@ -1,0 +1,15 @@
+defaults:
+{% filter indent(width=2, first=True) %}
+{% include "defaults.yaml" %}
+{% endfilter %}
+
+base:
+  DO_AM4CHEM: "YES"
+  DO_STRETCH: "NO"
+  OUTPUT_GRID: "cubed_sphere_grid"
+  DOIAU: "NO"
+  FHMAX_GFS: 24
+  FHMAX_HF_GFS: 24
+  DO_TRACKER: "NO"
+  DO_GENESIS: "NO"
+  DO_METP: "NO"

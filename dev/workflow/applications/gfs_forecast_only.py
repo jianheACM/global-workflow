@@ -53,7 +53,10 @@ class GFSForecastOnlyAppConfig(AppConfig):
         """
         run_options = super()._get_run_options(conf)
 
-        run_options[self.run]['exp_warm_start'] = conf.parse_config('config.base').get('EXP_WARM_START', False)
+        base = conf.parse_config('config.base', RUN=self.run)
+        options = run_options[self.run]
+        options['exp_warm_start'] = base.get('EXP_WARM_START', False)
+        options['native_only'] = base.get('OUTPUT_GRID') == 'cubed_sphere_grid'
 
         return run_options
 
@@ -77,10 +80,16 @@ class GFSForecastOnlyAppConfig(AppConfig):
         if options['do_fetch_hpss'] or options['do_fetch_local']:
             configs += ['fetch']
 
-        configs += ['stage_ic', 'fcst', 'arch_vrfy', 'cleanup']
+        configs += ['stage_ic', 'fcst']
+        if not options['native_only']:
+            configs += ['arch_vrfy']
+        configs += ['cleanup']
 
         if options['do_catchem']:
             configs += ['prepchem']
+
+        if options['native_only']:
+            return configs
 
         if options['do_atm']:
 
@@ -187,6 +196,9 @@ class GFSForecastOnlyAppConfig(AppConfig):
             # ... forecast-only mode when APP=ATMW|S2SW
 
         tasks += ['fcst']
+
+        if options['native_only']:
+            return {self.run: tasks + ['cleanup']}
 
         if options['do_atm']:
 

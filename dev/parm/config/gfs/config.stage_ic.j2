@@ -10,9 +10,8 @@ source "${EXPDIR}/config.resources" stage_ic
 if [[ "${DO_FETCH_HPSS^^}" =~ "Y" || "${DO_FETCH_LOCAL^^}" =~ "Y" ]]; then
     export ICSDIR="${DATAROOT}"  # fetch untars data into DATAROOT
 else
-    #export ICSDIR="" # User provided ICSDIR; blank if not provided
     export ICSDIR="/scratch3/BMC/gsd-fv3-dev/NCEPDEV/global/Kate.Zhang/fv3gfs/comrot/GCF_C384_CCPP"
-    if [[ "${DO_OFFLINE_ANALYSIS:-NO}" == "YES" ]]; then
+    if [[ "${DO_OFFLINE_ANALYSIS:-NO}" == "YES" || "${DO_STRETCH:-NO}" == "YES" || -n "{{ ICSDIR | default('') }}" ]]; then
         export ICSDIR="{{ ICSDIR | default('') }}"
     fi
 fi
@@ -27,6 +26,12 @@ source "${HOMEglobal}/versions/ic.ver"
 
 if [[ ${EXP_WARM_START} = ".false." ]] ; then
   export DOIAU="NO"        # Turn off for staging
+fi
+
+# A standard C384 IC directory cannot initialize the stretched grid.
+if [[ "${DO_STRETCH:-NO}" == "YES" && -z "${ICSDIR}" ]]; then
+    echo "FATAL ERROR: DO_STRETCH requires a stretched-grid --icsdir" >&2
+    exit 2
 fi
 
 # Set ICSDIR (if not defined)

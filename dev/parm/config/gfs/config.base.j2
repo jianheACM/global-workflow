@@ -174,7 +174,7 @@ export DO_WAVE="NO"
 export DO_OCN="NO"
 export DO_ICE="NO"
 export DO_AERO="NO"
-export DO_CATChem="YES"
+export DO_CATChem="{{ DO_CATChem | default('YES') }}"
 # Enable through setup YAML base.DO_AM4CHEM or the generated config.base.
 export DO_AM4CHEM="{{ DO_AM4CHEM | default('NO') }}"
 export DO_OFFLINE_ANALYSIS="{{ DO_OFFLINE_ANALYSIS | default('NO') }}"
@@ -191,11 +191,20 @@ fi
 
 export FRAC_GRID=".true."
 export DO_NEST="NO" # Whether to run a global-nested domain
+export DO_STRETCH="{{ DO_STRETCH | default('NO') }}"
+if [[ "${DO_NEST}" == "YES" && "${DO_STRETCH}" == "YES" ]]; then
+    echo "FATAL ERROR: DO_NEST and DO_STRETCH cannot both be enabled" >&2
+    exit 2
+fi
 if [[ "${DO_NEST:-NO}" == "YES" ]] ; then
   export ntiles=7
   export NEST_OUTPUT_GRID="regional_latlon"
   export FIXugwd="${FIXglobal}/ugwd_nest"
   export FIXorog="${FIXglobal}/orog_nest"
+elif [[ "${DO_STRETCH}" == "YES" ]]; then
+  export ntiles=6
+  export FIXorog="{{ STRETCH_FIX_OROG | default('${FIXglobal}/orog_stretch') }}"
+  export FIXugwd="{{ STRETCH_FIX_UGWD | default('${FIXorog}') }}"
 else
   export ntiles=6
   export FIXugwd="${FIXglobal}/ugwd"
@@ -213,6 +222,26 @@ export CASE_ANL="{{ CASE_ANL | default('${CASE}') }}"
 export CASE_HIST="{{ CASE_HIST | default('${CASE}') }}"
 export OCNRES="{{ OCNRES }}"
 export ICERES="${OCNRES}"
+
+# CASE is the FV3 resolution. FV3_GRID_ID selects grid-dependent input data.
+if [[ "${DO_STRETCH}" == "YES" ]]; then
+    if [[ "${CASE}" != "C384" || "${APP}" != "ATM" ]]; then
+        echo "FATAL ERROR: DO_STRETCH requires APP=ATM and CASE=C384" >&2
+        exit 2
+    fi
+    export FV3_GRID_ID="{{ FV3_GRID_ID | default('${CASE}stre') }}"
+    export FV3_STRETCH_FACTOR="{{ FV3_STRETCH_FACTOR | default('2.0') }}"
+    export FV3_TARGET_LAT="{{ FV3_TARGET_LAT | default('38.5') }}"
+    export FV3_TARGET_LON="{{ FV3_TARGET_LON | default('-97.5') }}"
+    export FV3_OROG_BASENAME="${CASE}_oro_data"
+    export FV3_SFC_PREFIX="${CASE}"
+else
+    export FV3_GRID_ID="{{ FV3_GRID_ID | default('${CASE}') }}"
+fi
+if [[ ! "${FV3_GRID_ID}" =~ ^[[:alnum:]][[:alnum:]_.-]*$ ]]; then
+    echo "FATAL ERROR: Invalid FV3_GRID_ID: ${FV3_GRID_ID}" >&2
+    exit 2
+fi
 
 # These are the currently recommended grid-combinations
 case "${CASE}" in
@@ -348,8 +377,18 @@ export restart_interval_gfs=12
 # TODO: rework logic in config.wave and push it to parsing_nameslist_WW3.sh where it is actually used
 
 export QUILTING=".true."
-export OUTPUT_GRID="gaussian_grid"
+export OUTPUT_GRID="{{ OUTPUT_GRID | default('gaussian_grid') }}"
+# Native cubed-sphere history supplements Gaussian history and inline post.
+export DO_HISTORY_FILE_ON_NATIVE_GRID="{{ DO_HISTORY_FILE_ON_NATIVE_GRID | default('NO') }}"
 export WRITE_DOPOST=".true." # WRITE_DOPOST=true, use inline POST
+if [[ "${OUTPUT_GRID}" == "cubed_sphere_grid" ]]; then
+    if [[ "${MODE}" != "forecast-only" || "${APP}" != "ATM" || "${DO_NEST}" == "YES" ]]; then
+        echo "FATAL ERROR: Native-only output requires a global ATM forecast-only experiment" >&2
+        exit 2
+    fi
+    export DO_HISTORY_FILE_ON_NATIVE_GRID="NO"
+    export WRITE_DOPOST=".false."
+fi
 export WRITE_NSFLIP=".true."
 
 # IAU related parameters
@@ -515,6 +554,9 @@ export DO_FETCH_LOCAL="NO"   # Copy from local disk onto COM
 
 # Archiving options
 export DO_ARCHCOM="{{ DO_ARCHCOM }}"    # Tar and archive the COM directories
+if [[ "${OUTPUT_GRID}" == "cubed_sphere_grid" ]]; then
+    export DO_ARCHCOM="NO"
+fi
 export ARCHCOM_TO="{{ ARCHCOM_TO }}"    # Valid options are hpss, globus_hpss, and local
 
 # Globus UUID for this machine
