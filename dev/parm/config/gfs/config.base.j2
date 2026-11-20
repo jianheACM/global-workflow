@@ -203,8 +203,19 @@ if [[ "${DO_NEST:-NO}" == "YES" ]] ; then
   export FIXorog="${FIXglobal}/orog_nest"
 elif [[ "${DO_STRETCH}" == "YES" ]]; then
   export ntiles=6
-  export FIXorog="{{ STRETCH_FIX_OROG | default('${FIXglobal}/orog_stretch') }}"
+  export STRETCH_STATIC_ROOT="{{ STRETCH_STATIC_ROOT | default('') }}"
+  export STRETCH_STATIC_SET="{{ STRETCH_STATIC_SET | default('atmos') }}"
+  case "${STRETCH_STATIC_SET}" in
+    atmos|masked) ;;
+    *) echo "FATAL ERROR: STRETCH_STATIC_SET must be atmos or masked" >&2; exit 2 ;;
+  esac
+  stretch_fix_root="${FIXglobal}/orog_stretch"
+  if [[ -n "${STRETCH_STATIC_ROOT}" ]]; then
+    stretch_fix_root="${STRETCH_STATIC_ROOT%/}/${STRETCH_STATIC_SET}"
+  fi
+  export FIXorog="{{ STRETCH_FIX_OROG | default('${stretch_fix_root}') }}"
   export FIXugwd="{{ STRETCH_FIX_UGWD | default('${FIXorog}') }}"
+  export STRETCH_UGWP_LIMB_TAU="{{ STRETCH_UGWP_LIMB_TAU | default('') }}"
 else
   export ntiles=6
   export FIXugwd="${FIXglobal}/ugwd"
@@ -233,8 +244,12 @@ if [[ "${DO_STRETCH}" == "YES" ]]; then
     export FV3_STRETCH_FACTOR="{{ FV3_STRETCH_FACTOR | default('2.0') }}"
     export FV3_TARGET_LAT="{{ FV3_TARGET_LAT | default('38.5') }}"
     export FV3_TARGET_LON="{{ FV3_TARGET_LON | default('-97.5') }}"
-    export FV3_OROG_BASENAME="${CASE}_oro_data"
     export FV3_SFC_PREFIX="${CASE}"
+    if [[ "${STRETCH_STATIC_SET}" == "masked" ]]; then
+        STRETCH_OCNRES="{{ STRETCH_OCNRES | default('${OCNRES}') }}"
+        export FV3_SFC_PREFIX="${CASE}.mx${STRETCH_OCNRES}"
+    fi
+    export FV3_OROG_BASENAME="${FV3_SFC_PREFIX}_oro_data"
 else
     export FV3_GRID_ID="{{ FV3_GRID_ID | default('${CASE}') }}"
 fi

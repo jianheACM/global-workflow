@@ -169,16 +169,29 @@ vertical coordinate. After the initial cycle, the offline analysis tasks use
 external GDAS atmospheric and surface analyses, retrieved by the existing
 offline fetch workflow, and the previous GDAS forecast.
 
-For the stretched experiment, the default fixed-data root is
-``fix/orog_stretch``. It must contain ``C384/C384_mosaic.nc``, six
-``C384_grid.tile*.nc`` and six ``C384_oro_data.tile*.nc`` under ``C384``, and
-the surface climatologies under ``C384/sfc`` with filenames such as
-``C384.snowfree_albedo.tile1.nc``. The GWD root defaults to the same tree and
-must provide ``ugwp_limb_tau.nc`` plus the six each of
+The C384 stretched preset selects the MOM6-masked static product under
+``/scratch4/BMC/rcm1/jhe/ufschem/inputdata/fix_stretch/static_C384_s2_mx025/C384``. It reads ``C384_mosaic.nc``, six
+``C384_grid.tile*.nc`` files, six ``C384.mx025_oro_data.tile*.nc`` files,
+and matching ``C384.mx025.*.tile*.nc`` climatologies in ``sfc/``. Set ``STRETCH_FIX_OROG`` to the versioned
+directory above ``C384/``. To use the atmosphere-only static product instead, set
+``STRETCH_STATIC_SET: "atmos"`` and point ``STRETCH_FIX_OROG`` at its parent
+directory, such as ``<static_run>/atmos``. Its orography and surface prefix
+is ``C384``. Use the same selection for GDAS meteorological IC
+generation, GDAS surface cycling, and forecasts.
+
+The GWD tile root defaults to the selected orography tree and contains
 ``C384_oro_data_ls.tile*.nc`` and ``C384_oro_data_ss.tile*.nc`` under
-``C384``. Set ``base.STRETCH_FIX_OROG`` or ``base.STRETCH_FIX_UGWD`` to
-select a different root. The uniform preset uses the standard ``fix/orog``
-and ``fix/ugwd`` trees.
+``C384/``. The preset reads the shared ``ugwp_limb_tau.nc`` through
+``STRETCH_UGWP_LIMB_TAU``. For another dataset with separate GWD tiles,
+set ``STRETCH_FIX_UGWD`` to their root. The other terrain, land-cover, and
+lake links under ``fix_stretch/`` are inputs to static-file generation.
+The uniform preset uses the standard ``fix/orog`` and ``fix/ugwd`` trees.
+
+The MOM6-masked product can also serve as the FV3 atmospheric static dataset
+for a future coupled configuration using the same ocean mask. The stretched
+workflow currently supports ``APP=ATM``. Coupled S2S also needs a stretched
+coupled ``grid_spec.nc``, consistent ocean and ice mesh and initial conditions,
+and a validated coupled workflow configuration.
 
 The grid settings are independent of chemistry. In the setup YAML, use
 ``base.DO_STRETCH`` to enable Schmidt stretching and ``base.FV3_GRID_ID`` to label
@@ -197,8 +210,10 @@ CONUS preset can be configured as follows.
      FV3_STRETCH_FACTOR: "2.0"
      FV3_TARGET_LAT: "38.5"
      FV3_TARGET_LON: "-97.5"
-     STRETCH_FIX_OROG: "/path/to/fix/orog_stretch"
-     STRETCH_FIX_UGWD: "/path/to/fix/orog_stretch"
+     STRETCH_FIX_OROG: "/scratch4/BMC/rcm1/jhe/ufschem/inputdata/fix_stretch/static_C384_s2_mx025"
+     STRETCH_STATIC_SET: "masked"
+     STRETCH_OCNRES: "025"
+     STRETCH_UGWP_LIMB_TAU: "/scratch4/BMC/rcm1/jhe/ufschem/inputdata/fix_stretch/ugwp_limb_tau.nc"
      DO_CATChem: "YES"
      DO_AM4CHEM: "YES"
    prepchem:

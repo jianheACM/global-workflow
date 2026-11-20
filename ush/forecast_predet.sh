@@ -456,7 +456,16 @@ FV3_predet() {
     fi
 
     # Files for GWD
-    cpreq "${FIXugwd}/ugwp_limb_tau.nc" "${DATA}/ugwp_limb_tau.nc"
+    local ugwp_limb_tau="${FIXugwd}/ugwp_limb_tau.nc"
+    if [[ "${DO_STRETCH:-NO}" == "YES" ]]; then
+        if [[ -n "${STRETCH_UGWP_LIMB_TAU:-}" ]]; then
+            ugwp_limb_tau="${STRETCH_UGWP_LIMB_TAU}"
+        elif [[ ! -s "${ugwp_limb_tau}" ]]; then
+            # The stretched static workflow generates GWD tiles, but no limb-tau table.
+            ugwp_limb_tau="${FIXglobal}/ugwd/ugwp_limb_tau.nc"
+        fi
+    fi
+    cpreq "${ugwp_limb_tau}" "${DATA}/ugwp_limb_tau.nc"
 
     # Files for orography, GWD tiles
     local tt

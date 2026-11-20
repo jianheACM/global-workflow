@@ -189,7 +189,7 @@ case "${EMITYPE}" in
                     pm25="${input_dir}/GBBEPxemis-PM25-${prefix}"
                     so2="${input_dir}/GBBEPxemis-SO2-${prefix}"
                     frp="${input_dir}/GBBEPxFRP-MeanFRP-${prefix}"
-                    oro="${PREPCHEM_OROG_ROOT}/${CASE}/${CASE}_oro_data.tile${tile}.nc"
+                    oro="${PREPCHEM_OROG_ROOT}/${CASE}/${FV3_OROG_BASENAME:-${CASE}_oro_data}.tile${tile}.nc"
                     for required in "${bc}" "${oc}" "${pm25}" "${so2}" "${frp}" "${oro}"; do
                         [[ -r "${required}" ]] || {
                             echo "ERROR: GBBEPx input missing: ${required}" >&2

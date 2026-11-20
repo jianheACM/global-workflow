@@ -22,7 +22,10 @@ base:
   DO_TRACKER: "NO"
   DO_GENESIS: "NO"
   DO_METP: "NO"
-  # STRETCH_FIX_OROG: "/path/to/fix/orog_stretch"
+  STRETCH_FIX_OROG: "/scratch4/BMC/rcm1/jhe/ufschem/inputdata/fix_stretch/static_C384_s2_mx025"
+  STRETCH_STATIC_SET: "masked"
+  STRETCH_OCNRES: "025"
+  STRETCH_UGWP_LIMB_TAU: "/scratch4/BMC/rcm1/jhe/ufschem/inputdata/fix_stretch/ugwp_limb_tau.nc"
   # STRETCH_FIX_UGWD: "/path/to/stretched/ugwd"
 
 
